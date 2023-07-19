@@ -25,19 +25,14 @@ install: ## Install environment
 
 ##
 ## ---------------------------------------------------------------
-## Flutter
+## Dart
 ## ---------------------------------------------------------------
 ##
-
-.PHONY: clean
-clean: ## Clear cache
-	@$(call print_color_message,"Clear cache")
-	$(FLUTTER) clean
 
 .PHONY: dependencies
 dependencies: ## Update dependencies
 	@$(call print_color_message,"Update dependencies")
-	$(FLUTTER) pub get
+	$(DART) pub get
 
 .PHONY: format
 format: ## Format code by default lib directory
@@ -47,10 +42,26 @@ format: ## Format code by default lib directory
 .PHONY: analyze
 analyze: ## Analyze Dart code of the project
 	@$(call print_color_message,"Analyze Dart code of the project")
-	$(FLUTTER) analyze .
+	$(DART) analyze .
 
 .PHONY: format-analyze
 format-analyze: format analyze ## Format & Analyze Dart code of the project
+
+.PHONY: show-dependencies
+show-dependencies: ## Show dependencies tree
+	@$(call print_color_message,"Show dependencies tree")
+	$(DART) pub deps
+
+.PHONY: outdated
+outdated: ## Check the version of packages
+	@$(call print_color_message,"Check the version of packages")
+	$(DART) pub outdated --color
+
+##
+## ---------------------------------------------------------------
+## Flutter
+## ---------------------------------------------------------------
+##
 
 .PHONY: test
 test: ## Run all tests with coverage
@@ -68,16 +79,6 @@ devtools: ## Serving DevTools
 	@$(call print_color_message,"Serving DevTools")
 	$(FLUTTER) pub global run devtools
 
-.PHONY: show-dependencies
-show-dependencies: ## Show dependencies tree
-	@$(call print_color_message,"Show dependencies tree")
-	$(FLUTTER) pub deps
-
-.PHONY: outdated
-outdated: ## Check the version of packages
-	@$(call print_color_message,"Check the version of packages")
-	$(FLUTTER) pub outdated --color
-
 .PHONY: run-example
 run-example: ## Run example by default debug version
 	@$(call print_color_message,"Run example by default debug version")
@@ -88,6 +89,11 @@ run-example: ## Run example by default debug version
 ## Generator
 ## ---------------------------------------------------------------
 ##
+
+.PHONY: generate-files
+generate-files: ## Generate files with build_runner
+	@$(call print_color_message,"Generate files with build_runner")
+	$(FLUTTER) pub run build_runner build --delete-conflicting-outputs
 
 .PHONY: generate-flutter-example
 generate-flutter-example: ## Generate a flutter project as example

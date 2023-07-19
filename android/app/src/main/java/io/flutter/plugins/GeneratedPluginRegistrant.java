@@ -1,6 +1,7 @@
 package io.flutter.plugins;
 
 import io.flutter.plugin.common.PluginRegistry;
+import com.example.bluetooth_print.BluetoothPrintPlugin;
 
 /**
  * Generated file. Do not edit.
@@ -10,6 +11,7 @@ public final class GeneratedPluginRegistrant {
     if (alreadyRegisteredWith(registry)) {
       return;
     }
+    BluetoothPrintPlugin.registerWith(registry.registrarFor("com.example.bluetooth_print.BluetoothPrintPlugin"));
   }
 
   private static boolean alreadyRegisteredWith(PluginRegistry registry) {
