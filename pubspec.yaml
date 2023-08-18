@@ -7,14 +7,17 @@ environment:
   flutter: ">=3.10.0"
 
 dependencies:
-  bluetooth_print: ^4.3.0
+  bluetooth_print: # Version ^4.2.0 has an error for image size
+    git:
+      url: git@github.com:YannMancel/bluetooth_print.git
+      ref: fix-image-size-for-tsc-command
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
   freezed_annotation: ^2.4.1
 
 dev_dependencies:
-  bloc_test: ^9.1.3
+  bloc_test: ^9.1.4
   build_runner: ^2.4.6
   flutter_lints: ^2.0.2
   flutter_test:

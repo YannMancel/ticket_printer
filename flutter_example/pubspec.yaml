@@ -9,8 +9,14 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.5
+  bluetooth_print: # Version ^4.2.0 has an error for image size
+    git:
+      url: git@github.com:YannMancel/bluetooth_print.git
+      ref: fix-image-size-for-tsc-command
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.3
+  printing: ^5.11.0
   ticket_printer:
     path: ../
 
@@ -21,3 +27,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/etiquette_test.png
