@@ -2,10 +2,9 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:ticket_printer/src/domain/_domain.dart';
-import 'package:ticket_printer/src/presentation/_presentation.dart';
+import 'package:ticket_printer/src/_src.dart';
 
-import '../../helpers/helpers.dart';
+import '../../../helpers/helpers.dart';
 @GenerateNiceMocks(
   <MockSpec>[
     MockSpec<StartBluetoothDevicesScan>(),
@@ -52,11 +51,10 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state.',
         setUp: () async {
-          when(startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')))
+          when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => resultOfData);
 
-          when(getBluetoothDevicesStream.execute())
-              .thenAnswer((_) => kEmptyStream);
+          when(getBluetoothDevicesStream()).thenAnswer((_) => kEmptyStream);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -66,9 +64,9 @@ void main() {
         ],
         verify: (_) {
           verify(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).called(1);
-          verify(getBluetoothDevicesStream.execute()).called(1);
+          verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
           verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -79,10 +77,10 @@ void main() {
         'should emit 3 states, a loading state then data state then error '
         'state (from error stream).',
         setUp: () async {
-          when(startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')))
+          when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => resultOfData);
 
-          when(getBluetoothDevicesStream.execute())
+          when(getBluetoothDevicesStream())
               .thenAnswer((_) => exceptionStream());
         },
         build: () => bloc,
@@ -94,9 +92,9 @@ void main() {
         ],
         verify: (_) {
           verify(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).called(1);
-          verify(getBluetoothDevicesStream.execute()).called(1);
+          verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
           verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -107,10 +105,10 @@ void main() {
         'should emit 3 states, a loading state then data state then error '
         'state (from stream).',
         setUp: () async {
-          when(startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')))
+          when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => resultOfData);
 
-          when(getBluetoothDevicesStream.execute())
+          when(getBluetoothDevicesStream())
               .thenAnswer((_) => errorResultStream());
         },
         build: () => bloc,
@@ -122,9 +120,9 @@ void main() {
         ],
         verify: (_) {
           verify(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).called(1);
-          verify(getBluetoothDevicesStream.execute()).called(1);
+          verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
           verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -136,12 +134,12 @@ void main() {
         'state (from stream).',
         setUp: () async {
           when(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).thenAnswer(
             (_) async => resultOfError<List<BluetoothDeviceEntity>>(),
           );
 
-          when(getBluetoothDevicesStream.execute())
+          when(getBluetoothDevicesStream())
               .thenAnswer((_) => dataResultStream());
         },
         build: () => bloc,
@@ -153,9 +151,9 @@ void main() {
         ],
         verify: (_) {
           verify(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).called(1);
-          verify(getBluetoothDevicesStream.execute()).called(1);
+          verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
           verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -167,12 +165,12 @@ void main() {
         'state (empty data from stream).',
         setUp: () async {
           when(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).thenAnswer(
             (_) async => resultOfError<List<BluetoothDeviceEntity>>(),
           );
 
-          when(getBluetoothDevicesStream.execute())
+          when(getBluetoothDevicesStream())
               .thenAnswer((_) => emptyDataResultStream());
         },
         build: () => bloc,
@@ -184,9 +182,9 @@ void main() {
         ],
         verify: (_) {
           verify(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).called(1);
-          verify(getBluetoothDevicesStream.execute()).called(1);
+          verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
           verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -196,11 +194,10 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state (empty).',
         setUp: () async {
-          when(startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')))
+          when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => kResultOfEmptyData);
 
-          when(getBluetoothDevicesStream.execute())
-              .thenAnswer((_) => kEmptyStream);
+          when(getBluetoothDevicesStream()).thenAnswer((_) => kEmptyStream);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -210,9 +207,9 @@ void main() {
         ],
         verify: (_) {
           verify(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).called(1);
-          verify(getBluetoothDevicesStream.execute()).called(1);
+          verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
           verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -223,13 +220,12 @@ void main() {
         'should emit 2 states, a loading state then error state.',
         setUp: () async {
           when(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).thenAnswer(
             (_) async => resultOfError<List<BluetoothDeviceEntity>>(),
           );
 
-          when(getBluetoothDevicesStream.execute())
-              .thenAnswer((_) => kEmptyStream);
+          when(getBluetoothDevicesStream()).thenAnswer((_) => kEmptyStream);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -239,9 +235,9 @@ void main() {
         ],
         verify: (_) {
           verify(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).called(1);
-          verify(getBluetoothDevicesStream.execute()).called(1);
+          verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
           verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -257,11 +253,10 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state.',
         setUp: () async {
-          when(startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')))
+          when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => resultOfData);
 
-          when(getBluetoothDevicesStream.execute())
-              .thenAnswer((_) => kEmptyStream);
+          when(getBluetoothDevicesStream()).thenAnswer((_) => kEmptyStream);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -271,9 +266,9 @@ void main() {
         ],
         verify: (_) {
           verify(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).called(1);
-          verify(getBluetoothDevicesStream.execute()).called(1);
+          verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
           verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -283,11 +278,10 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state (empty).',
         setUp: () async {
-          when(startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')))
+          when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => kResultOfEmptyData);
 
-          when(getBluetoothDevicesStream.execute())
-              .thenAnswer((_) => kEmptyStream);
+          when(getBluetoothDevicesStream()).thenAnswer((_) => kEmptyStream);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -297,9 +291,9 @@ void main() {
         ],
         verify: (_) {
           verify(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).called(1);
-          verify(getBluetoothDevicesStream.execute()).called(1);
+          verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
           verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -310,13 +304,12 @@ void main() {
         'should emit 2 states, a loading state then error state.',
         setUp: () async {
           when(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).thenAnswer(
             (_) async => resultOfError<List<BluetoothDeviceEntity>>(),
           );
 
-          when(getBluetoothDevicesStream.execute())
-              .thenAnswer((_) => kEmptyStream);
+          when(getBluetoothDevicesStream()).thenAnswer((_) => kEmptyStream);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -326,9 +319,9 @@ void main() {
         ],
         verify: (_) {
           verify(
-            startBluetoothDevicesScan.execute(timeout: anyNamed('timeout')),
+            startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).called(1);
-          verify(getBluetoothDevicesStream.execute()).called(1);
+          verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
           verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -344,7 +337,7 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit a loading state.',
         setUp: () async {
-          when(stopBluetoothDevicesScan.execute())
+          when(stopBluetoothDevicesScan())
               .thenAnswer((_) async => kResultOfVoidData);
         },
         build: () => bloc,
@@ -353,7 +346,7 @@ void main() {
           BluetoothDevicesState.loading(),
         ],
         verify: (_) {
-          verify(stopBluetoothDevicesScan.execute()).called(1);
+          verify(stopBluetoothDevicesScan()).called(1);
           verifyZeroInteractions(startBluetoothDevicesScan);
           verifyZeroInteractions(getBluetoothDevicesStream);
           verifyNoMoreInteractions(stopBluetoothDevicesScan);
@@ -363,7 +356,7 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () async {
-          when(stopBluetoothDevicesScan.execute()).thenAnswer(
+          when(stopBluetoothDevicesScan()).thenAnswer(
             (_) async => resultOfError<void>(),
           );
         },
@@ -374,7 +367,7 @@ void main() {
           BluetoothDevicesState.error(exception: exception),
         ],
         verify: (_) {
-          verify(stopBluetoothDevicesScan.execute()).called(1);
+          verify(stopBluetoothDevicesScan()).called(1);
           verifyZeroInteractions(startBluetoothDevicesScan);
           verifyZeroInteractions(getBluetoothDevicesStream);
           verifyNoMoreInteractions(stopBluetoothDevicesScan);

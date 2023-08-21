@@ -2,7 +2,7 @@ import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:ticket_printer/src/data/_data.dart';
+import 'package:ticket_printer/src/_src.dart';
 
 import '../../helpers/helpers.dart';
 @GenerateNiceMocks(
@@ -112,6 +112,72 @@ void main() {
           throwsA(const TypeMatcher<Exception>()),
         );
         verify(bluetoothPrint.stopScan()).called(1);
+        verifyNoMoreInteractions(bluetoothPrint);
+      },
+    );
+
+    test(
+      'should be success when Bluetooth device connexion is started.',
+      () async {
+        when(bluetoothPrint.connect(bluetoothDeviceFromThirdParty))
+            .thenAnswer((_) async {});
+
+        await remoteDataSource.connectAtBluetoothDevice(
+          model: model,
+          fakeBluetoothDevice: bluetoothDeviceFromThirdParty,
+        );
+
+        verify(bluetoothPrint.connect(bluetoothDeviceFromThirdParty)).called(1);
+        verifyNoMoreInteractions(bluetoothPrint);
+      },
+    );
+
+    test(
+      'should be fail when Bluetooth device connexion is started.',
+      () async {
+        when(bluetoothPrint.connect(bluetoothDeviceFromThirdParty))
+            .thenThrow(exception);
+
+        final call = remoteDataSource.connectAtBluetoothDevice(
+          model: model,
+          fakeBluetoothDevice: bluetoothDeviceFromThirdParty,
+        );
+
+        expect(
+          () async => call,
+          throwsA(const TypeMatcher<Exception>()),
+        );
+
+        verify(bluetoothPrint.connect(bluetoothDeviceFromThirdParty)).called(1);
+        verifyNoMoreInteractions(bluetoothPrint);
+      },
+    );
+
+    test(
+      'should be success when Bluetooth device connexion is stopped.',
+      () async {
+        when(bluetoothPrint.disconnect()).thenAnswer((_) async {});
+
+        await remoteDataSource.disconnectAtBluetoothDevice();
+
+        verify(bluetoothPrint.disconnect()).called(1);
+        verifyNoMoreInteractions(bluetoothPrint);
+      },
+    );
+
+    test(
+      'should be fail when Bluetooth device connexion is stopped.',
+      () async {
+        when(bluetoothPrint.disconnect()).thenThrow(exception);
+
+        final call = remoteDataSource.disconnectAtBluetoothDevice;
+
+        expect(
+          () async => call(),
+          throwsA(const TypeMatcher<Exception>()),
+        );
+
+        verify(bluetoothPrint.disconnect()).called(1);
         verifyNoMoreInteractions(bluetoothPrint);
       },
     );

@@ -2,8 +2,7 @@
 
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
-import 'package:ticket_printer/src/core/_core.dart';
-import 'package:ticket_printer/src/data/_data.dart';
+import 'package:ticket_printer/src/_src.dart';
 
 /// This data source allows to manage the bluetooth features.
 ///
@@ -39,5 +38,18 @@ class RemoteDataSource implements RemoteDataSourceInterface {
   @override
   Future<void> stopBluetoothDevicesScan({Duration? timeout}) async {
     return _bluetoothPrint.stopScan();
+  }
+
+  @override
+  Future<void> connectAtBluetoothDevice({
+    required BluetoothDeviceModel model,
+    BluetoothDevice? fakeBluetoothDevice,
+  }) async {
+    await _bluetoothPrint.connect(fakeBluetoothDevice ?? model.toThirdParty);
+  }
+
+  @override
+  Future<void> disconnectAtBluetoothDevice() async {
+    await _bluetoothPrint.disconnect();
   }
 }

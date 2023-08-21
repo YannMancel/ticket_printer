@@ -1,5 +1,4 @@
-import 'package:ticket_printer/src/core/_core.dart';
-import 'package:ticket_printer/src/domain/_domain.dart';
+import 'package:ticket_printer/src/_src.dart';
 
 /// The use case get the Bluetooth devices stream.
 ///
@@ -16,7 +15,7 @@ class GetBluetoothDevicesStream {
 
   final BluetoothRepositoryInterface _repository;
 
-  Stream<Result<List<BluetoothDeviceEntity>>> execute() {
+  Stream<Result<List<BluetoothDeviceEntity>>> call() {
     return _repository.getBluetoothDevicesStream();
   }
 }

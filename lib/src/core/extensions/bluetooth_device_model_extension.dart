@@ -1,5 +1,4 @@
-import 'package:ticket_printer/src/data/_data.dart';
-import 'package:ticket_printer/src/domain/_domain.dart';
+import 'package:ticket_printer/src/_src.dart';
 
 extension BluetoothDeviceModelsExt on List<BluetoothDeviceModel> {
   List<BluetoothDeviceEntity> get toEntities {

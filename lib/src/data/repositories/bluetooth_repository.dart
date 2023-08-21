@@ -1,8 +1,6 @@
 // ignore_for_file: void_checks
 
-import 'package:ticket_printer/src/core/_core.dart';
-import 'package:ticket_printer/src/data/_data.dart';
-import 'package:ticket_printer/src/domain/_domain.dart';
+import 'package:ticket_printer/src/_src.dart';
 
 /// The repository allows to manage the bluetooth features.
 ///
@@ -57,6 +55,30 @@ class BluetoothRepository implements BluetoothRepositoryInterface {
   Future<Result<void>> stopBluetoothDevicesScan({Duration? timeout}) async {
     try {
       await _remoteDataSource.stopBluetoothDevicesScan();
+      return const Result<void>.data();
+    } catch (e) {
+      return Result<void>.error(exception: e as Exception);
+    }
+  }
+
+  @override
+  Future<Result<void>> connectAtBluetoothDevice({
+    required BluetoothDeviceEntity entity,
+  }) async {
+    try {
+      await _remoteDataSource.connectAtBluetoothDevice(
+        model: BluetoothDeviceModel.fromEntity(entity),
+      );
+      return const Result<void>.data();
+    } catch (e) {
+      return Result<void>.error(exception: e as Exception);
+    }
+  }
+
+  @override
+  Future<Result<void>> disconnectAtBluetoothDevice() async {
+    try {
+      await _remoteDataSource.disconnectAtBluetoothDevice();
       return const Result<void>.data();
     } catch (e) {
       return Result<void>.error(exception: e as Exception);

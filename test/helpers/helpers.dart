@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:bluetooth_print/bluetooth_print_model.dart';
-import 'package:ticket_printer/src/core/_core.dart';
-import 'package:ticket_printer/src/data/_data.dart';
-import 'package:ticket_printer/src/domain/_domain.dart';
+import 'package:ticket_printer/src/_src.dart';
 
 // Third Party -------------------------------------------------------------------
 final bluetoothDeviceFromThirdParty = BluetoothDevice()

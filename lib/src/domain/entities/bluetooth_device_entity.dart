@@ -1,10 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ticket_printer/src/data/_data.dart';
+import 'package:ticket_printer/src/_src.dart';
 
 part 'bluetooth_device_entity.freezed.dart';
 
 @freezed
-class BluetoothDeviceEntity with _$BluetoothDeviceEntity {
+sealed class BluetoothDeviceEntity with _$BluetoothDeviceEntity {
   const BluetoothDeviceEntity._();
 
   const factory BluetoothDeviceEntity({

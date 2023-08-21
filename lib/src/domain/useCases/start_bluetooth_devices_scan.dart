@@ -1,5 +1,4 @@
-import 'package:ticket_printer/src/core/_core.dart';
-import 'package:ticket_printer/src/domain/_domain.dart';
+import 'package:ticket_printer/src/_src.dart';
 
 /// The use case starts the Bluetooth devices scan.
 ///
@@ -16,7 +15,7 @@ class StartBluetoothDevicesScan {
 
   final BluetoothRepositoryInterface _repository;
 
-  Future<Result<List<BluetoothDeviceEntity>>> execute({
+  Future<Result<List<BluetoothDeviceEntity>>> call({
     Duration? timeout,
   }) async {
     return _repository.startBluetoothDevicesScan(timeout: timeout);

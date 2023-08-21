@@ -1,10 +1,13 @@
-import 'package:ticket_printer/src/core/_core.dart';
-import 'package:ticket_printer/src/domain/_domain.dart';
+import 'package:ticket_printer/src/_src.dart';
 
-abstract class BluetoothRepositoryInterface {
+abstract interface class BluetoothRepositoryInterface {
   Future<Result<List<BluetoothDeviceEntity>>> startBluetoothDevicesScan({
     Duration? timeout,
   });
   Stream<Result<List<BluetoothDeviceEntity>>> getBluetoothDevicesStream();
   Future<Result<void>> stopBluetoothDevicesScan();
+  Future<Result<void>> connectAtBluetoothDevice({
+    required BluetoothDeviceEntity entity,
+  });
+  Future<Result<void>> disconnectAtBluetoothDevice();
 }

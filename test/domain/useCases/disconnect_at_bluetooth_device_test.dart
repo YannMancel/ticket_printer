@@ -7,35 +7,35 @@ import 'start_bluetooth_devices_scan_test.mocks.dart';
 
 void main() {
   late BluetoothRepositoryInterface repository;
-  late StopBluetoothDevicesScan useCase;
+  late DisconnectAtBluetoothDevice useCase;
 
-  group('StopBluetoothDevicesScan', () {
+  group('DisconnectAtBluetoothDevice', () {
     setUp(() async {
       repository = MockBluetoothRepositoryInterface();
-      useCase = StopBluetoothDevicesScan(repository: repository);
+      useCase = DisconnectAtBluetoothDevice(repository: repository);
     });
 
     test('should be success when call is called.', () async {
-      when(repository.stopBluetoothDevicesScan())
+      when(repository.disconnectAtBluetoothDevice())
           .thenAnswer((_) async => kResultOfVoidData);
 
       final result = await useCase();
 
       expect(result, kResultOfVoidData);
-      verify(repository.stopBluetoothDevicesScan()).called(1);
+      verify(repository.disconnectAtBluetoothDevice()).called(1);
       verifyNoMoreInteractions(repository);
     });
 
     test(
       'should be fail when call is called.',
       () async {
-        when(repository.stopBluetoothDevicesScan())
+        when(repository.disconnectAtBluetoothDevice())
             .thenAnswer((_) async => resultOfError<void>());
 
         final result = await useCase();
 
         expect(result, resultOfError<void>());
-        verify(repository.stopBluetoothDevicesScan()).called(1);
+        verify(repository.disconnectAtBluetoothDevice()).called(1);
         verifyNoMoreInteractions(repository);
       },
     );

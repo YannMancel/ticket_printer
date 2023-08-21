@@ -7,35 +7,35 @@ import 'start_bluetooth_devices_scan_test.mocks.dart';
 
 void main() {
   late BluetoothRepositoryInterface repository;
-  late StopBluetoothDevicesScan useCase;
+  late ConnectAtBluetoothDevice useCase;
 
-  group('StopBluetoothDevicesScan', () {
+  group('ConnectAtBluetoothDevice', () {
     setUp(() async {
       repository = MockBluetoothRepositoryInterface();
-      useCase = StopBluetoothDevicesScan(repository: repository);
+      useCase = ConnectAtBluetoothDevice(repository: repository);
     });
 
     test('should be success when call is called.', () async {
-      when(repository.stopBluetoothDevicesScan())
+      when(repository.connectAtBluetoothDevice(entity: entity))
           .thenAnswer((_) async => kResultOfVoidData);
 
-      final result = await useCase();
+      final result = await useCase(entity: entity);
 
       expect(result, kResultOfVoidData);
-      verify(repository.stopBluetoothDevicesScan()).called(1);
+      verify(repository.connectAtBluetoothDevice(entity: entity)).called(1);
       verifyNoMoreInteractions(repository);
     });
 
     test(
       'should be fail when call is called.',
       () async {
-        when(repository.stopBluetoothDevicesScan())
+        when(repository.connectAtBluetoothDevice(entity: entity))
             .thenAnswer((_) async => resultOfError<void>());
 
-        final result = await useCase();
+        final result = await useCase(entity: entity);
 
         expect(result, resultOfError<void>());
-        verify(repository.stopBluetoothDevicesScan()).called(1);
+        verify(repository.connectAtBluetoothDevice(entity: entity)).called(1);
         verifyNoMoreInteractions(repository);
       },
     );

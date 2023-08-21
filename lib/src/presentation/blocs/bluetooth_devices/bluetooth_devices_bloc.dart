@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ticket_printer/src/core/_core.dart';
-import 'package:ticket_printer/src/data/_data.dart';
-import 'package:ticket_printer/src/domain/_domain.dart';
+import 'package:ticket_printer/src/_src.dart';
 
 part 'bluetooth_devices_bloc.freezed.dart';
 part 'bluetooth_devices_event.dart';
@@ -82,7 +80,7 @@ class BluetoothDevicesBloc
   Future<void> _setupBluetoothDevicesStream() async {
     if (_streamSubscription != null) await _streamSubscription?.cancel();
 
-    _streamSubscription = _getBluetoothDevicesStream.execute().listen((result) {
+    _streamSubscription = _getBluetoothDevicesStream().listen((result) {
       final nextState = result.when<BluetoothDevicesState>(
         data: (entities) => BluetoothDevicesState.data(
           entities: entities ??
@@ -115,7 +113,7 @@ class BluetoothDevicesBloc
       const BluetoothDevicesState.loading(),
     );
 
-    final result = await _startBluetoothDevicesScan.execute(timeout: timeout);
+    final result = await _startBluetoothDevicesScan(timeout: timeout);
 
     emit(
       result.when<BluetoothDevicesState>(
@@ -139,7 +137,7 @@ class BluetoothDevicesBloc
       const BluetoothDevicesState.loading(),
     );
 
-    final result = await _stopBluetoothDevicesScan.execute();
+    final result = await _stopBluetoothDevicesScan();
 
     if (result.isError) {
       emit(

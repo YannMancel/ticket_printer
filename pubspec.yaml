@@ -1,5 +1,7 @@
 name: ticket_printer
 description: A Flutter project to manage ticket printer.
+publish_to: 'none'
+
 version: 0.0.1
 
 environment:
