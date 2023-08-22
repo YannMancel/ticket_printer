@@ -10,7 +10,7 @@ void main() {
   late StopBluetoothDevicesScan useCase;
 
   group('StopBluetoothDevicesScan', () {
-    setUp(() async {
+    setUp(() {
       repository = MockBluetoothRepositoryInterface();
       useCase = StopBluetoothDevicesScan(repository: repository);
     });

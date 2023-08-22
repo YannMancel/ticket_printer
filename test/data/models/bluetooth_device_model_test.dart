@@ -7,7 +7,7 @@ void main() {
   group('BluetoothDeviceModel', () {
     test(
       'should return BluetoothDevice when toThirdParty is called.',
-      () async {
+      () {
         expect(model.toThirdParty, isA<BluetoothDevice>());
       },
     );

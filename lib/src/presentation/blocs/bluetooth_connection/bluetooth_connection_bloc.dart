@@ -8,7 +8,7 @@ part 'bluetooth_connection_bloc.freezed.dart';
 part 'bluetooth_connection_event.dart';
 part 'bluetooth_connection_state.dart';
 
-/// The bloc provides the bluetooth device manager.
+/// The bloc provides the bluetooth device connection manager.
 ///
 /// ```dart
 /// final bluetoothPrint = BluetoothPrint.instance;
@@ -20,14 +20,13 @@ part 'bluetooth_connection_state.dart';
 /// final disconnectAtBluetoothDevice = DisconnectAtBluetoothDevice(
 ///   repository: repository,
 /// );
-/// final bloc = BluetoothDevicesBloc(
+/// final bloc = BluetoothConnectionBloc(
 ///   connectAtBluetoothDevice: connectAtBluetoothDevice,
 ///   disconnectAtBluetoothDevice: disconnectAtBluetoothDevice,
 /// );
 /// ```
 class BluetoothConnectionBloc
     extends Bloc<BluetoothConnectionEvent, BluetoothConnectionState> {
-  @visibleForTesting
   BluetoothConnectionBloc({
     BluetoothConnectionState? initialState,
     required ConnectAtBluetoothDevice connectAtBluetoothDevice,

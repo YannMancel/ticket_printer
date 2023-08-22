@@ -10,7 +10,7 @@ void main() {
   late ConnectAtBluetoothDevice useCase;
 
   group('ConnectAtBluetoothDevice', () {
-    setUp(() async {
+    setUp(() {
       repository = MockBluetoothRepositoryInterface();
       useCase = ConnectAtBluetoothDevice(repository: repository);
     });

@@ -20,7 +20,7 @@ void main() {
   late BluetoothConnectionEvent event;
 
   group('BluetoothConnectionBloc', () {
-    setUp(() async {
+    setUp(() {
       connectAtBluetoothDevice = MockConnectAtBluetoothDevice();
       disconnectAtBluetoothDevice = MockDisconnectAtBluetoothDevice();
       bloc = BluetoothConnectionBloc(
@@ -31,7 +31,7 @@ void main() {
 
     test(
       'should have a disconnecting state when it is at the creation bloc.',
-      () async {
+      () {
         expect(bloc.state, const BluetoothConnectionState.disconnecting());
         verifyZeroInteractions(connectAtBluetoothDevice);
         verifyZeroInteractions(disconnectAtBluetoothDevice);
@@ -45,7 +45,7 @@ void main() {
 
       blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then connecting state.',
-        setUp: () async {
+        setUp: () {
           when(connectAtBluetoothDevice(entity: entity))
               .thenAnswer((_) async => kResultOfVoidData);
         },
@@ -64,7 +64,7 @@ void main() {
 
       blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then error state.',
-        setUp: () async {
+        setUp: () {
           when(
             connectAtBluetoothDevice(entity: entity),
           ).thenAnswer(
@@ -92,7 +92,7 @@ void main() {
 
       blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then disconnecting state.',
-        setUp: () async {
+        setUp: () {
           when(disconnectAtBluetoothDevice())
               .thenAnswer((_) async => kResultOfVoidData);
         },
@@ -111,7 +111,7 @@ void main() {
 
       blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then error state.',
-        setUp: () async {
+        setUp: () {
           when(
             disconnectAtBluetoothDevice(),
           ).thenAnswer(

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_printer/src/_src.dart';
@@ -9,7 +8,7 @@ part 'bluetooth_devices_bloc.freezed.dart';
 part 'bluetooth_devices_event.dart';
 part 'bluetooth_devices_state.dart';
 
-/// The bloc provides the bluetooth devices.
+/// The bloc provides the bluetooth devices scan manager.
 ///
 /// ```dart
 /// final bluetoothPrint = BluetoothPrint.instance;
@@ -32,7 +31,6 @@ part 'bluetooth_devices_state.dart';
 /// ```
 class BluetoothDevicesBloc
     extends Bloc<BluetoothDevicesEvent, BluetoothDevicesState> {
-  @visibleForTesting
   BluetoothDevicesBloc({
     BluetoothDevicesState? initialState,
     required StartBluetoothDevicesScan startBluetoothDevicesScan,
@@ -46,29 +44,6 @@ class BluetoothDevicesBloc
     on<_Refreshed>(_onRefreshed);
     on<_Stopped>(_onStopped);
     on<_ChangedState>(_onChangedState);
-  }
-
-  factory BluetoothDevicesBloc.instance({
-    BluetoothDevicesState? initialState,
-  }) {
-    final remoteDataSource = RemoteDataSource(
-      bluetoothPrint: BluetoothPrint.instance,
-    );
-
-    final repository = BluetoothRepository(remoteDataSource: remoteDataSource);
-
-    return BluetoothDevicesBloc(
-      initialState: initialState,
-      startBluetoothDevicesScan: StartBluetoothDevicesScan(
-        repository: repository,
-      ),
-      getBluetoothDevicesStream: GetBluetoothDevicesStream(
-        repository: repository,
-      ),
-      stopBluetoothDevicesScan: StopBluetoothDevicesScan(
-        repository: repository,
-      ),
-    );
   }
 
   final StartBluetoothDevicesScan _startBluetoothDevicesScan;

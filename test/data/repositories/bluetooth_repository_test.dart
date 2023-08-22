@@ -16,7 +16,7 @@ void main() {
   late BluetoothRepositoryInterface repository;
 
   group('BluetoothRepository', () {
-    setUp(() async {
+    setUp(() {
       remoteDataSource = MockRemoteDataSourceInterface();
       repository = BluetoothRepository(remoteDataSource: remoteDataSource);
     });

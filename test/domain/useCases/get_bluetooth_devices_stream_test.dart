@@ -10,7 +10,7 @@ void main() {
   late GetBluetoothDevicesStream useCase;
 
   group('GetBluetoothDevicesStream', () {
-    setUp(() async {
+    setUp(() {
       repository = MockBluetoothRepositoryInterface();
       useCase = GetBluetoothDevicesStream(repository: repository);
     });

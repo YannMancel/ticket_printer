@@ -22,7 +22,7 @@ void main() {
   late BluetoothDevicesEvent event;
 
   group('BluetoothDevicesBloc', () {
-    setUp(() async {
+    setUp(() {
       startBluetoothDevicesScan = MockStartBluetoothDevicesScan();
       getBluetoothDevicesStream = MockGetBluetoothDevicesStream();
       stopBluetoothDevicesScan = MockStopBluetoothDevicesScan();
@@ -35,7 +35,7 @@ void main() {
 
     test(
       'should have an initial state when it is at the creation bloc.',
-      () async {
+      () {
         expect(bloc.state, const BluetoothDevicesState.initial());
         verifyZeroInteractions(startBluetoothDevicesScan);
         verifyZeroInteractions(getBluetoothDevicesStream);
@@ -50,7 +50,7 @@ void main() {
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state.',
-        setUp: () async {
+        setUp: () {
           when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => resultOfData);
 
@@ -76,7 +76,7 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 3 states, a loading state then data state then error '
         'state (from error stream).',
-        setUp: () async {
+        setUp: () {
           when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => resultOfData);
 
@@ -104,7 +104,7 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 3 states, a loading state then data state then error '
         'state (from stream).',
-        setUp: () async {
+        setUp: () {
           when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => resultOfData);
 
@@ -132,7 +132,7 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 3 states, a loading state then error state then data '
         'state (from stream).',
-        setUp: () async {
+        setUp: () {
           when(
             startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).thenAnswer(
@@ -163,7 +163,7 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 3 states, a loading state then error state then data '
         'state (empty data from stream).',
-        setUp: () async {
+        setUp: () {
           when(
             startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).thenAnswer(
@@ -193,7 +193,7 @@ void main() {
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state (empty).',
-        setUp: () async {
+        setUp: () {
           when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => kResultOfEmptyData);
 
@@ -218,7 +218,7 @@ void main() {
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then error state.',
-        setUp: () async {
+        setUp: () {
           when(
             startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).thenAnswer(
@@ -252,7 +252,7 @@ void main() {
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state.',
-        setUp: () async {
+        setUp: () {
           when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => resultOfData);
 
@@ -277,7 +277,7 @@ void main() {
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state (empty).',
-        setUp: () async {
+        setUp: () {
           when(startBluetoothDevicesScan(timeout: anyNamed('timeout')))
               .thenAnswer((_) async => kResultOfEmptyData);
 
@@ -302,7 +302,7 @@ void main() {
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then error state.',
-        setUp: () async {
+        setUp: () {
           when(
             startBluetoothDevicesScan(timeout: anyNamed('timeout')),
           ).thenAnswer(
@@ -336,7 +336,7 @@ void main() {
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit a loading state.',
-        setUp: () async {
+        setUp: () {
           when(stopBluetoothDevicesScan())
               .thenAnswer((_) async => kResultOfVoidData);
         },
@@ -355,7 +355,7 @@ void main() {
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then error state.',
-        setUp: () async {
+        setUp: () {
           when(stopBluetoothDevicesScan()).thenAnswer(
             (_) async => resultOfError<void>(),
           );
@@ -378,7 +378,7 @@ void main() {
     group('when changedState event is emitted', () {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit an error state.',
-        setUp: () async {
+        setUp: () {
           event = BluetoothDevicesEvent.changedState(
             nextState: BluetoothDevicesState.error(exception: exception),
           );

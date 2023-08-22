@@ -10,7 +10,7 @@ void main() {
   late DisconnectAtBluetoothDevice useCase;
 
   group('DisconnectAtBluetoothDevice', () {
-    setUp(() async {
+    setUp(() {
       repository = MockBluetoothRepositoryInterface();
       useCase = DisconnectAtBluetoothDevice(repository: repository);
     });

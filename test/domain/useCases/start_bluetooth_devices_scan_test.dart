@@ -16,7 +16,7 @@ void main() {
   late StartBluetoothDevicesScan useCase;
 
   group('StartBluetoothDevicesScan', () {
-    setUp(() async {
+    setUp(() {
       repository = MockBluetoothRepositoryInterface();
       useCase = StartBluetoothDevicesScan(repository: repository);
     });

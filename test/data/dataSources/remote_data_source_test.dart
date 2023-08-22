@@ -17,7 +17,7 @@ void main() {
   late RemoteDataSourceInterface remoteDataSource;
 
   group('RemoteDataSource', () {
-    setUp(() async {
+    setUp(() {
       bluetoothPrint = MockBluetoothPrint();
       remoteDataSource = RemoteDataSource(bluetoothPrint: bluetoothPrint);
     });
