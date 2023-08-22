@@ -60,7 +60,7 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(entities: entities),
+          BluetoothDevicesState.data(bluetoothDevices: bluetoothDeviceEntities),
         ],
         verify: (_) {
           verify(
@@ -87,7 +87,7 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(entities: entities),
+          BluetoothDevicesState.data(bluetoothDevices: bluetoothDeviceEntities),
           BluetoothDevicesState.error(exception: exception),
         ],
         verify: (_) {
@@ -115,7 +115,7 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(entities: entities),
+          BluetoothDevicesState.data(bluetoothDevices: bluetoothDeviceEntities),
           BluetoothDevicesState.error(exception: exception),
         ],
         verify: (_) {
@@ -147,7 +147,7 @@ void main() {
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesState.loading(),
           BluetoothDevicesState.error(exception: exception),
-          BluetoothDevicesState.data(entities: entities),
+          BluetoothDevicesState.data(bluetoothDevices: bluetoothDeviceEntities),
         ],
         verify: (_) {
           verify(
@@ -178,7 +178,9 @@ void main() {
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesState.loading(),
           BluetoothDevicesState.error(exception: exception),
-          BluetoothDevicesState.data(entities: kNoEntity),
+          BluetoothDevicesState.data(
+            bluetoothDevices: kNoBluetoothDeviceEntity,
+          ),
         ],
         verify: (_) {
           verify(
@@ -203,7 +205,9 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(entities: kNoEntity),
+          BluetoothDevicesState.data(
+            bluetoothDevices: kNoBluetoothDeviceEntity,
+          ),
         ],
         verify: (_) {
           verify(
@@ -262,7 +266,7 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(entities: entities),
+          BluetoothDevicesState.data(bluetoothDevices: bluetoothDeviceEntities),
         ],
         verify: (_) {
           verify(
@@ -287,7 +291,9 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(entities: kNoEntity),
+          BluetoothDevicesState.data(
+            bluetoothDevices: kNoBluetoothDeviceEntity,
+          ),
         ],
         verify: (_) {
           verify(

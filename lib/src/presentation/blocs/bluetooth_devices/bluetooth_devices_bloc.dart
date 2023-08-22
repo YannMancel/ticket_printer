@@ -57,11 +57,9 @@ class BluetoothDevicesBloc
 
     _streamSubscription = _getBluetoothDevicesStream().listen((result) {
       final nextState = result.when<BluetoothDevicesState>(
-        data: (entities) => BluetoothDevicesState.data(
-          entities: entities ??
-              List<BluetoothDeviceEntity>.empty(
-                growable: false,
-              ),
+        data: (bluetoothDevicesOrNull) => BluetoothDevicesState.data(
+          bluetoothDevices: bluetoothDevicesOrNull ??
+              List<BluetoothDeviceEntity>.empty(growable: false),
         ),
         error: (exception) => BluetoothDevicesState.error(
           exception: exception,
@@ -92,11 +90,9 @@ class BluetoothDevicesBloc
 
     emit(
       result.when<BluetoothDevicesState>(
-        data: (entities) => BluetoothDevicesState.data(
-          entities: entities ??
-              List<BluetoothDeviceEntity>.empty(
-                growable: false,
-              ),
+        data: (bluetoothDevicesOrNull) => BluetoothDevicesState.data(
+          bluetoothDevices: bluetoothDevicesOrNull ??
+              List<BluetoothDeviceEntity>.empty(growable: false),
         ),
         error: (exception) => BluetoothDevicesState.error(
           exception: exception,

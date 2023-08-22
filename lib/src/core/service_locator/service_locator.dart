@@ -41,6 +41,11 @@ abstract class ServiceLocator {
     return DisconnectAtBluetoothDevice(repository: repository);
   }
 
+  @visibleForTesting
+  static PrintImageByBluetooth get printImageByBluetooth {
+    return PrintImageByBluetooth(repository: repository);
+  }
+
   static BluetoothDevicesBloc get bluetoothDevicesBlocSingleton {
     return BluetoothDevicesBloc(
       startBluetoothDevicesScan: startBluetoothDevicesScan,
@@ -53,6 +58,12 @@ abstract class ServiceLocator {
     return BluetoothConnectionBloc(
       connectAtBluetoothDevice: connectAtBluetoothDevice,
       disconnectAtBluetoothDevice: disconnectAtBluetoothDevice,
+    );
+  }
+
+  static BluetoothImagePrinterBloc get bluetoothImagePrinterBlocSingleton {
+    return BluetoothImagePrinterBloc(
+      printImageByBluetooth: printImageByBluetooth,
     );
   }
 }

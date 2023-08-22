@@ -4,7 +4,7 @@ part of 'bluetooth_connection_bloc.dart';
 class BluetoothConnectionState with _$BluetoothConnectionState {
   const factory BluetoothConnectionState.loading() = _Loading;
   const factory BluetoothConnectionState.connecting({
-    required BluetoothDeviceEntity entity,
+    required BluetoothDeviceEntity bluetoothDevice,
   }) = _Connecting;
   const factory BluetoothConnectionState.disconnecting() = _Disconnecting;
   const factory BluetoothConnectionState.error({

@@ -7,24 +7,29 @@ import 'start_bluetooth_devices_scan_test.mocks.dart';
 
 void main() {
   late BluetoothRepositoryInterface repository;
-  late ConnectAtBluetoothDevice useCase;
+  late PrintImageByBluetooth useCase;
 
-  group('ConnectAtBluetoothDevice', () {
+  group('PrintImageByBluetooth', () {
     setUp(() {
       repository = MockBluetoothRepositoryInterface();
-      useCase = ConnectAtBluetoothDevice(repository: repository);
+      useCase = PrintImageByBluetooth(repository: repository);
     });
 
     test('should be success when call is called.', () async {
-      when(repository.connectAtBluetoothDevice(
-        bluetoothDevice: bluetoothDeviceEntity,
+      when(repository.printImage(
+        ticketConfiguration: kTicketConfigurationEntity,
+        bytes: bytes,
       )).thenAnswer((_) async => kResultOfVoidData);
 
-      final result = await useCase(bluetoothDevice: bluetoothDeviceEntity);
+      final result = await useCase(
+        ticketConfiguration: kTicketConfigurationEntity,
+        bytes: bytes,
+      );
 
       expect(result, kResultOfVoidData);
-      verify(repository.connectAtBluetoothDevice(
-        bluetoothDevice: bluetoothDeviceEntity,
+      verify(repository.printImage(
+        ticketConfiguration: kTicketConfigurationEntity,
+        bytes: bytes,
       )).called(1);
       verifyNoMoreInteractions(repository);
     });
@@ -32,15 +37,20 @@ void main() {
     test(
       'should be fail when call is called.',
       () async {
-        when(repository.connectAtBluetoothDevice(
-          bluetoothDevice: bluetoothDeviceEntity,
+        when(repository.printImage(
+          ticketConfiguration: kTicketConfigurationEntity,
+          bytes: bytes,
         )).thenAnswer((_) async => resultOfError<void>());
 
-        final result = await useCase(bluetoothDevice: bluetoothDeviceEntity);
+        final result = await useCase(
+          ticketConfiguration: kTicketConfigurationEntity,
+          bytes: bytes,
+        );
 
         expect(result, resultOfError<void>());
-        verify(repository.connectAtBluetoothDevice(
-          bluetoothDevice: bluetoothDeviceEntity,
+        verify(repository.printImage(
+          ticketConfiguration: kTicketConfigurationEntity,
+          bytes: bytes,
         )).called(1);
         verifyNoMoreInteractions(repository);
       },

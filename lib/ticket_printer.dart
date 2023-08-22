@@ -9,4 +9,8 @@ export 'src/_src.dart'
         BluetoothConnectionBloc,
         BluetoothConnectionEvent,
         BluetoothConnectionState,
-        BluetoothDeviceEntity;
+        BluetoothImagePrinterBloc,
+        BluetoothImagePrinterEvent,
+        BluetoothImagePrinterState,
+        BluetoothDeviceEntity,
+        TicketConfigurationEntity;

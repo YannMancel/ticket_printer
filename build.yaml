@@ -6,9 +6,12 @@ targets:
         generate_for:
           - lib/src/core/result/result.dart
           - lib/src/data/models/bluetooth_device_model.dart
+          - lib/src/data/models/ticket_configuration_model.dart
           - lib/src/domain/entities/bluetooth_device_entity.dart
+          - lib/src/domain/entities/ticket_configuration_entity.dart
           - lib/src/presentation/blocs/bluetooth_connection/bluetooth_connection_bloc.dart
           - lib/src/presentation/blocs/bluetooth_devices/bluetooth_devices_bloc.dart
+          - lib/src/presentation/blocs/bluetooth_image_printer/bluetooth_image_printer_bloc.dart
       mockito|mockBuilder:
         enabled: true
         generate_for:
@@ -17,3 +20,4 @@ targets:
           - test/domain/useCases/start_bluetooth_devices_scan_test.dart
           - test/presentation/blocs/bluetooth_connection/bluetooth_connection_bloc_test.dart
           - test/presentation/blocs/bluetooth_devices/bluetooth_devices_bloc_test.dart
+          - test/presentation/blocs/bluetooth_image_printer/bluetooth_image_printer_bloc_test.dart

@@ -1,4 +1,4 @@
-// ignore_for_file: void_checks
+import 'dart:typed_data';
 
 import 'package:ticket_printer/src/_src.dart';
 
@@ -63,11 +63,11 @@ class BluetoothRepository implements BluetoothRepositoryInterface {
 
   @override
   Future<Result<void>> connectAtBluetoothDevice({
-    required BluetoothDeviceEntity entity,
+    required BluetoothDeviceEntity bluetoothDevice,
   }) async {
     try {
       await _remoteDataSource.connectAtBluetoothDevice(
-        model: BluetoothDeviceModel.fromEntity(entity),
+        bluetoothDevice: BluetoothDeviceModel.fromEntity(bluetoothDevice),
       );
       return const Result<void>.data();
     } catch (e) {
@@ -79,6 +79,24 @@ class BluetoothRepository implements BluetoothRepositoryInterface {
   Future<Result<void>> disconnectAtBluetoothDevice() async {
     try {
       await _remoteDataSource.disconnectAtBluetoothDevice();
+      return const Result<void>.data();
+    } catch (e) {
+      return Result<void>.error(exception: e as Exception);
+    }
+  }
+
+  @override
+  Future<Result<void>> printImage({
+    required TicketConfigurationEntity ticketConfiguration,
+    required Uint8List bytes,
+  }) async {
+    try {
+      await _remoteDataSource.printImage(
+        ticketConfiguration: TicketConfigurationModel.fromEntity(
+          ticketConfiguration,
+        ),
+        bytes: bytes,
+      );
       return const Result<void>.data();
     } catch (e) {
       return Result<void>.error(exception: e as Exception);

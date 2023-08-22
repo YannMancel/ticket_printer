@@ -40,23 +40,30 @@ void main() {
 
     group('when connected event is emitted', () {
       setUp(() {
-        event = BluetoothConnectionEvent.connected(entity: entity);
+        event = BluetoothConnectionEvent.connected(
+          bluetoothDevice: bluetoothDeviceEntity,
+        );
       });
 
       blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then connecting state.',
         setUp: () {
-          when(connectAtBluetoothDevice(entity: entity))
-              .thenAnswer((_) async => kResultOfVoidData);
+          when(connectAtBluetoothDevice(
+            bluetoothDevice: bluetoothDeviceEntity,
+          )).thenAnswer((_) async => kResultOfVoidData);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothConnectionState>[
           const BluetoothConnectionState.loading(),
-          BluetoothConnectionState.connecting(entity: entity),
+          BluetoothConnectionState.connecting(
+            bluetoothDevice: bluetoothDeviceEntity,
+          ),
         ],
         verify: (_) {
-          verify(connectAtBluetoothDevice(entity: entity)).called(1);
+          verify(connectAtBluetoothDevice(
+            bluetoothDevice: bluetoothDeviceEntity,
+          )).called(1);
           verifyNoMoreInteractions(connectAtBluetoothDevice);
           verifyZeroInteractions(disconnectAtBluetoothDevice);
         },
@@ -66,7 +73,7 @@ void main() {
         'should emit 2 states, a loading state then error state.',
         setUp: () {
           when(
-            connectAtBluetoothDevice(entity: entity),
+            connectAtBluetoothDevice(bluetoothDevice: bluetoothDeviceEntity),
           ).thenAnswer(
             (_) async => resultOfError<void>(),
           );
@@ -78,7 +85,9 @@ void main() {
           BluetoothConnectionState.error(exception: exception),
         ],
         verify: (_) {
-          verify(connectAtBluetoothDevice(entity: entity)).called(1);
+          verify(connectAtBluetoothDevice(
+            bluetoothDevice: bluetoothDeviceEntity,
+          )).called(1);
           verifyNoMoreInteractions(connectAtBluetoothDevice);
           verifyZeroInteractions(disconnectAtBluetoothDevice);
         },

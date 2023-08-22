@@ -49,11 +49,15 @@ class BluetoothConnectionBloc
       const BluetoothConnectionState.loading(),
     );
 
-    final result = await _connectAtBluetoothDevice(entity: event.entity);
+    final result = await _connectAtBluetoothDevice(
+      bluetoothDevice: event.bluetoothDevice,
+    );
 
     emit(
       result.when<BluetoothConnectionState>(
-        data: (_) => BluetoothConnectionState.connecting(entity: event.entity),
+        data: (_) => BluetoothConnectionState.connecting(
+          bluetoothDevice: event.bluetoothDevice,
+        ),
         error: (exception) => BluetoothConnectionState.error(
           exception: exception,
         ),

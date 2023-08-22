@@ -92,6 +92,17 @@ void main() {
     );
 
     test(
+      'should return a PrintImageByBluetooth '
+      'when printImageByBluetooth is called.',
+      () {
+        expect(
+          ServiceLocator.printImageByBluetooth,
+          isA<PrintImageByBluetooth>(),
+        );
+      },
+    );
+
+    test(
       'should return a BluetoothDevicesBloc '
       'when bluetoothDevicesBlocSingleton is called.',
       () {
@@ -109,6 +120,17 @@ void main() {
         expect(
           ServiceLocator.bluetoothConnectionBlocSingleton,
           isA<BluetoothConnectionBloc>(),
+        );
+      },
+    );
+
+    test(
+      'should return a BluetoothImagePrinterBloc '
+      'when bluetoothImagePrinterBlocSingleton is called.',
+      () async {
+        expect(
+          ServiceLocator.bluetoothImagePrinterBlocSingleton,
+          isA<BluetoothImagePrinterBloc>(),
         );
       },
     );

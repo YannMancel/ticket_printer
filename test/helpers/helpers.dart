@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:ticket_printer/src/_src.dart';
@@ -17,24 +18,38 @@ Stream<List<BluetoothDevice>> bluetoothDevicesStreamFromThirdParty() async* {
 }
 
 // MODEL -----------------------------------------------------------------------
-final model = BluetoothDeviceModel.fromThirdParty(
+final ticketConfigurationModel = TicketConfigurationModel.fromEntity(
+  kTicketConfigurationEntity,
+);
+final bluetoothDeviceModel = BluetoothDeviceModel.fromThirdParty(
   bluetoothDeviceFromThirdParty,
 );
-final models = bluetoothDevicesFromThirdParty.toModels;
+final bluetoothDeviceModels = bluetoothDevicesFromThirdParty.toModels;
 Stream<List<BluetoothDeviceModel>> modelStream() async* {
-  yield models;
+  yield bluetoothDeviceModels;
 }
 
+final ticketConfigurationModelJson = <String, dynamic>{
+  'width': ticketConfigurationModel.width,
+  'height': ticketConfigurationModel.height,
+  'gap': ticketConfigurationModel.gap,
+};
+
 // ENTITY ----------------------------------------------------------------------
-final entity = BluetoothDeviceEntity.fromModel(model);
-final entities = models.toEntities;
-final kNoEntity = List<BluetoothDeviceEntity>.empty();
+
+const kTicketConfigurationEntity = TicketConfigurationEntity();
+final bluetoothDeviceEntity = BluetoothDeviceEntity.fromModel(
+  bluetoothDeviceModel,
+);
+final bluetoothDeviceEntities = bluetoothDeviceModels.toEntities;
+final kNoBluetoothDeviceEntity = List<BluetoothDeviceEntity>.empty();
 
 // ERROR -----------------------------------------------------------------------
 final exception = Exception();
 
 // RESULT ----------------------------------------------------------------------
-final resultOfData = Result<List<BluetoothDeviceEntity>>.data(value: entities);
+final resultOfData =
+    Result<List<BluetoothDeviceEntity>>.data(value: bluetoothDeviceEntities);
 const kResultOfEmptyData = Result<List<BluetoothDeviceEntity>>.data();
 const kResultOfVoidData = Result<void>.data();
 Result<T> resultOfError<T>() => Result<T>.error(exception: exception);
@@ -54,3 +69,6 @@ Stream<Result<List<BluetoothDeviceEntity>>> errorResultStream() async* {
 Stream<Result<List<BluetoothDeviceEntity>>> exceptionStream() async* {
   throw exception;
 }
+
+// BYTES -----------------------------------------------------------------------
+final bytes = Uint8List(5);

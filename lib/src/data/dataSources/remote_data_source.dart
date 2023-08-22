@@ -1,4 +1,5 @@
-// ignore_for_file: void_checks
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
@@ -42,14 +43,57 @@ class RemoteDataSource implements RemoteDataSourceInterface {
 
   @override
   Future<void> connectAtBluetoothDevice({
-    required BluetoothDeviceModel model,
+    required BluetoothDeviceModel bluetoothDevice,
     BluetoothDevice? fakeBluetoothDevice,
   }) async {
-    await _bluetoothPrint.connect(fakeBluetoothDevice ?? model.toThirdParty);
+    await _bluetoothPrint.connect(
+      fakeBluetoothDevice ?? bluetoothDevice.toThirdParty,
+    );
   }
 
   @override
   Future<void> disconnectAtBluetoothDevice() async {
     await _bluetoothPrint.disconnect();
+  }
+
+  @override
+  Future<void> printImage({
+    required TicketConfigurationModel ticketConfiguration,
+    required Uint8List bytes,
+    List<LineText>? fakePrintedData,
+  }) async {
+    // x & y are in dpi (1mm=8dp)
+    //
+    // + ---------------------------------------------> X
+    // |
+    // |    (0,0) --------------------------- (width,0)
+    // |      |                                   |
+    // |      |                                   |
+    // |      |                                   |
+    // |      |                                   |
+    // |      |                                   |
+    // |  (0,height) ---------------------- (width,height)
+    // V
+    // Y
+
+    final base64Image = base64Encode(bytes);
+
+    await _bluetoothPrint.printLabel(
+      <String, dynamic>{
+        'width': ticketConfiguration.width,
+        'height': ticketConfiguration.height,
+        'gap': ticketConfiguration.gap,
+      },
+      fakePrintedData ??
+          <LineText>[
+            LineText(
+              type: LineText.TYPE_IMAGE,
+              x: 0,
+              y: 0,
+              width: ticketConfiguration.width.toDpi,
+              content: base64Image,
+            ),
+          ],
+    );
   }
 }

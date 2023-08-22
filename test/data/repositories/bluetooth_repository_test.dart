@@ -26,7 +26,7 @@ void main() {
       () async {
         when(remoteDataSource.startBluetoothDevicesScan(
           timeout: anyNamed('timeout'),
-        )).thenAnswer((_) async => models);
+        )).thenAnswer((_) async => bluetoothDeviceModels);
 
         final result = await repository.startBluetoothDevicesScan();
 
@@ -94,8 +94,9 @@ void main() {
         when(remoteDataSource.stopBluetoothDevicesScan())
             .thenAnswer((_) async {});
 
-        await repository.stopBluetoothDevicesScan();
+        final result = await repository.stopBluetoothDevicesScan();
 
+        expect(result, kResultOfVoidData);
         verify(remoteDataSource.stopBluetoothDevicesScan()).called(1);
         verifyNoMoreInteractions(remoteDataSource);
       },
@@ -117,13 +118,18 @@ void main() {
     test(
       'should be success when Bluetooth device connexion is started.',
       () async {
-        when(remoteDataSource.connectAtBluetoothDevice(model: model))
-            .thenAnswer((_) async {});
+        when(remoteDataSource.connectAtBluetoothDevice(
+          bluetoothDevice: bluetoothDeviceModel,
+        )).thenAnswer((_) async {});
 
-        await repository.connectAtBluetoothDevice(entity: entity);
+        final result = await repository.connectAtBluetoothDevice(
+          bluetoothDevice: bluetoothDeviceEntity,
+        );
 
-        verify(remoteDataSource.connectAtBluetoothDevice(model: model))
-            .called(1);
+        expect(result, kResultOfVoidData);
+        verify(remoteDataSource.connectAtBluetoothDevice(
+          bluetoothDevice: bluetoothDeviceModel,
+        )).called(1);
         verifyNoMoreInteractions(remoteDataSource);
       },
     );
@@ -131,15 +137,18 @@ void main() {
     test(
       'should be fail when Bluetooth device connexion is started.',
       () async {
-        when(remoteDataSource.connectAtBluetoothDevice(model: model))
-            .thenThrow(exception);
+        when(remoteDataSource.connectAtBluetoothDevice(
+          bluetoothDevice: bluetoothDeviceModel,
+        )).thenThrow(exception);
 
-        final result =
-            await repository.connectAtBluetoothDevice(entity: entity);
+        final result = await repository.connectAtBluetoothDevice(
+          bluetoothDevice: bluetoothDeviceEntity,
+        );
 
         expect(result, resultOfError<void>());
-        verify(remoteDataSource.connectAtBluetoothDevice(model: model))
-            .called(1);
+        verify(remoteDataSource.connectAtBluetoothDevice(
+          bluetoothDevice: bluetoothDeviceModel,
+        )).called(1);
         verifyNoMoreInteractions(remoteDataSource);
       },
     );
@@ -150,8 +159,9 @@ void main() {
         when(remoteDataSource.disconnectAtBluetoothDevice())
             .thenAnswer((_) async {});
 
-        await repository.disconnectAtBluetoothDevice();
+        final result = await repository.disconnectAtBluetoothDevice();
 
+        expect(result, kResultOfVoidData);
         verify(remoteDataSource.disconnectAtBluetoothDevice()).called(1);
         verifyNoMoreInteractions(remoteDataSource);
       },
@@ -167,6 +177,58 @@ void main() {
 
         expect(result, resultOfError<void>());
         verify(remoteDataSource.disconnectAtBluetoothDevice()).called(1);
+        verifyNoMoreInteractions(remoteDataSource);
+      },
+    );
+
+    test(
+      'should be success when printImage is called.',
+      () async {
+        when(
+          remoteDataSource.printImage(
+            ticketConfiguration: ticketConfigurationModel,
+            bytes: bytes,
+          ),
+        ).thenAnswer((_) async {});
+
+        final result = await repository.printImage(
+          ticketConfiguration: kTicketConfigurationEntity,
+          bytes: bytes,
+        );
+
+        expect(result, kResultOfVoidData);
+        verify(
+          remoteDataSource.printImage(
+            ticketConfiguration: ticketConfigurationModel,
+            bytes: bytes,
+          ),
+        ).called(1);
+        verifyNoMoreInteractions(remoteDataSource);
+      },
+    );
+
+    test(
+      'should be fail when printImage is called.',
+      () async {
+        when(
+          remoteDataSource.printImage(
+            ticketConfiguration: ticketConfigurationModel,
+            bytes: bytes,
+          ),
+        ).thenThrow(exception);
+
+        final result = await repository.printImage(
+          ticketConfiguration: kTicketConfigurationEntity,
+          bytes: bytes,
+        );
+
+        expect(result, resultOfError<void>());
+        verify(
+          remoteDataSource.printImage(
+            ticketConfiguration: ticketConfigurationModel,
+            bytes: bytes,
+          ),
+        ).called(1);
         verifyNoMoreInteractions(remoteDataSource);
       },
     );

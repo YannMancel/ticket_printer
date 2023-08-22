@@ -1,4 +1,5 @@
 import 'package:bluetooth_print/bluetooth_print.dart';
+import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -30,7 +31,7 @@ void main() {
 
         final values = await remoteDataSource.startBluetoothDevicesScan();
 
-        expect(values, models);
+        expect(values, bluetoothDeviceModels);
         verify(
           bluetoothPrint.startScan(timeout: anyNamed('timeout')),
         ).called(1);
@@ -66,7 +67,7 @@ void main() {
         final stream = remoteDataSource.getBluetoothDevicesStream();
         final values = await stream.single;
 
-        expect(values, models);
+        expect(values, bluetoothDeviceModels);
         verify(bluetoothPrint.scanResults).called(1);
         verifyNoMoreInteractions(bluetoothPrint);
       },
@@ -123,7 +124,7 @@ void main() {
             .thenAnswer((_) async {});
 
         await remoteDataSource.connectAtBluetoothDevice(
-          model: model,
+          bluetoothDevice: bluetoothDeviceModel,
           fakeBluetoothDevice: bluetoothDeviceFromThirdParty,
         );
 
@@ -139,7 +140,7 @@ void main() {
             .thenThrow(exception);
 
         final call = remoteDataSource.connectAtBluetoothDevice(
-          model: model,
+          bluetoothDevice: bluetoothDeviceModel,
           fakeBluetoothDevice: bluetoothDeviceFromThirdParty,
         );
 
@@ -178,6 +179,57 @@ void main() {
         );
 
         verify(bluetoothPrint.disconnect()).called(1);
+        verifyNoMoreInteractions(bluetoothPrint);
+      },
+    );
+
+    test(
+      'should be success when printImage is called.',
+      () async {
+        final fakePrintedData = List<LineText>.empty();
+        when(bluetoothPrint.printLabel(
+          ticketConfigurationModelJson,
+          fakePrintedData,
+        )).thenAnswer((_) async {});
+
+        await remoteDataSource.printImage(
+          ticketConfiguration: ticketConfigurationModel,
+          bytes: bytes,
+          fakePrintedData: fakePrintedData,
+        );
+
+        verify(bluetoothPrint.printLabel(
+          ticketConfigurationModelJson,
+          fakePrintedData,
+        )).called(1);
+        verifyNoMoreInteractions(bluetoothPrint);
+      },
+    );
+
+    test(
+      'should be fail when printImage is called.',
+      () async {
+        final fakePrintedData = List<LineText>.empty();
+        when(bluetoothPrint.printLabel(
+          ticketConfigurationModelJson,
+          fakePrintedData,
+        )).thenThrow(exception);
+
+        final call = remoteDataSource.printImage(
+          ticketConfiguration: ticketConfigurationModel,
+          bytes: bytes,
+          fakePrintedData: fakePrintedData,
+        );
+
+        expect(
+          () async => call,
+          throwsA(const TypeMatcher<Exception>()),
+        );
+
+        verify(bluetoothPrint.printLabel(
+          ticketConfigurationModelJson,
+          fakePrintedData,
+        )).called(1);
         verifyNoMoreInteractions(bluetoothPrint);
       },
     );

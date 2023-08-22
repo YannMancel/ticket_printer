@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:ticket_printer/src/_src.dart';
 
 abstract interface class BluetoothRepositoryInterface {
@@ -7,7 +9,11 @@ abstract interface class BluetoothRepositoryInterface {
   Stream<Result<List<BluetoothDeviceEntity>>> getBluetoothDevicesStream();
   Future<Result<void>> stopBluetoothDevicesScan();
   Future<Result<void>> connectAtBluetoothDevice({
-    required BluetoothDeviceEntity entity,
+    required BluetoothDeviceEntity bluetoothDevice,
   });
   Future<Result<void>> disconnectAtBluetoothDevice();
+  Future<Result<void>> printImage({
+    required TicketConfigurationEntity ticketConfiguration,
+    required Uint8List bytes,
+  });
 }
