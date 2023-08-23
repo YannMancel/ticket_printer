@@ -13,4 +13,5 @@ export 'src/_src.dart'
         BluetoothImagePrinterEvent,
         BluetoothImagePrinterState,
         BluetoothDeviceEntity,
-        TicketConfigurationEntity;
+        TicketConfigurationEntity,
+        DoubleExt;

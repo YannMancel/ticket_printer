@@ -42,7 +42,7 @@ packages:
     source: hosted
     version: "8.1.2"
   bluetooth_print:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "."
       ref: fix-image-size-for-tsc-command
@@ -258,7 +258,7 @@ packages:
     source: hosted
     version: "1.0.1"
   pdf:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: pdf
       sha256: "9f75fc7f5580ea5e635b5724de58fb27f684c9ad03ed46fdc1aac768e4557315"
