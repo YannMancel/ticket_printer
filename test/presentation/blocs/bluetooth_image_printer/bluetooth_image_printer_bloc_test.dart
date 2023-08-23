@@ -13,7 +13,7 @@ import '../../../helpers/helpers.dart';
 import 'bluetooth_image_printer_bloc_test.mocks.dart';
 
 void main() {
-  late PrintImageByBluetooth printImageByBluetooth;
+  late PrintImageByBluetoothInterface printImageByBluetooth;
   late BluetoothImagePrinterBloc bloc;
   late BluetoothImagePrinterEvent event;
 
@@ -44,10 +44,8 @@ void main() {
       blocTest<BluetoothImagePrinterBloc, BluetoothImagePrinterState>(
         'should emit 2 states, a loading state then success state.',
         setUp: () {
-          when(printImageByBluetooth(
-            ticketConfiguration: kTicketConfigurationEntity,
-            bytes: bytes,
-          )).thenAnswer((_) async => kResultOfVoidData);
+          when(printImageByBluetooth(kTicketConfigurationEntity, bytes))
+              .thenAnswer((_) async => kResultOfVoidData);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -56,10 +54,8 @@ void main() {
           BluetoothImagePrinterState.success(),
         ],
         verify: (_) {
-          verify(printImageByBluetooth(
-            ticketConfiguration: kTicketConfigurationEntity,
-            bytes: bytes,
-          )).called(1);
+          verify(printImageByBluetooth(kTicketConfigurationEntity, bytes))
+              .called(1);
           verifyNoMoreInteractions(printImageByBluetooth);
         },
       );
@@ -67,10 +63,8 @@ void main() {
       blocTest<BluetoothImagePrinterBloc, BluetoothImagePrinterState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
-          when(printImageByBluetooth(
-            ticketConfiguration: kTicketConfigurationEntity,
-            bytes: bytes,
-          )).thenAnswer(
+          when(printImageByBluetooth(kTicketConfigurationEntity, bytes))
+              .thenAnswer(
             (_) async => resultOfError<void>(),
           );
         },
@@ -81,10 +75,8 @@ void main() {
           BluetoothImagePrinterState.error(exception: exception),
         ],
         verify: (_) {
-          verify(printImageByBluetooth(
-            ticketConfiguration: kTicketConfigurationEntity,
-            bytes: bytes,
-          )).called(1);
+          verify(printImageByBluetooth(kTicketConfigurationEntity, bytes))
+              .called(1);
           verifyNoMoreInteractions(printImageByBluetooth);
         },
       );

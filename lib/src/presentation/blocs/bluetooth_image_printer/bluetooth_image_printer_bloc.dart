@@ -26,13 +26,13 @@ class BluetoothImagePrinterBloc
     extends Bloc<BluetoothImagePrinterEvent, BluetoothImagePrinterState> {
   BluetoothImagePrinterBloc({
     BluetoothImagePrinterState? initialState,
-    required PrintImageByBluetooth printImageByBluetooth,
+    required PrintImageByBluetoothInterface printImageByBluetooth,
   })  : _printImageByBluetooth = printImageByBluetooth,
         super(initialState ?? const BluetoothImagePrinterState.initial()) {
     on<_Printed>(_onPrinted);
   }
 
-  final PrintImageByBluetooth _printImageByBluetooth;
+  final PrintImageByBluetoothInterface _printImageByBluetooth;
 
   FutureOr<void> _onPrinted(
     _Printed event,
@@ -43,8 +43,8 @@ class BluetoothImagePrinterBloc
     );
 
     final result = await _printImageByBluetooth(
-      ticketConfiguration: event.ticketConfiguration,
-      bytes: event.bytes,
+      event.ticketConfiguration,
+      event.bytes,
     );
 
     emit(

@@ -13,7 +13,7 @@ import 'start_bluetooth_devices_scan_test.mocks.dart';
 
 void main() {
   late BluetoothRepositoryInterface repository;
-  late StartBluetoothDevicesScan useCase;
+  late StartBluetoothDevicesScanInterface useCase;
 
   group('StartBluetoothDevicesScan', () {
     setUp(() {

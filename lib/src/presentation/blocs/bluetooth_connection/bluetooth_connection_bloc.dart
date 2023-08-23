@@ -29,8 +29,8 @@ class BluetoothConnectionBloc
     extends Bloc<BluetoothConnectionEvent, BluetoothConnectionState> {
   BluetoothConnectionBloc({
     BluetoothConnectionState? initialState,
-    required ConnectAtBluetoothDevice connectAtBluetoothDevice,
-    required DisconnectAtBluetoothDevice disconnectAtBluetoothDevice,
+    required ConnectAtBluetoothDeviceInterface connectAtBluetoothDevice,
+    required DisconnectAtBluetoothDeviceInterface disconnectAtBluetoothDevice,
   })  : _connectAtBluetoothDevice = connectAtBluetoothDevice,
         _disconnectAtBluetoothDevice = disconnectAtBluetoothDevice,
         super(initialState ?? const BluetoothConnectionState.disconnecting()) {
@@ -38,8 +38,8 @@ class BluetoothConnectionBloc
     on<_Disconnected>(_onDisconnected);
   }
 
-  final ConnectAtBluetoothDevice _connectAtBluetoothDevice;
-  final DisconnectAtBluetoothDevice _disconnectAtBluetoothDevice;
+  final ConnectAtBluetoothDeviceInterface _connectAtBluetoothDevice;
+  final DisconnectAtBluetoothDeviceInterface _disconnectAtBluetoothDevice;
 
   FutureOr<void> _onConnected(
     _Connected event,
@@ -49,9 +49,7 @@ class BluetoothConnectionBloc
       const BluetoothConnectionState.loading(),
     );
 
-    final result = await _connectAtBluetoothDevice(
-      bluetoothDevice: event.bluetoothDevice,
-    );
+    final result = await _connectAtBluetoothDevice(event.bluetoothDevice);
 
     emit(
       result.when<BluetoothConnectionState>(

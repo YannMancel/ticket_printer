@@ -7,42 +7,42 @@ abstract class ServiceLocator {
   static BluetoothPrint get bluetoothPrint => BluetoothPrint.instance;
 
   @visibleForTesting
-  static RemoteDataSource get remoteDataSource {
+  static RemoteDataSourceInterface get remoteDataSource {
     return RemoteDataSource(bluetoothPrint: bluetoothPrint);
   }
 
   @visibleForTesting
-  static BluetoothRepository get repository {
+  static BluetoothRepositoryInterface get repository {
     return BluetoothRepository(remoteDataSource: remoteDataSource);
   }
 
   @visibleForTesting
-  static StartBluetoothDevicesScan get startBluetoothDevicesScan {
+  static StartBluetoothDevicesScanInterface get startBluetoothDevicesScan {
     return StartBluetoothDevicesScan(repository: repository);
   }
 
   @visibleForTesting
-  static GetBluetoothDevicesStream get getBluetoothDevicesStream {
+  static GetBluetoothDevicesStreamInterface get getBluetoothDevicesStream {
     return GetBluetoothDevicesStream(repository: repository);
   }
 
   @visibleForTesting
-  static StopBluetoothDevicesScan get stopBluetoothDevicesScan {
+  static StopBluetoothDevicesScanInterface get stopBluetoothDevicesScan {
     return StopBluetoothDevicesScan(repository: repository);
   }
 
   @visibleForTesting
-  static ConnectAtBluetoothDevice get connectAtBluetoothDevice {
+  static ConnectAtBluetoothDeviceInterface get connectAtBluetoothDevice {
     return ConnectAtBluetoothDevice(repository: repository);
   }
 
   @visibleForTesting
-  static DisconnectAtBluetoothDevice get disconnectAtBluetoothDevice {
+  static DisconnectAtBluetoothDeviceInterface get disconnectAtBluetoothDevice {
     return DisconnectAtBluetoothDevice(repository: repository);
   }
 
   @visibleForTesting
-  static PrintImageByBluetooth get printImageByBluetooth {
+  static PrintImageByBluetoothInterface get printImageByBluetooth {
     return PrintImageByBluetooth(repository: repository);
   }
 

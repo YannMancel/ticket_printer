@@ -33,9 +33,9 @@ class BluetoothDevicesBloc
     extends Bloc<BluetoothDevicesEvent, BluetoothDevicesState> {
   BluetoothDevicesBloc({
     BluetoothDevicesState? initialState,
-    required StartBluetoothDevicesScan startBluetoothDevicesScan,
-    required GetBluetoothDevicesStream getBluetoothDevicesStream,
-    required StopBluetoothDevicesScan stopBluetoothDevicesScan,
+    required StartBluetoothDevicesScanInterface startBluetoothDevicesScan,
+    required GetBluetoothDevicesStreamInterface getBluetoothDevicesStream,
+    required StopBluetoothDevicesScanInterface stopBluetoothDevicesScan,
   })  : _startBluetoothDevicesScan = startBluetoothDevicesScan,
         _getBluetoothDevicesStream = getBluetoothDevicesStream,
         _stopBluetoothDevicesScan = stopBluetoothDevicesScan,
@@ -46,9 +46,9 @@ class BluetoothDevicesBloc
     on<_ChangedState>(_onChangedState);
   }
 
-  final StartBluetoothDevicesScan _startBluetoothDevicesScan;
-  final GetBluetoothDevicesStream _getBluetoothDevicesStream;
-  final StopBluetoothDevicesScan _stopBluetoothDevicesScan;
+  final StartBluetoothDevicesScanInterface _startBluetoothDevicesScan;
+  final GetBluetoothDevicesStreamInterface _getBluetoothDevicesStream;
+  final StopBluetoothDevicesScanInterface _stopBluetoothDevicesScan;
 
   StreamSubscription<Result<List<BluetoothDeviceEntity>>>? _streamSubscription;
 
@@ -86,7 +86,7 @@ class BluetoothDevicesBloc
       const BluetoothDevicesState.loading(),
     );
 
-    final result = await _startBluetoothDevicesScan(timeout: timeout);
+    final result = await _startBluetoothDevicesScan(argument: timeout);
 
     emit(
       result.when<BluetoothDevicesState>(

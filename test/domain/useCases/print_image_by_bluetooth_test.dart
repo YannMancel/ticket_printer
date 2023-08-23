@@ -7,7 +7,7 @@ import 'start_bluetooth_devices_scan_test.mocks.dart';
 
 void main() {
   late BluetoothRepositoryInterface repository;
-  late PrintImageByBluetooth useCase;
+  late PrintImageByBluetoothInterface useCase;
 
   group('PrintImageByBluetooth', () {
     setUp(() {
@@ -22,8 +22,8 @@ void main() {
       )).thenAnswer((_) async => kResultOfVoidData);
 
       final result = await useCase(
-        ticketConfiguration: kTicketConfigurationEntity,
-        bytes: bytes,
+        kTicketConfigurationEntity,
+        bytes,
       );
 
       expect(result, kResultOfVoidData);
@@ -43,8 +43,8 @@ void main() {
         )).thenAnswer((_) async => resultOfError<void>());
 
         final result = await useCase(
-          ticketConfiguration: kTicketConfigurationEntity,
-          bytes: bytes,
+          kTicketConfigurationEntity,
+          bytes,
         );
 
         expect(result, resultOfError<void>());

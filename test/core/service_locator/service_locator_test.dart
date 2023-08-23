@@ -17,87 +17,89 @@ void main() {
     );
 
     test(
-      'should return a RemoteDataSource when remoteDataSource is called.',
+      'should return a RemoteDataSourceInterface '
+      'when remoteDataSource is called.',
       () {
         expect(
           ServiceLocator.remoteDataSource,
-          isA<RemoteDataSource>(),
+          isA<RemoteDataSourceInterface>(),
         );
       },
     );
 
     test(
-      'should return a BluetoothRepository when repository is called.',
+      'should return a BluetoothRepositoryInterface '
+      'when repository is called.',
       () {
         expect(
           ServiceLocator.repository,
-          isA<BluetoothRepository>(),
+          isA<BluetoothRepositoryInterface>(),
         );
       },
     );
 
     test(
-      'should return a StartBluetoothDevicesScan '
+      'should return a StartBluetoothDevicesScanInterface '
       'when startBluetoothDevicesScan is called.',
       () {
         expect(
           ServiceLocator.startBluetoothDevicesScan,
-          isA<StartBluetoothDevicesScan>(),
+          isA<StartBluetoothDevicesScanInterface>(),
         );
       },
     );
 
     test(
-      'should return a GetBluetoothDevicesStream '
+      'should return a GetBluetoothDevicesStreamInterface '
       'when getBluetoothDevicesStream is called.',
       () {
         expect(
           ServiceLocator.getBluetoothDevicesStream,
-          isA<GetBluetoothDevicesStream>(),
+          isA<GetBluetoothDevicesStreamInterface>(),
         );
       },
     );
 
     test(
-      'should return a StopBluetoothDevicesScan '
+      'should return a StopBluetoothDevicesScanInterface '
       'when stopBluetoothDevicesScan is called.',
       () {
         expect(
           ServiceLocator.stopBluetoothDevicesScan,
-          isA<StopBluetoothDevicesScan>(),
+          isA<StopBluetoothDevicesScanInterface>(),
         );
       },
     );
 
     test(
-      'should return a ConnectAtBluetoothDevice '
+      'should return a ConnectAtBluetoothDeviceInterface '
       'when connectAtBluetoothDevice is called.',
       () {
         expect(
           ServiceLocator.connectAtBluetoothDevice,
-          isA<ConnectAtBluetoothDevice>(),
+          isA<ConnectAtBluetoothDeviceInterface>(),
         );
       },
     );
 
     test(
-      'should return a DisconnectAtBluetoothDevice '
+      'should return a DisconnectAtBluetoothDeviceInterface '
       'when disconnectAtBluetoothDevice is called.',
       () {
         expect(
           ServiceLocator.disconnectAtBluetoothDevice,
-          isA<DisconnectAtBluetoothDevice>(),
+          isA<DisconnectAtBluetoothDeviceInterface>(),
         );
       },
     );
 
     test(
-      'should return a PrintImageByBluetooth '
+      'should return a PrintImageByBluetoothInterface '
       'when printImageByBluetooth is called.',
       () {
         expect(
           ServiceLocator.printImageByBluetooth,
-          isA<PrintImageByBluetooth>(),
+          isA<PrintImageByBluetoothInterface>(),
         );
       },
     );

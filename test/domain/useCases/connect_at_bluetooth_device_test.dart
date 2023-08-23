@@ -7,7 +7,7 @@ import 'start_bluetooth_devices_scan_test.mocks.dart';
 
 void main() {
   late BluetoothRepositoryInterface repository;
-  late ConnectAtBluetoothDevice useCase;
+  late ConnectAtBluetoothDeviceInterface useCase;
 
   group('ConnectAtBluetoothDevice', () {
     setUp(() {
@@ -20,7 +20,7 @@ void main() {
         bluetoothDevice: bluetoothDeviceEntity,
       )).thenAnswer((_) async => kResultOfVoidData);
 
-      final result = await useCase(bluetoothDevice: bluetoothDeviceEntity);
+      final result = await useCase(bluetoothDeviceEntity);
 
       expect(result, kResultOfVoidData);
       verify(repository.connectAtBluetoothDevice(
@@ -36,7 +36,7 @@ void main() {
           bluetoothDevice: bluetoothDeviceEntity,
         )).thenAnswer((_) async => resultOfError<void>());
 
-        final result = await useCase(bluetoothDevice: bluetoothDeviceEntity);
+        final result = await useCase(bluetoothDeviceEntity);
 
         expect(result, resultOfError<void>());
         verify(repository.connectAtBluetoothDevice(

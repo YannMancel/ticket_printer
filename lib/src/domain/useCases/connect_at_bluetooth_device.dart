@@ -1,5 +1,8 @@
 import 'package:ticket_printer/src/_src.dart';
 
+typedef ConnectAtBluetoothDeviceInterface
+    = UseCaseWithOneArgument<Future<Result<void>>, BluetoothDeviceEntity>;
+
 /// The use case connect the Bluetooth device.
 ///
 /// ```dart
@@ -8,18 +11,15 @@ import 'package:ticket_printer/src/_src.dart';
 /// final repository = BluetoothRepository(remoteDataSource: remoteDataSource);
 /// final useCase = ConnectAtBluetoothDevice(repository: repository);
 /// ```
-class ConnectAtBluetoothDevice {
+class ConnectAtBluetoothDevice implements ConnectAtBluetoothDeviceInterface {
   const ConnectAtBluetoothDevice({
     required BluetoothRepositoryInterface repository,
   }) : _repository = repository;
 
   final BluetoothRepositoryInterface _repository;
 
-  Future<Result<void>> call({
-    required BluetoothDeviceEntity bluetoothDevice,
-  }) async {
-    return _repository.connectAtBluetoothDevice(
-      bluetoothDevice: bluetoothDevice,
-    );
+  @override
+  Future<Result<void>> call(BluetoothDeviceEntity argument) async {
+    return _repository.connectAtBluetoothDevice(bluetoothDevice: argument);
   }
 }

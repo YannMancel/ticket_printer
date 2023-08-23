@@ -1,5 +1,8 @@
 import 'package:ticket_printer/src/_src.dart';
 
+typedef StartBluetoothDevicesScanInterface = UseCaseWithOneNullableArgument<
+    Future<Result<List<BluetoothDeviceEntity>>>, Duration?>;
+
 /// The use case starts the Bluetooth devices scan.
 ///
 /// ```dart
@@ -8,16 +11,15 @@ import 'package:ticket_printer/src/_src.dart';
 /// final repository = BluetoothRepository(remoteDataSource: remoteDataSource);
 /// final useCase = StartBluetoothDevicesScan(repository: repository);
 /// ```
-class StartBluetoothDevicesScan {
+class StartBluetoothDevicesScan implements StartBluetoothDevicesScanInterface {
   const StartBluetoothDevicesScan({
     required BluetoothRepositoryInterface repository,
   }) : _repository = repository;
 
   final BluetoothRepositoryInterface _repository;
 
-  Future<Result<List<BluetoothDeviceEntity>>> call({
-    Duration? timeout,
-  }) async {
-    return _repository.startBluetoothDevicesScan(timeout: timeout);
+  @override
+  Future<Result<List<BluetoothDeviceEntity>>> call({Duration? argument}) async {
+    return _repository.startBluetoothDevicesScan(timeout: argument);
   }
 }
