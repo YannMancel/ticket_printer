@@ -54,17 +54,17 @@ For location permissions on iOS see more at: [https://developer.apple.com/docume
   * [fvm][dependency_fvm]
 * Linter
   * [flutter_lints][dependency_flutter_lints]
-* Data class generator
-  * [build_runner][dependency_build_runner]
-  * [freezed][dependency_freezed]
-  * [freezed_annotation][dependency_freezed_annotation]
 * State manager
   * [flutter_bloc][dependency_flutter_bloc]
 * Bluetooth & Print
   * [Fork of bluetooth_print][link_fork_bluetooth_print] (Fork of [bluetooth_print][dependency_bluetooth_print])
+* Equalities
+  * [collection][dependency_collection]
 * Tests
   * [mockito][dependency_mockito]
   * [bloc_test][dependency_bloc_test]
+* Data class generator
+  * [build_runner][dependency_build_runner]
 
 [badge_flutter]: https://img.shields.io/badge/flutter-v3.10.5-blue?logo=flutter
 [link_flutter_release]: https://docs.flutter.dev/development/tools/sdk/releases
@@ -72,10 +72,9 @@ For location permissions on iOS see more at: [https://developer.apple.com/docume
 [link_fork_bluetooth_print]: https://github.com/YannMancel/bluetooth_print/tree/fix-image-size-for-tsc-command
 [dependency_fvm]: https://fvm.app/
 [dependency_flutter_lints]: https://pub.dev/packages/flutter_lints
-[dependency_build_runner]: https://pub.dev/packages/build_runner
-[dependency_freezed]: https://pub.dev/packages/freezed
-[dependency_freezed_annotation]: https://pub.dev/packages/freezed_annotation
 [dependency_flutter_bloc]: https://pub.dev/packages/flutter_bloc
 [dependency_bluetooth_print]: https://pub.dev/packages/bluetooth_print
+[dependency_collection]: https://pub.dev/packages/collection
 [dependency_mockito]: https://pub.dev/packages/mockito
 [dependency_bloc_test]: https://pub.dev/packages/bloc_test
+[dependency_build_runner]: https://pub.dev/packages/build_runner

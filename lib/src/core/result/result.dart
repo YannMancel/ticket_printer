@@ -1,24 +1,69 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:collection/collection.dart';
 
-part 'result.freezed.dart';
+sealed class Result<T> {
+  const Result();
 
-@freezed
-class Result<T> with _$Result<T> {
-  const Result._();
-
-  const factory Result.data({T? value}) = _Data<T>;
-  const factory Result.error({required Exception exception}) = _Error<T>;
+  R when<R extends Object?>({
+    required R Function(T?) data,
+    required R Function(Exception) error,
+  }) {
+    return switch (this) {
+      DataResult<T>(value: var valueOrNull) => data(valueOrNull),
+      ErrorResult<T>(exception: var exception) => error(exception),
+    };
+  }
 
   bool get isError {
-    return when<bool>(
-      data: (_) => false,
-      error: (_) => true,
-    );
+    return switch (this) {
+      DataResult<T> _ => false,
+      ErrorResult<T> _ => true,
+    };
   }
 
   Exception? get errorExceptionOrNull {
-    return whenOrNull<Exception>(
-      error: (exception) => exception,
+    return switch (this) {
+      ErrorResult<T>(exception: var exception) => exception,
+      _ => null,
+    };
+  }
+}
+
+class DataResult<T> extends Result<T> {
+  const DataResult({this.value});
+
+  final T? value;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            other is DataResult<T> &&
+            const DeepCollectionEquality().equals(value, other.value));
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(value),
     );
   }
+}
+
+class ErrorResult<T> extends Result<T> {
+  const ErrorResult({required this.exception});
+
+  final Exception exception;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            other is ErrorResult<T> &&
+            (identical(exception, other.exception) ||
+                exception == other.exception));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, exception);
 }

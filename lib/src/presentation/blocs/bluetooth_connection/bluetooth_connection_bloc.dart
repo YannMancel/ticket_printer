@@ -1,12 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_printer/src/_src.dart';
-
-part 'bluetooth_connection_bloc.freezed.dart';
-part 'bluetooth_connection_event.dart';
-part 'bluetooth_connection_state.dart';
 
 /// The bloc provides the bluetooth device connection manager.
 ///
@@ -33,52 +28,46 @@ class BluetoothConnectionBloc
     required DisconnectAtBluetoothDeviceInterface disconnectAtBluetoothDevice,
   })  : _connectAtBluetoothDevice = connectAtBluetoothDevice,
         _disconnectAtBluetoothDevice = disconnectAtBluetoothDevice,
-        super(initialState ?? const BluetoothConnectionState.disconnecting()) {
-    on<_Connected>(_onConnected);
-    on<_Disconnected>(_onDisconnected);
+        super(initialState ?? const DisconnectingState()) {
+    on<BluetoothConnectedEvent>(_onConnected);
+    on<BluetoothDisconnectedEvent>(_onDisconnected);
   }
 
   final ConnectAtBluetoothDeviceInterface _connectAtBluetoothDevice;
   final DisconnectAtBluetoothDeviceInterface _disconnectAtBluetoothDevice;
 
   FutureOr<void> _onConnected(
-    _Connected event,
+    BluetoothConnectedEvent event,
     Emitter<BluetoothConnectionState> emit,
   ) async {
     emit(
-      const BluetoothConnectionState.loading(),
+      const ConnectionLoadingState(),
     );
 
     final result = await _connectAtBluetoothDevice(event.bluetoothDevice);
 
     emit(
       result.when<BluetoothConnectionState>(
-        data: (_) => BluetoothConnectionState.connecting(
-          bluetoothDevice: event.bluetoothDevice,
-        ),
-        error: (exception) => BluetoothConnectionState.error(
-          exception: exception,
-        ),
+        data: (_) => ConnectingState(bluetoothDevice: event.bluetoothDevice),
+        error: (exception) => ConnectionErrorState(exception: exception),
       ),
     );
   }
 
   FutureOr<void> _onDisconnected(
-    _Disconnected event,
+    BluetoothDisconnectedEvent event,
     Emitter<BluetoothConnectionState> emit,
   ) async {
     emit(
-      const BluetoothConnectionState.loading(),
+      const ConnectionLoadingState(),
     );
 
     final result = await _disconnectAtBluetoothDevice();
 
     emit(
       result.when<BluetoothConnectionState>(
-        data: (_) => const BluetoothConnectionState.disconnecting(),
-        error: (exception) => BluetoothConnectionState.error(
-          exception: exception,
-        ),
+        data: (_) => const DisconnectingState(),
+        error: (exception) => ConnectionErrorState(exception: exception),
       ),
     );
   }

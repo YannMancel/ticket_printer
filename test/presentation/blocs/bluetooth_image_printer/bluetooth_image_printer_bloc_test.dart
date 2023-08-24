@@ -28,14 +28,14 @@ void main() {
     test(
       'should have an initial state when it is at the creation bloc.',
       () {
-        expect(bloc.state, const BluetoothImagePrinterState.initial());
+        expect(bloc.state, const PrinterInitialState());
         verifyZeroInteractions(printImageByBluetooth);
       },
     );
 
     group('when print event is emitted', () {
       setUp(() {
-        event = BluetoothImagePrinterEvent.print(
+        event = BluetoothImagePrinterEvent(
           ticketConfiguration: kTicketConfigurationEntity,
           bytes: bytes,
         );
@@ -44,14 +44,17 @@ void main() {
       blocTest<BluetoothImagePrinterBloc, BluetoothImagePrinterState>(
         'should emit 2 states, a loading state then success state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
           when(printImageByBluetooth(kTicketConfigurationEntity, bytes))
               .thenAnswer((_) async => kResultOfVoidData);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => const <BluetoothImagePrinterState>[
-          BluetoothImagePrinterState.loading(),
-          BluetoothImagePrinterState.success(),
+          PrinterLoadingState(),
+          PrinterSuccessState(),
         ],
         verify: (_) {
           verify(printImageByBluetooth(kTicketConfigurationEntity, bytes))
@@ -63,6 +66,9 @@ void main() {
       blocTest<BluetoothImagePrinterBloc, BluetoothImagePrinterState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(resultOfError<void>());
+
           when(printImageByBluetooth(kTicketConfigurationEntity, bytes))
               .thenAnswer(
             (_) async => resultOfError<void>(),
@@ -71,8 +77,8 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothImagePrinterState>[
-          const BluetoothImagePrinterState.loading(),
-          BluetoothImagePrinterState.error(exception: exception),
+          const PrinterLoadingState(),
+          PrinterErrorState(exception: exception),
         ],
         verify: (_) {
           verify(printImageByBluetooth(kTicketConfigurationEntity, bytes))

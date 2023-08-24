@@ -1,19 +1,13 @@
 import 'package:bluetooth_print/bluetooth_print_model.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_printer/src/_src.dart';
 
-part 'bluetooth_device_model.freezed.dart';
-
-@freezed
-sealed class BluetoothDeviceModel with _$BluetoothDeviceModel {
-  const BluetoothDeviceModel._();
-
-  const factory BluetoothDeviceModel({
-    String? name,
-    String? address,
-    @Default(0) int type,
-    @Default(false) bool isConnected,
-  }) = _Model;
+class BluetoothDeviceModel extends BluetoothDeviceEntity {
+  const BluetoothDeviceModel({
+    super.name,
+    super.address,
+    super.type = 0,
+    super.isConnected = false,
+  });
 
   factory BluetoothDeviceModel.fromThirdParty(BluetoothDevice thirdParty) {
     return BluetoothDeviceModel(

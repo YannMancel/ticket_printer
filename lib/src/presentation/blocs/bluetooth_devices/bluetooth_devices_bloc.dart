@@ -1,12 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_printer/src/_src.dart';
-
-part 'bluetooth_devices_bloc.freezed.dart';
-part 'bluetooth_devices_event.dart';
-part 'bluetooth_devices_state.dart';
 
 /// The bloc provides the bluetooth devices scan manager.
 ///
@@ -39,11 +34,11 @@ class BluetoothDevicesBloc
   })  : _startBluetoothDevicesScan = startBluetoothDevicesScan,
         _getBluetoothDevicesStream = getBluetoothDevicesStream,
         _stopBluetoothDevicesScan = stopBluetoothDevicesScan,
-        super(initialState ?? const BluetoothDevicesState.initial()) {
-    on<_Started>(_onStarted);
-    on<_Refreshed>(_onRefreshed);
-    on<_Stopped>(_onStopped);
-    on<_ChangedState>(_onChangedState);
+        super(initialState ?? const BluetoothDevicesInitialState()) {
+    on<BluetoothDevicesStartedEvent>(_onStarted);
+    on<BluetoothDevicesRefreshedEvent>(_onRefreshed);
+    on<BluetoothDevicesStoppedEvent>(_onStopped);
+    on<BluetoothDevicesChangedStateEvent>(_onChangedState);
   }
 
   final StartBluetoothDevicesScanInterface _startBluetoothDevicesScan;
@@ -57,20 +52,18 @@ class BluetoothDevicesBloc
 
     _streamSubscription = _getBluetoothDevicesStream().listen((result) {
       final nextState = result.when<BluetoothDevicesState>(
-        data: (bluetoothDevicesOrNull) => BluetoothDevicesState.data(
+        data: (bluetoothDevicesOrNull) => BluetoothDevicesDataState(
           bluetoothDevices: bluetoothDevicesOrNull ??
               List<BluetoothDeviceEntity>.empty(growable: false),
         ),
-        error: (exception) => BluetoothDevicesState.error(
-          exception: exception,
-        ),
+        error: (exception) => BluetoothDevicesErrorState(exception: exception),
       );
 
-      add(BluetoothDevicesEvent.changedState(nextState: nextState));
+      add(BluetoothDevicesChangedStateEvent(nextState: nextState));
     }, onError: (error, _) {
       add(
-        BluetoothDevicesEvent.changedState(
-          nextState: BluetoothDevicesState.error(exception: error),
+        BluetoothDevicesChangedStateEvent(
+          nextState: BluetoothDevicesErrorState(exception: error),
         ),
       );
 
@@ -83,20 +76,18 @@ class BluetoothDevicesBloc
     Duration? timeout,
   }) async {
     emit(
-      const BluetoothDevicesState.loading(),
+      const BluetoothDevicesLoadingState(),
     );
 
     final result = await _startBluetoothDevicesScan(argument: timeout);
 
     emit(
       result.when<BluetoothDevicesState>(
-        data: (bluetoothDevicesOrNull) => BluetoothDevicesState.data(
+        data: (bluetoothDevicesOrNull) => BluetoothDevicesDataState(
           bluetoothDevices: bluetoothDevicesOrNull ??
               List<BluetoothDeviceEntity>.empty(growable: false),
         ),
-        error: (exception) => BluetoothDevicesState.error(
-          exception: exception,
-        ),
+        error: (exception) => BluetoothDevicesErrorState(exception: exception),
       ),
     );
 
@@ -105,41 +96,41 @@ class BluetoothDevicesBloc
 
   Future<void> _stopScan(Emitter<BluetoothDevicesState> emit) async {
     emit(
-      const BluetoothDevicesState.loading(),
+      const BluetoothDevicesLoadingState(),
     );
 
     final result = await _stopBluetoothDevicesScan();
 
     if (result.isError) {
       emit(
-        BluetoothDevicesState.error(exception: result.errorExceptionOrNull!),
+        BluetoothDevicesErrorState(exception: result.errorExceptionOrNull!),
       );
     }
   }
 
   FutureOr<void> _onStarted(
-    _Started event,
+    BluetoothDevicesStartedEvent event,
     Emitter<BluetoothDevicesState> emit,
   ) async {
     return _startScan(emit, timeout: event.timeout);
   }
 
   FutureOr<void> _onRefreshed(
-    _Refreshed event,
+    BluetoothDevicesRefreshedEvent event,
     Emitter<BluetoothDevicesState> emit,
   ) async {
     return _startScan(emit, timeout: event.timeout);
   }
 
   FutureOr<void> _onStopped(
-    _Stopped event,
+    BluetoothDevicesStoppedEvent event,
     Emitter<BluetoothDevicesState> emit,
   ) async {
     return _stopScan(emit);
   }
 
   FutureOr<void> _onChangedState(
-    _ChangedState event,
+    BluetoothDevicesChangedStateEvent event,
     Emitter<BluetoothDevicesState> emit,
   ) async {
     emit(event.nextState);

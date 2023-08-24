@@ -22,6 +22,9 @@ void main() {
     });
 
     test('should be success when call is called.', () async {
+      // To avoid error with sealed class
+      provideDummy<Result<List<BluetoothDeviceEntity>>>(resultOfData);
+
       when(repository.startBluetoothDevicesScan(
         timeout: anyNamed('timeout'),
       )).thenAnswer((_) async => resultOfData);
@@ -38,6 +41,11 @@ void main() {
     test(
       'should be fail when call is called.',
       () async {
+        // To avoid error with sealed class
+        provideDummy<Result<List<BluetoothDeviceEntity>>>(
+          resultOfError<List<BluetoothDeviceEntity>>(),
+        );
+
         when(repository.startBluetoothDevicesScan(
           timeout: anyNamed('timeout'),
         )).thenAnswer(

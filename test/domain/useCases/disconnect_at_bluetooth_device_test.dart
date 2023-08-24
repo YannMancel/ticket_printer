@@ -16,6 +16,9 @@ void main() {
     });
 
     test('should be success when call is called.', () async {
+      // To avoid error with sealed class
+      provideDummy<Result<void>>(kResultOfVoidData);
+
       when(repository.disconnectAtBluetoothDevice())
           .thenAnswer((_) async => kResultOfVoidData);
 
@@ -29,6 +32,9 @@ void main() {
     test(
       'should be fail when call is called.',
       () async {
+        // To avoid error with sealed class
+        provideDummy<Result<void>>(resultOfError<void>());
+
         when(repository.disconnectAtBluetoothDevice())
             .thenAnswer((_) async => resultOfError<void>());
 

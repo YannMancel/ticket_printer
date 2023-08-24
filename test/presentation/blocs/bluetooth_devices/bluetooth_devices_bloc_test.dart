@@ -36,7 +36,7 @@ void main() {
     test(
       'should have an initial state when it is at the creation bloc.',
       () {
-        expect(bloc.state, const BluetoothDevicesState.initial());
+        expect(bloc.state, const BluetoothDevicesInitialState());
         verifyZeroInteractions(startBluetoothDevicesScan);
         verifyZeroInteractions(getBluetoothDevicesStream);
         verifyZeroInteractions(stopBluetoothDevicesScan);
@@ -45,12 +45,15 @@ void main() {
 
     group('when started event is emitted', () {
       setUp(() {
-        event = const BluetoothDevicesEvent.started();
+        event = const BluetoothDevicesStartedEvent();
       });
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<List<BluetoothDeviceEntity>>>(resultOfData);
+
           when(startBluetoothDevicesScan(argument: anyNamed('argument')))
               .thenAnswer((_) async => resultOfData);
 
@@ -59,8 +62,8 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(bluetoothDevices: bluetoothDeviceEntities),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesDataState(bluetoothDevices: bluetoothDeviceEntities),
         ],
         verify: (_) {
           verify(
@@ -77,6 +80,9 @@ void main() {
         'should emit 3 states, a loading state then data state then error '
         'state (from error stream).',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<List<BluetoothDeviceEntity>>>(resultOfData);
+
           when(startBluetoothDevicesScan(argument: anyNamed('argument')))
               .thenAnswer((_) async => resultOfData);
 
@@ -86,9 +92,9 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(bluetoothDevices: bluetoothDeviceEntities),
-          BluetoothDevicesState.error(exception: exception),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesDataState(bluetoothDevices: bluetoothDeviceEntities),
+          BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
           verify(
@@ -105,6 +111,9 @@ void main() {
         'should emit 3 states, a loading state then data state then error '
         'state (from stream).',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<List<BluetoothDeviceEntity>>>(resultOfData);
+
           when(startBluetoothDevicesScan(argument: anyNamed('argument')))
               .thenAnswer((_) async => resultOfData);
 
@@ -114,9 +123,9 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(bluetoothDevices: bluetoothDeviceEntities),
-          BluetoothDevicesState.error(exception: exception),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesDataState(bluetoothDevices: bluetoothDeviceEntities),
+          BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
           verify(
@@ -133,6 +142,11 @@ void main() {
         'should emit 3 states, a loading state then error state then data '
         'state (from stream).',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<List<BluetoothDeviceEntity>>>(
+            resultOfError<List<BluetoothDeviceEntity>>(),
+          );
+
           when(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).thenAnswer(
@@ -145,9 +159,9 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.error(exception: exception),
-          BluetoothDevicesState.data(bluetoothDevices: bluetoothDeviceEntities),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesErrorState(exception: exception),
+          BluetoothDevicesDataState(bluetoothDevices: bluetoothDeviceEntities),
         ],
         verify: (_) {
           verify(
@@ -164,6 +178,11 @@ void main() {
         'should emit 3 states, a loading state then error state then data '
         'state (empty data from stream).',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<List<BluetoothDeviceEntity>>>(
+            resultOfError<List<BluetoothDeviceEntity>>(),
+          );
+
           when(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).thenAnswer(
@@ -176,11 +195,9 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.error(exception: exception),
-          BluetoothDevicesState.data(
-            bluetoothDevices: kNoBluetoothDeviceEntity,
-          ),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesErrorState(exception: exception),
+          BluetoothDevicesDataState(bluetoothDevices: kNoBluetoothDeviceEntity),
         ],
         verify: (_) {
           verify(
@@ -196,6 +213,9 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state (empty).',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<List<BluetoothDeviceEntity>>>(kResultOfEmptyData);
+
           when(startBluetoothDevicesScan(argument: anyNamed('argument')))
               .thenAnswer((_) async => kResultOfEmptyData);
 
@@ -204,10 +224,8 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(
-            bluetoothDevices: kNoBluetoothDeviceEntity,
-          ),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesDataState(bluetoothDevices: kNoBluetoothDeviceEntity),
         ],
         verify: (_) {
           verify(
@@ -223,6 +241,11 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<List<BluetoothDeviceEntity>>>(
+            resultOfError<List<BluetoothDeviceEntity>>(),
+          );
+
           when(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).thenAnswer(
@@ -234,8 +257,8 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.error(exception: exception),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
           verify(
@@ -251,12 +274,15 @@ void main() {
 
     group('when refreshed event is emitted', () {
       setUp(() {
-        event = const BluetoothDevicesEvent.refreshed();
+        event = const BluetoothDevicesRefreshedEvent();
       });
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<List<BluetoothDeviceEntity>>>(resultOfData);
+
           when(startBluetoothDevicesScan(argument: anyNamed('argument')))
               .thenAnswer((_) async => resultOfData);
 
@@ -265,8 +291,8 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(bluetoothDevices: bluetoothDeviceEntities),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesDataState(bluetoothDevices: bluetoothDeviceEntities),
         ],
         verify: (_) {
           verify(
@@ -282,6 +308,9 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state (empty).',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<List<BluetoothDeviceEntity>>>(kResultOfEmptyData);
+
           when(startBluetoothDevicesScan(argument: anyNamed('argument')))
               .thenAnswer((_) async => kResultOfEmptyData);
 
@@ -290,10 +319,8 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.data(
-            bluetoothDevices: kNoBluetoothDeviceEntity,
-          ),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesDataState(bluetoothDevices: kNoBluetoothDeviceEntity),
         ],
         verify: (_) {
           verify(
@@ -309,6 +336,11 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<List<BluetoothDeviceEntity>>>(
+            resultOfError<List<BluetoothDeviceEntity>>(),
+          );
+
           when(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).thenAnswer(
@@ -320,8 +352,8 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.error(exception: exception),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
           verify(
@@ -337,19 +369,22 @@ void main() {
 
     group('when stopped event is emitted', () {
       setUp(() {
-        event = const BluetoothDevicesEvent.stopped();
+        event = const BluetoothDevicesStoppedEvent();
       });
 
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit a loading state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
           when(stopBluetoothDevicesScan())
               .thenAnswer((_) async => kResultOfVoidData);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => const <BluetoothDevicesState>[
-          BluetoothDevicesState.loading(),
+          BluetoothDevicesLoadingState(),
         ],
         verify: (_) {
           verify(stopBluetoothDevicesScan()).called(1);
@@ -362,6 +397,9 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(resultOfError<void>());
+
           when(stopBluetoothDevicesScan()).thenAnswer(
             (_) async => resultOfError<void>(),
           );
@@ -369,8 +407,8 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          const BluetoothDevicesState.loading(),
-          BluetoothDevicesState.error(exception: exception),
+          const BluetoothDevicesLoadingState(),
+          BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
           verify(stopBluetoothDevicesScan()).called(1);
@@ -385,14 +423,14 @@ void main() {
       blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
         'should emit an error state.',
         setUp: () {
-          event = BluetoothDevicesEvent.changedState(
-            nextState: BluetoothDevicesState.error(exception: exception),
+          event = BluetoothDevicesChangedStateEvent(
+            nextState: BluetoothDevicesErrorState(exception: exception),
           );
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
-          BluetoothDevicesState.error(exception: exception),
+          BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
           verifyZeroInteractions(startBluetoothDevicesScan);

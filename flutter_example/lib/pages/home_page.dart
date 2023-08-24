@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
           // TODO(YannMancel): add scanning bloc  via package:bluetooth_print/bluetooth_print.dart Stream<bool> get isScanning
           IconButton(
             onPressed: () {
-              const kEvent = BluetoothDevicesEvent.refreshed(
+              const kEvent = BluetoothDevicesRefreshedEvent(
                 timeout: Duration(seconds: 4),
               );
               context.read<BluetoothDevicesBloc>().add(kEvent);
@@ -151,22 +151,18 @@ class _BluetoothDeviceCard extends StatelessWidget {
             loading: () {/* Do nothing here */},
             connecting: (device) {
               bloc.add(
-                const BluetoothConnectionEvent.disconnected(),
+                const BluetoothDisconnectedEvent(),
               );
 
               if (device != _bluetoothDevice) {
                 bloc.add(
-                  BluetoothConnectionEvent.connected(
-                    bluetoothDevice: _bluetoothDevice,
-                  ),
+                  BluetoothConnectedEvent(bluetoothDevice: _bluetoothDevice),
                 );
               }
             },
             // disconnecting and error states
             orElse: () => bloc.add(
-              BluetoothConnectionEvent.connected(
-                bluetoothDevice: _bluetoothDevice,
-              ),
+              BluetoothConnectedEvent(bluetoothDevice: _bluetoothDevice),
             ),
           );
         },
@@ -529,7 +525,7 @@ class _ConnectedViewState extends State<_ConnectedView> {
                         ticketCount: _count,
                         ticketConfiguration: _ticketConfiguration,
                       );
-                      final event = BluetoothImagePrinterEvent.print(
+                      final event = BluetoothImagePrinterEvent(
                         ticketConfiguration: _ticketConfiguration.copyWith(
                           height: _count * _ticketConfiguration.height +
                               (_count - 1) * _ticketConfiguration.gap,

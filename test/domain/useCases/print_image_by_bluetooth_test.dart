@@ -16,6 +16,9 @@ void main() {
     });
 
     test('should be success when call is called.', () async {
+      // To avoid error with sealed class
+      provideDummy<Result<void>>(kResultOfVoidData);
+
       when(repository.printImage(
         ticketConfiguration: kTicketConfigurationEntity,
         bytes: bytes,
@@ -37,6 +40,9 @@ void main() {
     test(
       'should be fail when call is called.',
       () async {
+        // To avoid error with sealed class
+        provideDummy<Result<void>>(resultOfError<void>());
+
         when(repository.printImage(
           ticketConfiguration: kTicketConfigurationEntity,
           bytes: bytes,

@@ -1,22 +1,12 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_printer/src/_src.dart';
 
-part 'ticket_configuration_model.freezed.dart';
-
-@freezed
-sealed class TicketConfigurationModel with _$TicketConfigurationModel {
-  const TicketConfigurationModel._();
-
-  const factory TicketConfigurationModel({
-    /// Dimension in mm
-    @Default(55) int width,
-
-    /// Dimension in mm
-    @Default(29) int height,
-
-    /// Dimension in mm
-    @Default(3) int gap,
-  }) = _Model;
+/// The dimensions are in mm.
+class TicketConfigurationModel extends TicketConfigurationEntity {
+  const TicketConfigurationModel({
+    super.width = 55,
+    super.height = 29,
+    super.gap = 3,
+  });
 
   factory TicketConfigurationModel.fromEntity(
     TicketConfigurationEntity entity,

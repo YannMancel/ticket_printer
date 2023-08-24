@@ -1,18 +1,12 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_printer/src/_src.dart';
 
-part 'bluetooth_device_entity.freezed.dart';
-
-@freezed
-sealed class BluetoothDeviceEntity with _$BluetoothDeviceEntity {
-  const BluetoothDeviceEntity._();
-
-  const factory BluetoothDeviceEntity({
-    String? name,
-    String? address,
-    @Default(0) int type,
-    @Default(false) bool isConnected,
-  }) = _Entity;
+class BluetoothDeviceEntity {
+  const BluetoothDeviceEntity({
+    this.name,
+    this.address,
+    this.type = 0,
+    this.isConnected = false,
+  });
 
   factory BluetoothDeviceEntity.fromModel(BluetoothDeviceModel model) {
     return BluetoothDeviceEntity(
@@ -22,4 +16,29 @@ sealed class BluetoothDeviceEntity with _$BluetoothDeviceEntity {
       isConnected: model.isConnected,
     );
   }
+
+  final String? name;
+  final String? address;
+  final int type;
+  final bool isConnected;
+
+  (String?, String?, int, bool) _equality() {
+    return (
+      name,
+      address,
+      type,
+      isConnected,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            other is BluetoothDeviceEntity &&
+            _equality() == other._equality());
+  }
+
+  @override
+  int get hashCode => _equality().hashCode;
 }
