@@ -16,7 +16,7 @@ class App extends StatelessWidget {
             create: (_) {
               final bloc = ServiceLocator.bluetoothDevicesBlocSingleton;
               bloc.add(
-                const BluetoothDevicesEvent.started(
+                const BluetoothDevicesStartedEvent(
                   timeout: Duration(seconds: 4),
                 ),
               );

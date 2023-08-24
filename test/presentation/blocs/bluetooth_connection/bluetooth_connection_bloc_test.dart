@@ -32,7 +32,7 @@ void main() {
     test(
       'should have a disconnecting state when it is at the creation bloc.',
       () {
-        expect(bloc.state, const BluetoothConnectionState.disconnecting());
+        expect(bloc.state, const DisconnectingState());
         verifyZeroInteractions(connectAtBluetoothDevice);
         verifyZeroInteractions(disconnectAtBluetoothDevice);
       },
@@ -40,24 +40,23 @@ void main() {
 
     group('when connected event is emitted', () {
       setUp(() {
-        event = BluetoothConnectionEvent.connected(
-          bluetoothDevice: bluetoothDeviceEntity,
-        );
+        event = BluetoothConnectedEvent(bluetoothDevice: bluetoothDeviceEntity);
       });
 
       blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then connecting state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
           when(connectAtBluetoothDevice(bluetoothDeviceEntity))
               .thenAnswer((_) async => kResultOfVoidData);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothConnectionState>[
-          const BluetoothConnectionState.loading(),
-          BluetoothConnectionState.connecting(
-            bluetoothDevice: bluetoothDeviceEntity,
-          ),
+          const ConnectionLoadingState(),
+          ConnectingState(bluetoothDevice: bluetoothDeviceEntity),
         ],
         verify: (_) {
           verify(connectAtBluetoothDevice(bluetoothDeviceEntity)).called(1);
@@ -69,6 +68,9 @@ void main() {
       blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(resultOfError<void>());
+
           when(
             connectAtBluetoothDevice(bluetoothDeviceEntity),
           ).thenAnswer(
@@ -78,8 +80,8 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothConnectionState>[
-          const BluetoothConnectionState.loading(),
-          BluetoothConnectionState.error(exception: exception),
+          const ConnectionLoadingState(),
+          ConnectionErrorState(exception: exception),
         ],
         verify: (_) {
           verify(connectAtBluetoothDevice(bluetoothDeviceEntity)).called(1);
@@ -91,20 +93,23 @@ void main() {
 
     group('when disconnected event is emitted', () {
       setUp(() {
-        event = const BluetoothConnectionEvent.disconnected();
+        event = const BluetoothDisconnectedEvent();
       });
 
       blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then disconnecting state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
           when(disconnectAtBluetoothDevice())
               .thenAnswer((_) async => kResultOfVoidData);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => const <BluetoothConnectionState>[
-          BluetoothConnectionState.loading(),
-          BluetoothConnectionState.disconnecting(),
+          ConnectionLoadingState(),
+          DisconnectingState(),
         ],
         verify: (_) {
           verify(disconnectAtBluetoothDevice()).called(1);
@@ -116,6 +121,9 @@ void main() {
       blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(resultOfError<void>());
+
           when(
             disconnectAtBluetoothDevice(),
           ).thenAnswer(
@@ -125,8 +133,8 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothConnectionState>[
-          const BluetoothConnectionState.loading(),
-          BluetoothConnectionState.error(exception: exception),
+          const ConnectionLoadingState(),
+          ConnectionErrorState(exception: exception),
         ],
         verify: (_) {
           verify(disconnectAtBluetoothDevice()).called(1);

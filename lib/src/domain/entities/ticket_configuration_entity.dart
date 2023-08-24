@@ -1,17 +1,43 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+/// The dimensions are in mm.
+class TicketConfigurationEntity {
+  const TicketConfigurationEntity({
+    this.width = 55,
+    this.height = 29,
+    this.gap = 3,
+  });
 
-part 'ticket_configuration_entity.freezed.dart';
+  final int width;
+  final int height;
+  final int gap;
 
-@freezed
-sealed class TicketConfigurationEntity with _$TicketConfigurationEntity {
-  const factory TicketConfigurationEntity({
-    /// Dimension in mm
-    @Default(55) int width,
+  (int, int, int) _equality() {
+    return (
+      width,
+      height,
+      gap,
+    );
+  }
 
-    /// Dimension in mm
-    @Default(29) int height,
+  TicketConfigurationEntity copyWith({
+    int? width,
+    int? height,
+    int? gap,
+  }) {
+    return TicketConfigurationEntity(
+      width: width ?? this.width,
+      height: height ?? this.height,
+      gap: gap ?? this.gap,
+    );
+  }
 
-    /// Dimension in mm
-    @Default(3) int gap,
-  }) = _Entity;
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            other is TicketConfigurationEntity &&
+            _equality() == other._equality());
+  }
+
+  @override
+  int get hashCode => _equality().hashCode;
 }

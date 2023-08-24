@@ -48,11 +48,12 @@ final kNoBluetoothDeviceEntity = List<BluetoothDeviceEntity>.empty();
 final exception = Exception();
 
 // RESULT ----------------------------------------------------------------------
-final resultOfData =
-    Result<List<BluetoothDeviceEntity>>.data(value: bluetoothDeviceEntities);
-const kResultOfEmptyData = Result<List<BluetoothDeviceEntity>>.data();
-const kResultOfVoidData = Result<void>.data();
-Result<T> resultOfError<T>() => Result<T>.error(exception: exception);
+final resultOfData = DataResult<List<BluetoothDeviceEntity>>(
+  value: bluetoothDeviceEntities,
+);
+const kResultOfEmptyData = DataResult<List<BluetoothDeviceEntity>>();
+const kResultOfVoidData = DataResult<void>();
+Result<T> resultOfError<T>() => ErrorResult<T>(exception: exception);
 const kEmptyStream = Stream<Result<List<BluetoothDeviceEntity>>>.empty();
 Stream<Result<List<BluetoothDeviceEntity>>> dataResultStream() async* {
   yield resultOfData;
@@ -72,3 +73,44 @@ Stream<Result<List<BluetoothDeviceEntity>>> exceptionStream() async* {
 
 // BYTES -----------------------------------------------------------------------
 final bytes = Uint8List(5);
+
+// DURATION -----------------------------------------------------------------------
+const kDuration = Duration(seconds: 1);
+
+// EVENTS ----------------------------------------------------------------------
+final connectedEvent = BluetoothConnectedEvent(
+  bluetoothDevice: bluetoothDeviceEntity,
+);
+const kDisconnectedEvent = BluetoothDisconnectedEvent();
+const kDevicesStartedEvent = BluetoothDevicesStartedEvent(timeout: kDuration);
+const kDevicesRefreshedEvent = BluetoothDevicesRefreshedEvent(
+  timeout: kDuration,
+);
+const kDevicesStoppedEvent = BluetoothDevicesStoppedEvent();
+const kDevicesChangedStateEvent = BluetoothDevicesChangedStateEvent(
+  nextState: kDevicesLoadingState,
+);
+final imagePrinterEvent = BluetoothImagePrinterEvent(
+  ticketConfiguration: kTicketConfigurationEntity,
+  bytes: bytes,
+);
+
+// STATES ----------------------------------------------------------------------
+const kConnectionLoadingState = ConnectionLoadingState();
+final connectingState = ConnectingState(
+  bluetoothDevice: bluetoothDeviceEntity,
+);
+const kDisconnectingState = DisconnectingState();
+final connectionErrorState = ConnectionErrorState(exception: exception);
+final devicesInitialState = BluetoothDevicesInitialState(
+  bluetoothDevices: bluetoothDeviceEntities,
+);
+const kDevicesLoadingState = BluetoothDevicesLoadingState();
+final devicesDataState = BluetoothDevicesDataState(
+  bluetoothDevices: bluetoothDeviceEntities,
+);
+final devicesErrorState = BluetoothDevicesErrorState(exception: exception);
+const kPrinterInitialState = PrinterInitialState();
+const kPrinterLoadingState = PrinterLoadingState();
+const kPrinterSuccessState = PrinterSuccessState();
+final printerErrorState = PrinterErrorState(exception: exception);

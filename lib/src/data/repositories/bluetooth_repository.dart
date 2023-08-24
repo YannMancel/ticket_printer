@@ -25,9 +25,9 @@ class BluetoothRepository implements BluetoothRepositoryInterface {
         timeout: timeout,
       );
 
-      return Result<List<BluetoothDeviceEntity>>.data(value: models.toEntities);
+      return DataResult<List<BluetoothDeviceEntity>>(value: models.toEntities);
     } catch (e) {
-      return Result<List<BluetoothDeviceEntity>>.error(
+      return ErrorResult<List<BluetoothDeviceEntity>>(
         exception: e as Exception,
       );
     }
@@ -40,12 +40,12 @@ class BluetoothRepository implements BluetoothRepositoryInterface {
       final stream = _remoteDataSource.getBluetoothDevicesStream();
 
       await for (final models in stream) {
-        yield Result<List<BluetoothDeviceEntity>>.data(
+        yield DataResult<List<BluetoothDeviceEntity>>(
           value: models.toEntities,
         );
       }
     } catch (e) {
-      yield Result<List<BluetoothDeviceEntity>>.error(
+      yield ErrorResult<List<BluetoothDeviceEntity>>(
         exception: e as Exception,
       );
     }
@@ -55,9 +55,9 @@ class BluetoothRepository implements BluetoothRepositoryInterface {
   Future<Result<void>> stopBluetoothDevicesScan({Duration? timeout}) async {
     try {
       await _remoteDataSource.stopBluetoothDevicesScan();
-      return const Result<void>.data();
+      return const DataResult<void>();
     } catch (e) {
-      return Result<void>.error(exception: e as Exception);
+      return ErrorResult<void>(exception: e as Exception);
     }
   }
 
@@ -69,9 +69,9 @@ class BluetoothRepository implements BluetoothRepositoryInterface {
       await _remoteDataSource.connectAtBluetoothDevice(
         bluetoothDevice: BluetoothDeviceModel.fromEntity(bluetoothDevice),
       );
-      return const Result<void>.data();
+      return const DataResult<void>();
     } catch (e) {
-      return Result<void>.error(exception: e as Exception);
+      return ErrorResult<void>(exception: e as Exception);
     }
   }
 
@@ -79,9 +79,9 @@ class BluetoothRepository implements BluetoothRepositoryInterface {
   Future<Result<void>> disconnectAtBluetoothDevice() async {
     try {
       await _remoteDataSource.disconnectAtBluetoothDevice();
-      return const Result<void>.data();
+      return const DataResult<void>();
     } catch (e) {
-      return Result<void>.error(exception: e as Exception);
+      return ErrorResult<void>(exception: e as Exception);
     }
   }
 
@@ -97,9 +97,9 @@ class BluetoothRepository implements BluetoothRepositoryInterface {
         ),
         bytes: bytes,
       );
-      return const Result<void>.data();
+      return const DataResult<void>();
     } catch (e) {
-      return Result<void>.error(exception: e as Exception);
+      return ErrorResult<void>(exception: e as Exception);
     }
   }
 }

@@ -1,13 +1,7 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ticket_printer/src/_src.dart';
-
-part 'bluetooth_image_printer_bloc.freezed.dart';
-part 'bluetooth_image_printer_event.dart';
-part 'bluetooth_image_printer_state.dart';
 
 /// The bloc provides the bluetooth image printer manager.
 ///
@@ -28,18 +22,18 @@ class BluetoothImagePrinterBloc
     BluetoothImagePrinterState? initialState,
     required PrintImageByBluetoothInterface printImageByBluetooth,
   })  : _printImageByBluetooth = printImageByBluetooth,
-        super(initialState ?? const BluetoothImagePrinterState.initial()) {
-    on<_Printed>(_onPrinted);
+        super(initialState ?? const PrinterInitialState()) {
+    on<BluetoothImagePrinterEvent>(_onPrinted);
   }
 
   final PrintImageByBluetoothInterface _printImageByBluetooth;
 
   FutureOr<void> _onPrinted(
-    _Printed event,
+    BluetoothImagePrinterEvent event,
     Emitter<BluetoothImagePrinterState> emit,
   ) async {
     emit(
-      const BluetoothImagePrinterState.loading(),
+      const PrinterLoadingState(),
     );
 
     final result = await _printImageByBluetooth(
@@ -49,10 +43,8 @@ class BluetoothImagePrinterBloc
 
     emit(
       result.when<BluetoothImagePrinterState>(
-        data: (_) => const BluetoothImagePrinterState.success(),
-        error: (exception) => BluetoothImagePrinterState.error(
-          exception: exception,
-        ),
+        data: (_) => const PrinterSuccessState(),
+        error: (exception) => PrinterErrorState(exception: exception),
       ),
     );
   }
