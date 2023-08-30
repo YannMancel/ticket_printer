@@ -6,18 +6,18 @@ import 'package:ticket_printer/src/_src.dart';
 import '../../helpers/helpers.dart';
 @GenerateNiceMocks(
   <MockSpec>[
-    MockSpec<BluetoothRepositoryInterface>(),
+    MockSpec<BluetoothDevicesRepositoryInterface>(),
   ],
 )
 import 'start_bluetooth_devices_scan_test.mocks.dart';
 
 void main() {
-  late BluetoothRepositoryInterface repository;
+  late BluetoothDevicesRepositoryInterface repository;
   late StartBluetoothDevicesScanInterface useCase;
 
   group('StartBluetoothDevicesScan', () {
     setUp(() {
-      repository = MockBluetoothRepositoryInterface();
+      repository = MockBluetoothDevicesRepositoryInterface();
       useCase = StartBluetoothDevicesScan(repository: repository);
     });
 

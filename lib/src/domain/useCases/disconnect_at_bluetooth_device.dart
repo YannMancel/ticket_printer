@@ -14,10 +14,10 @@ typedef DisconnectAtBluetoothDeviceInterface
 class DisconnectAtBluetoothDevice
     implements DisconnectAtBluetoothDeviceInterface {
   const DisconnectAtBluetoothDevice({
-    required BluetoothRepositoryInterface repository,
+    required BluetoothConnectionRepositoryInterface repository,
   }) : _repository = repository;
 
-  final BluetoothRepositoryInterface _repository;
+  final BluetoothConnectionRepositoryInterface _repository;
 
   @override
   Future<Result<void>> call() async {

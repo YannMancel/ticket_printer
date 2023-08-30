@@ -9,7 +9,11 @@ import 'package:ticket_printer/src/_src.dart';
 /// final remoteDataSource = RemoteDataSource(bluetoothPrint: bluetoothPrint);
 /// final repository = BluetoothRepository(remoteDataSource: remoteDataSource);
 /// ```
-class BluetoothRepository implements BluetoothRepositoryInterface {
+class BluetoothRepository
+    implements
+        BluetoothDevicesRepositoryInterface,
+        BluetoothConnectionRepositoryInterface,
+        BluetoothPrinterRepositoryInterface {
   const BluetoothRepository({
     required RemoteDataSourceInterface remoteDataSource,
   }) : _remoteDataSource = remoteDataSource;

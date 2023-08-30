@@ -3,15 +3,15 @@ import 'package:mockito/mockito.dart';
 import 'package:ticket_printer/src/_src.dart';
 
 import '../../helpers/helpers.dart';
-import 'start_bluetooth_devices_scan_test.mocks.dart';
+import 'connect_at_bluetooth_device_test.mocks.dart';
 
 void main() {
-  late BluetoothRepositoryInterface repository;
+  late BluetoothConnectionRepositoryInterface repository;
   late DisconnectAtBluetoothDeviceInterface useCase;
 
   group('DisconnectAtBluetoothDevice', () {
     setUp(() {
-      repository = MockBluetoothRepositoryInterface();
+      repository = MockBluetoothConnectionRepositoryInterface();
       useCase = DisconnectAtBluetoothDevice(repository: repository);
     });
 

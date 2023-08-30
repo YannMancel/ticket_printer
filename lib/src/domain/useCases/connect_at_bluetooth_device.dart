@@ -13,10 +13,10 @@ typedef ConnectAtBluetoothDeviceInterface
 /// ```
 class ConnectAtBluetoothDevice implements ConnectAtBluetoothDeviceInterface {
   const ConnectAtBluetoothDevice({
-    required BluetoothRepositoryInterface repository,
+    required BluetoothConnectionRepositoryInterface repository,
   }) : _repository = repository;
 
-  final BluetoothRepositoryInterface _repository;
+  final BluetoothConnectionRepositoryInterface _repository;
 
   @override
   Future<Result<void>> call(BluetoothDeviceEntity argument) async {

@@ -6,6 +6,8 @@ targets:
         generate_for:
           - test/data/dataSources/remote_data_source_test.dart
           - test/data/repositories/bluetooth_repository_test.dart
+          - test/domain/useCases/connect_at_bluetooth_device_test.dart
+          - test/domain/useCases/print_image_by_bluetooth_test.dart
           - test/domain/useCases/start_bluetooth_devices_scan_test.dart
           - test/presentation/blocs/bluetooth_connection/bluetooth_connection_bloc_test.dart
           - test/presentation/blocs/bluetooth_devices/bluetooth_devices_bloc_test.dart

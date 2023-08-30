@@ -28,12 +28,45 @@ void main() {
     );
 
     test(
-      'should return a BluetoothRepositoryInterface '
-      'when repository is called.',
+      'should return a BluetoothRepository '
+      'when repositoryImplementation is called.',
       () {
         expect(
-          ServiceLocator.repository,
-          isA<BluetoothRepositoryInterface>(),
+          ServiceLocator.repositoryImplementation,
+          isA<BluetoothRepository>(),
+        );
+      },
+    );
+
+    test(
+      'should return a BluetoothDevicesRepositoryInterface '
+      'when devicesRepository is called.',
+      () {
+        expect(
+          ServiceLocator.devicesRepository,
+          isA<BluetoothDevicesRepositoryInterface>(),
+        );
+      },
+    );
+
+    test(
+      'should return a BluetoothConnectionRepositoryInterface '
+      'when connectionRepository is called.',
+      () {
+        expect(
+          ServiceLocator.connectionRepository,
+          isA<BluetoothConnectionRepositoryInterface>(),
+        );
+      },
+    );
+
+    test(
+      'should return a BluetoothPrinterRepositoryInterface '
+      'when printerRepository is called.',
+      () {
+        expect(
+          ServiceLocator.printerRepository,
+          isA<BluetoothPrinterRepositoryInterface>(),
         );
       },
     );

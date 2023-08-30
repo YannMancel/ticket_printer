@@ -1,17 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ticket_printer/src/_src.dart';
 
 import '../../helpers/helpers.dart';
-import 'start_bluetooth_devices_scan_test.mocks.dart';
+@GenerateNiceMocks(
+  <MockSpec>[
+    MockSpec<BluetoothPrinterRepositoryInterface>(),
+  ],
+)
+import 'print_image_by_bluetooth_test.mocks.dart';
 
 void main() {
-  late BluetoothRepositoryInterface repository;
+  late BluetoothPrinterRepositoryInterface repository;
   late PrintImageByBluetoothInterface useCase;
 
   group('PrintImageByBluetooth', () {
     setUp(() {
-      repository = MockBluetoothRepositoryInterface();
+      repository = MockBluetoothPrinterRepositoryInterface();
       useCase = PrintImageByBluetooth(repository: repository);
     });
 

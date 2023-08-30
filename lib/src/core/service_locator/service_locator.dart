@@ -12,38 +12,53 @@ abstract class ServiceLocator {
   }
 
   @visibleForTesting
-  static BluetoothRepositoryInterface get repository {
+  static BluetoothRepository get repositoryImplementation {
     return BluetoothRepository(remoteDataSource: remoteDataSource);
   }
 
   @visibleForTesting
+  static BluetoothDevicesRepositoryInterface get devicesRepository {
+    return repositoryImplementation;
+  }
+
+  @visibleForTesting
+  static BluetoothConnectionRepositoryInterface get connectionRepository {
+    return repositoryImplementation;
+  }
+
+  @visibleForTesting
+  static BluetoothPrinterRepositoryInterface get printerRepository {
+    return repositoryImplementation;
+  }
+
+  @visibleForTesting
   static StartBluetoothDevicesScanInterface get startBluetoothDevicesScan {
-    return StartBluetoothDevicesScan(repository: repository);
+    return StartBluetoothDevicesScan(repository: devicesRepository);
   }
 
   @visibleForTesting
   static GetBluetoothDevicesStreamInterface get getBluetoothDevicesStream {
-    return GetBluetoothDevicesStream(repository: repository);
+    return GetBluetoothDevicesStream(repository: devicesRepository);
   }
 
   @visibleForTesting
   static StopBluetoothDevicesScanInterface get stopBluetoothDevicesScan {
-    return StopBluetoothDevicesScan(repository: repository);
+    return StopBluetoothDevicesScan(repository: devicesRepository);
   }
 
   @visibleForTesting
   static ConnectAtBluetoothDeviceInterface get connectAtBluetoothDevice {
-    return ConnectAtBluetoothDevice(repository: repository);
+    return ConnectAtBluetoothDevice(repository: connectionRepository);
   }
 
   @visibleForTesting
   static DisconnectAtBluetoothDeviceInterface get disconnectAtBluetoothDevice {
-    return DisconnectAtBluetoothDevice(repository: repository);
+    return DisconnectAtBluetoothDevice(repository: connectionRepository);
   }
 
   @visibleForTesting
   static PrintImageByBluetoothInterface get printImageByBluetooth {
-    return PrintImageByBluetooth(repository: repository);
+    return PrintImageByBluetooth(repository: printerRepository);
   }
 
   static BluetoothDevicesBloc get bluetoothDevicesBlocSingleton {

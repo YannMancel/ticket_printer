@@ -13,10 +13,10 @@ typedef GetBluetoothDevicesStreamInterface
 /// ```
 class GetBluetoothDevicesStream implements GetBluetoothDevicesStreamInterface {
   const GetBluetoothDevicesStream({
-    required BluetoothRepositoryInterface repository,
+    required BluetoothDevicesRepositoryInterface repository,
   }) : _repository = repository;
 
-  final BluetoothRepositoryInterface _repository;
+  final BluetoothDevicesRepositoryInterface _repository;
 
   @override
   Stream<Result<List<BluetoothDeviceEntity>>> call() {

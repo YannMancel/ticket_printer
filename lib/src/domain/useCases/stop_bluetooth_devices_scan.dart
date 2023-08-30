@@ -13,10 +13,10 @@ typedef StopBluetoothDevicesScanInterface
 /// ```
 class StopBluetoothDevicesScan implements StopBluetoothDevicesScanInterface {
   const StopBluetoothDevicesScan({
-    required BluetoothRepositoryInterface repository,
+    required BluetoothDevicesRepositoryInterface repository,
   }) : _repository = repository;
 
-  final BluetoothRepositoryInterface _repository;
+  final BluetoothDevicesRepositoryInterface _repository;
 
   @override
   Future<Result<void>> call() async {

@@ -13,10 +13,10 @@ typedef StartBluetoothDevicesScanInterface = UseCaseWithOneNullableArgument<
 /// ```
 class StartBluetoothDevicesScan implements StartBluetoothDevicesScanInterface {
   const StartBluetoothDevicesScan({
-    required BluetoothRepositoryInterface repository,
+    required BluetoothDevicesRepositoryInterface repository,
   }) : _repository = repository;
 
-  final BluetoothRepositoryInterface _repository;
+  final BluetoothDevicesRepositoryInterface _repository;
 
   @override
   Future<Result<List<BluetoothDeviceEntity>>> call({Duration? argument}) async {

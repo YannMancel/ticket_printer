@@ -15,10 +15,10 @@ typedef PrintImageByBluetoothInterface = UseCaseWithTwoArguments<
 /// ```
 class PrintImageByBluetooth implements PrintImageByBluetoothInterface {
   const PrintImageByBluetooth({
-    required BluetoothRepositoryInterface repository,
+    required BluetoothPrinterRepositoryInterface repository,
   }) : _repository = repository;
 
-  final BluetoothRepositoryInterface _repository;
+  final BluetoothPrinterRepositoryInterface _repository;
 
   @override
   Future<Result<void>> call(
