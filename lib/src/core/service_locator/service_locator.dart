@@ -1,5 +1,6 @@
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticket_printer/src/_src.dart';
 
 abstract class ServiceLocator {
@@ -61,7 +62,8 @@ abstract class ServiceLocator {
     return PrintImageByBluetooth(repository: printerRepository);
   }
 
-  static BluetoothDevicesBloc get bluetoothDevicesBlocSingleton {
+  static Bloc<BluetoothDevicesEvent, BluetoothDevicesState>
+      get bluetoothDevicesBlocSingleton {
     return BluetoothDevicesBloc(
       startBluetoothDevicesScan: startBluetoothDevicesScan,
       getBluetoothDevicesStream: getBluetoothDevicesStream,
@@ -69,14 +71,16 @@ abstract class ServiceLocator {
     );
   }
 
-  static BluetoothConnectionBloc get bluetoothConnectionBlocSingleton {
+  static Bloc<BluetoothConnectionEvent, BluetoothConnectionState>
+      get bluetoothConnectionBlocSingleton {
     return BluetoothConnectionBloc(
       connectAtBluetoothDevice: connectAtBluetoothDevice,
       disconnectAtBluetoothDevice: disconnectAtBluetoothDevice,
     );
   }
 
-  static BluetoothImagePrinterBloc get bluetoothImagePrinterBlocSingleton {
+  static Bloc<BluetoothImagePrinterEvent, BluetoothImagePrinterState>
+      get bluetoothImagePrinterBlocSingleton {
     return BluetoothImagePrinterBloc(
       printImageByBluetooth: printImageByBluetooth,
     );

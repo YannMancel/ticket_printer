@@ -5,11 +5,13 @@ export 'src/_src.dart'
         ServiceLocator,
         //
         BluetoothDevicesBloc,
+        BluetoothDevicesEvent,
         BluetoothDevicesStartedEvent,
         BluetoothDevicesRefreshedEvent,
         BluetoothDevicesState,
         //
         BluetoothConnectionBloc,
+        BluetoothConnectionEvent,
         BluetoothConnectedEvent,
         BluetoothDisconnectedEvent,
         BluetoothConnectionState,

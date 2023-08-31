@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -12,9 +13,11 @@ import '../../../helpers/helpers.dart';
 )
 import 'bluetooth_image_printer_bloc_test.mocks.dart';
 
+typedef _Bloc = Bloc<BluetoothImagePrinterEvent, BluetoothImagePrinterState>;
+
 void main() {
   late PrintImageByBluetoothInterface printImageByBluetooth;
-  late BluetoothImagePrinterBloc bloc;
+  late _Bloc bloc;
   late BluetoothImagePrinterEvent event;
 
   group('BluetoothImagePrinterBloc', () {
@@ -41,7 +44,7 @@ void main() {
         );
       });
 
-      blocTest<BluetoothImagePrinterBloc, BluetoothImagePrinterState>(
+      blocTest<_Bloc, BluetoothImagePrinterState>(
         'should emit 2 states, a loading state then success state.',
         setUp: () {
           // To avoid error with sealed class
@@ -63,7 +66,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothImagePrinterBloc, BluetoothImagePrinterState>(
+      blocTest<_Bloc, BluetoothImagePrinterState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
           // To avoid error with sealed class

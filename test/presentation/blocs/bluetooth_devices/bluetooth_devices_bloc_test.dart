@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -14,11 +15,13 @@ import '../../../helpers/helpers.dart';
 )
 import 'bluetooth_devices_bloc_test.mocks.dart';
 
+typedef _Bloc = Bloc<BluetoothDevicesEvent, BluetoothDevicesState>;
+
 void main() {
   late StartBluetoothDevicesScanInterface startBluetoothDevicesScan;
   late GetBluetoothDevicesStreamInterface getBluetoothDevicesStream;
   late StopBluetoothDevicesScanInterface stopBluetoothDevicesScan;
-  late BluetoothDevicesBloc bloc;
+  late _Bloc bloc;
   late BluetoothDevicesEvent event;
 
   group('BluetoothDevicesBloc', () {
@@ -48,7 +51,7 @@ void main() {
         event = const BluetoothDevicesStartedEvent();
       });
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state.',
         setUp: () {
           // To avoid error with sealed class
@@ -76,7 +79,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 3 states, a loading state then data state then error '
         'state (from error stream).',
         setUp: () {
@@ -107,7 +110,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 3 states, a loading state then data state then error '
         'state (from stream).',
         setUp: () {
@@ -138,7 +141,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 3 states, a loading state then error state then data '
         'state (from stream).',
         setUp: () {
@@ -174,7 +177,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 3 states, a loading state then error state then data '
         'state (empty data from stream).',
         setUp: () {
@@ -210,7 +213,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state (empty).',
         setUp: () {
           // To avoid error with sealed class
@@ -238,7 +241,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
           // To avoid error with sealed class
@@ -277,7 +280,7 @@ void main() {
         event = const BluetoothDevicesRefreshedEvent();
       });
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state.',
         setUp: () {
           // To avoid error with sealed class
@@ -305,7 +308,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then data state (empty).',
         setUp: () {
           // To avoid error with sealed class
@@ -333,7 +336,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
           // To avoid error with sealed class
@@ -372,7 +375,7 @@ void main() {
         event = const BluetoothDevicesStoppedEvent();
       });
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit a loading state.',
         setUp: () {
           // To avoid error with sealed class
@@ -394,7 +397,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
           // To avoid error with sealed class
@@ -420,7 +423,7 @@ void main() {
     });
 
     group('when changedState event is emitted', () {
-      blocTest<BluetoothDevicesBloc, BluetoothDevicesState>(
+      blocTest<_Bloc, BluetoothDevicesState>(
         'should emit an error state.',
         setUp: () {
           event = BluetoothDevicesChangedStateEvent(

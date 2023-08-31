@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -13,10 +14,12 @@ import '../../../helpers/helpers.dart';
 )
 import 'bluetooth_connection_bloc_test.mocks.dart';
 
+typedef _Bloc = Bloc<BluetoothConnectionEvent, BluetoothConnectionState>;
+
 void main() {
   late ConnectAtBluetoothDeviceInterface connectAtBluetoothDevice;
   late DisconnectAtBluetoothDeviceInterface disconnectAtBluetoothDevice;
-  late BluetoothConnectionBloc bloc;
+  late _Bloc bloc;
   late BluetoothConnectionEvent event;
 
   group('BluetoothConnectionBloc', () {
@@ -43,7 +46,7 @@ void main() {
         event = BluetoothConnectedEvent(bluetoothDevice: bluetoothDeviceEntity);
       });
 
-      blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
+      blocTest<_Bloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then connecting state.',
         setUp: () {
           // To avoid error with sealed class
@@ -65,7 +68,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
+      blocTest<_Bloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
           // To avoid error with sealed class
@@ -96,7 +99,7 @@ void main() {
         event = const BluetoothDisconnectedEvent();
       });
 
-      blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
+      blocTest<_Bloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then disconnecting state.',
         setUp: () {
           // To avoid error with sealed class
@@ -118,7 +121,7 @@ void main() {
         },
       );
 
-      blocTest<BluetoothConnectionBloc, BluetoothConnectionState>(
+      blocTest<_Bloc, BluetoothConnectionState>(
         'should emit 2 states, a loading state then error state.',
         setUp: () {
           // To avoid error with sealed class

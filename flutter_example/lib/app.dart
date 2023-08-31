@@ -11,8 +11,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MultiBlocProvider(
-        providers: [
-          BlocProvider<BluetoothDevicesBloc>(
+        providers: <BlocProvider<dynamic>>[
+          BlocProvider<Bloc<BluetoothDevicesEvent, BluetoothDevicesState>>(
             create: (_) {
               final bloc = ServiceLocator.bluetoothDevicesBlocSingleton;
               bloc.add(
@@ -23,10 +23,12 @@ class App extends StatelessWidget {
               return bloc;
             },
           ),
-          BlocProvider<BluetoothConnectionBloc>(
+          BlocProvider<
+              Bloc<BluetoothConnectionEvent, BluetoothConnectionState>>(
             create: (_) => ServiceLocator.bluetoothConnectionBlocSingleton,
           ),
-          BlocProvider<BluetoothImagePrinterBloc>(
+          BlocProvider<
+              Bloc<BluetoothImagePrinterEvent, BluetoothImagePrinterState>>(
             create: (_) => ServiceLocator.bluetoothImagePrinterBlocSingleton,
           ),
         ],
