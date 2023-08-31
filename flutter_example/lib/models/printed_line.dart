@@ -23,9 +23,11 @@ class PrintedLine extends PrintedLineBase {
   }
 
   @override
-  bool operator ==(covariant PrintedLine other) {
-    if (identical(this, other)) return true;
-    return _equality() == other._equality();
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            other is PrintedLine &&
+            _equality() == other._equality());
   }
 
   @override

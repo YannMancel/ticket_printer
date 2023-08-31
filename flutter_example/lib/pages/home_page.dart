@@ -92,19 +92,18 @@ class _BluetoothDevices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (_bluetoothDevices.isEmpty) {
-      return const Center(
-        child: Text('No device'),
-      );
-    }
-
-    return ListView.builder(
-      itemCount: _bluetoothDevices.length,
-      itemBuilder: (_, index) {
-        final bluetoothDevice = _bluetoothDevices[index];
-        return _BluetoothDeviceCard(bluetoothDevice);
-      },
-    );
+    return switch (_bluetoothDevices.isEmpty) {
+      true => const Center(
+          child: Text('No device'),
+        ),
+      false => ListView.builder(
+          itemCount: _bluetoothDevices.length,
+          itemBuilder: (_, index) {
+            final bluetoothDevice = _bluetoothDevices[index];
+            return _BluetoothDeviceCard(bluetoothDevice);
+          },
+        ),
+    };
   }
 }
 

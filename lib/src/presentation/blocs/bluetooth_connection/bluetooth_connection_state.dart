@@ -11,9 +11,9 @@ sealed class BluetoothConnectionState {
   }) {
     return switch (this) {
       ConnectionLoadingState _ => loading(),
-      ConnectingState(bluetoothDevice: var device) => connecting(device),
+      ConnectingState(:final bluetoothDevice) => connecting(bluetoothDevice),
       DisconnectingState _ => disconnecting(),
-      ConnectionErrorState(exception: var exception) => error(exception),
+      ConnectionErrorState(:final exception) => error(exception),
     };
   }
 
@@ -26,10 +26,10 @@ sealed class BluetoothConnectionState {
   }) {
     return switch (this) {
       ConnectionLoadingState _ => loading?.call() ?? orElse(),
-      ConnectingState(bluetoothDevice: var device) =>
-        connecting?.call(device) ?? orElse(),
+      ConnectingState(:final bluetoothDevice) =>
+        connecting?.call(bluetoothDevice) ?? orElse(),
       DisconnectingState _ => disconnecting?.call() ?? orElse(),
-      ConnectionErrorState(exception: var exception) =>
+      ConnectionErrorState(:final exception) =>
         error?.call(exception) ?? orElse(),
     };
   }

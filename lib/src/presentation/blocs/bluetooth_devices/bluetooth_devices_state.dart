@@ -11,11 +11,12 @@ sealed class BluetoothDevicesState {
     required R Function(Exception) error,
   }) {
     return switch (this) {
-      BluetoothDevicesInitialState(bluetoothDevices: var devices) =>
-        initial(devices),
+      BluetoothDevicesInitialState(:final bluetoothDevices) =>
+        initial(bluetoothDevices),
       BluetoothDevicesLoadingState _ => loading(),
-      BluetoothDevicesDataState(bluetoothDevices: var devices) => data(devices),
-      BluetoothDevicesErrorState(exception: var exception) => error(exception),
+      BluetoothDevicesDataState(:final bluetoothDevices) =>
+        data(bluetoothDevices),
+      BluetoothDevicesErrorState(:final exception) => error(exception),
     };
   }
 }

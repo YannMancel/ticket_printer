@@ -8,8 +8,8 @@ sealed class Result<T> {
     required R Function(Exception) error,
   }) {
     return switch (this) {
-      DataResult<T>(value: var valueOrNull) => data(valueOrNull),
-      ErrorResult<T>(exception: var exception) => error(exception),
+      DataResult<T>(:final value) => data(value),
+      ErrorResult<T>(:final exception) => error(exception),
     };
   }
 
@@ -22,7 +22,7 @@ sealed class Result<T> {
 
   Exception? get errorExceptionOrNull {
     return switch (this) {
-      ErrorResult<T>(exception: var exception) => exception,
+      ErrorResult<T>(:final exception) => exception,
       _ => null,
     };
   }
