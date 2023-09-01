@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:example/app.dart';
 import 'package:example/models/_models.dart';
 import 'package:example/pages/_pages.dart';
 import 'package:flutter/foundation.dart';

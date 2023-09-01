@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticket_printer/ticket_printer.dart';
 
+typedef BluetoothConnectionBloc
+    = Bloc<BluetoothConnectionEvent, BluetoothConnectionState>;
+typedef BluetoothDevicesBloc
+    = Bloc<BluetoothDevicesEvent, BluetoothDevicesState>;
+typedef BluetoothImagePrinterBloc
+    = Bloc<BluetoothImagePrinterEvent, BluetoothImagePrinterState>;
+
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -12,7 +19,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: MultiBlocProvider(
         providers: <BlocProvider<dynamic>>[
-          BlocProvider<Bloc<BluetoothDevicesEvent, BluetoothDevicesState>>(
+          BlocProvider<BluetoothDevicesBloc>(
             create: (_) {
               final bloc = ServiceLocator.bluetoothDevicesBlocSingleton;
               bloc.add(
@@ -23,12 +30,10 @@ class App extends StatelessWidget {
               return bloc;
             },
           ),
-          BlocProvider<
-              Bloc<BluetoothConnectionEvent, BluetoothConnectionState>>(
+          BlocProvider<BluetoothConnectionBloc>(
             create: (_) => ServiceLocator.bluetoothConnectionBlocSingleton,
           ),
-          BlocProvider<
-              Bloc<BluetoothImagePrinterEvent, BluetoothImagePrinterState>>(
+          BlocProvider<BluetoothImagePrinterBloc>(
             create: (_) => ServiceLocator.bluetoothImagePrinterBlocSingleton,
           ),
         ],
