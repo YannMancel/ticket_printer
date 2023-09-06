@@ -95,6 +95,12 @@ generate-files: ## Generate files with build_runner
 	@$(call print_color_message,"Generate files with build_runner")
 	$(FLUTTER) pub run build_runner build --delete-conflicting-outputs
 
+.PHONY: generate-package
+generate-package: ## Generate a package
+	@$(call print_color_message,"Generate a package")
+	$(FLUTTER) flutter create ticket_printer \
+      --template=package
+
 .PHONY: generate-flutter-example
 generate-flutter-example: ## Generate a flutter project as example
 	@$(call print_color_message,"Generate a flutter project as example")

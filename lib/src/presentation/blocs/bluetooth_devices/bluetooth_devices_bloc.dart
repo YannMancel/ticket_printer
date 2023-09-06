@@ -60,10 +60,10 @@ class BluetoothDevicesBloc
       );
 
       add(BluetoothDevicesChangedStateEvent(nextState: nextState));
-    }, onError: (error, _) {
+    }, onError: (Object error, _) {
       add(
         BluetoothDevicesChangedStateEvent(
-          nextState: BluetoothDevicesErrorState(exception: error),
+          nextState: BluetoothDevicesErrorState(exception: error as Exception),
         ),
       );
 

@@ -7,7 +7,7 @@ import 'package:ticket_printer/src/_src.dart';
 
 import '../../../helpers/helpers.dart';
 @GenerateNiceMocks(
-  <MockSpec>[
+  <MockSpec<dynamic>>[
     MockSpec<StartBluetoothDevicesScan>(),
     MockSpec<GetBluetoothDevicesStream>(),
     MockSpec<StopBluetoothDevicesScan>(),
