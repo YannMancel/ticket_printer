@@ -6,5 +6,5 @@ export 'start_bluetooth_devices_scan.dart';
 export 'stop_bluetooth_devices_scan.dart';
 export 'use_case_with_one_argument_interface.dart';
 export 'use_case_with_one_nullable_argument_interface.dart';
-export 'use_case_with_two_arguments_interface.dart';
+export 'use_case_with_three_arguments_interface.dart';
 export 'use_case_without_argument_interface.dart';

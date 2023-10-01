@@ -195,6 +195,7 @@ void main() {
         await remoteDataSource.printImage(
           ticketConfiguration: ticketConfigurationModel,
           bytes: bytes,
+          count: kCount,
           fakePrintedData: fakePrintedData,
         );
 
@@ -218,6 +219,7 @@ void main() {
         final call = remoteDataSource.printImage(
           ticketConfiguration: ticketConfigurationModel,
           bytes: bytes,
+          count: kCount,
           fakePrintedData: fakePrintedData,
         );
 

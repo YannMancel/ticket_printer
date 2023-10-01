@@ -28,17 +28,20 @@ void main() {
       when(repository.printImage(
         ticketConfiguration: kTicketConfigurationEntity,
         bytes: bytes,
+        count: kCount,
       )).thenAnswer((_) async => kResultOfVoidData);
 
       final result = await useCase(
         kTicketConfigurationEntity,
         bytes,
+        kCount,
       );
 
       expect(result, kResultOfVoidData);
       verify(repository.printImage(
         ticketConfiguration: kTicketConfigurationEntity,
         bytes: bytes,
+        count: kCount,
       )).called(1);
       verifyNoMoreInteractions(repository);
     });
@@ -52,17 +55,20 @@ void main() {
         when(repository.printImage(
           ticketConfiguration: kTicketConfigurationEntity,
           bytes: bytes,
+          count: kCount,
         )).thenAnswer((_) async => resultOfError<void>());
 
         final result = await useCase(
           kTicketConfigurationEntity,
           bytes,
+          kCount,
         );
 
         expect(result, resultOfError<void>());
         verify(repository.printImage(
           ticketConfiguration: kTicketConfigurationEntity,
           bytes: bytes,
+          count: kCount,
         )).called(1);
         verifyNoMoreInteractions(repository);
       },

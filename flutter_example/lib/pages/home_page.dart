@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/widgets.dart' as pdf;
 import 'package:printing/printing.dart';
 import 'package:ticket_printer/ticket_printer.dart';
 
@@ -216,37 +216,34 @@ class _ConnectedViewState extends State<_ConnectedView> {
     );
   }
 
-  Future<pw.Document> _generateCustomDocument({
-    required int ticketCount,
+  Future<pdf.Document> _generateCustomDocument({
     required TicketConfigurationEntity ticketConfiguration,
     required PrintedLineBase title,
     required DateTime dateTime,
     required List<PrintedLine> data,
   }) async {
-    final document = pw.Document();
+    final document = pdf.Document();
 
     document.addPage(
-      pw.Page(
+      pdf.Page(
         pageFormat: PdfPageFormat(
           ticketConfiguration.width * PdfPageFormat.mm,
-          (ticketCount * ticketConfiguration.height +
-                  (ticketCount - 1) * ticketConfiguration.gap) *
-              PdfPageFormat.mm,
+          ticketConfiguration.height * PdfPageFormat.mm,
         ),
         build: (_) {
-          final titleWidget = pw.Container(
+          final titleWidget = pdf.Container(
             width: double.infinity,
-            padding: const pw.EdgeInsets.all(4.0),
-            decoration: pw.BoxDecoration(
-              border: pw.Border.all(),
+            padding: const pdf.EdgeInsets.all(4.0),
+            decoration: pdf.BoxDecoration(
+              border: pdf.Border.all(),
             ),
-            alignment: pw.Alignment.center,
-            child: pw.Text(
+            alignment: pdf.Alignment.center,
+            child: pdf.Text(
               title.key,
-              style: pw.TextStyle(
+              style: pdf.TextStyle(
                 fontSize: title.fontSize,
                 fontWeight:
-                    title.isBold ? pw.FontWeight.bold : pw.FontWeight.normal,
+                    title.isBold ? pdf.FontWeight.bold : pdf.FontWeight.normal,
               ),
             ),
           );
@@ -262,35 +259,35 @@ class _ConnectedViewState extends State<_ConnectedView> {
             _ => throw UnimplementedError(),
           };
 
-          final dateTimeWidget = pw.Container(
+          final dateTimeWidget = pdf.Container(
             height: double.infinity,
-            margin: const pw.EdgeInsets.only(
+            margin: const pdf.EdgeInsets.only(
               top: 4.0,
               right: 4.0,
             ),
-            padding: const pw.EdgeInsets.all(4.0),
-            alignment: pw.Alignment.center,
+            padding: const pdf.EdgeInsets.all(4.0),
+            alignment: pdf.Alignment.center,
             color: PdfColor.fromInt(Colors.black.value),
-            child: pw.Stack(
-              fit: pw.StackFit.expand,
-              children: <pw.Widget>[
-                pw.Center(
-                  child: pw.Text(
+            child: pdf.Stack(
+              fit: pdf.StackFit.expand,
+              children: <pdf.Widget>[
+                pdf.Center(
+                  child: pdf.Text(
                     firstLetter,
-                    style: pw.TextStyle(
+                    style: pdf.TextStyle(
                       fontSize: 25.0,
-                      fontWeight: pw.FontWeight.bold,
+                      fontWeight: pdf.FontWeight.bold,
                       color: PdfColor.fromInt(Colors.white.value),
                     ),
                   ),
                 ),
-                pw.Align(
-                  alignment: pw.Alignment.bottomCenter,
-                  child: pw.Text(
+                pdf.Align(
+                  alignment: pdf.Alignment.bottomCenter,
+                  child: pdf.Text(
                     otherLetters,
-                    style: pw.TextStyle(
+                    style: pdf.TextStyle(
                       fontSize: 8.0,
-                      fontWeight: pw.FontWeight.bold,
+                      fontWeight: pdf.FontWeight.bold,
                       color: PdfColor.fromInt(Colors.white.value),
                     ),
                   ),
@@ -299,19 +296,19 @@ class _ConnectedViewState extends State<_ConnectedView> {
             ),
           );
 
-          final dataWidget = pw.Padding(
-            padding: const pw.EdgeInsets.only(top: 4.0),
-            child: pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
+          final dataWidget = pdf.Padding(
+            padding: const pdf.EdgeInsets.only(top: 4.0),
+            child: pdf.Column(
+              crossAxisAlignment: pdf.CrossAxisAlignment.start,
               children: data
-                  .map<pw.Widget>(
-                    (line) => pw.Text(
+                  .map<pdf.Widget>(
+                    (line) => pdf.Text(
                       '${line.key}${line.separator}${line.value}',
-                      style: pw.TextStyle(
+                      style: pdf.TextStyle(
                         fontSize: line.fontSize,
                         fontWeight: line.isBold
-                            ? pw.FontWeight.bold
-                            : pw.FontWeight.normal,
+                            ? pdf.FontWeight.bold
+                            : pdf.FontWeight.normal,
                       ),
                     ),
                   )
@@ -319,18 +316,18 @@ class _ConnectedViewState extends State<_ConnectedView> {
             ),
           );
 
-          final ticket = pw.AspectRatio(
+          final ticket = pdf.AspectRatio(
             aspectRatio: ticketConfiguration.width / ticketConfiguration.height,
-            child: pw.Padding(
-              padding: const pw.EdgeInsets.all(4.0),
-              child: pw.Column(
-                children: <pw.Widget>[
+            child: pdf.Padding(
+              padding: const pdf.EdgeInsets.all(4.0),
+              child: pdf.Column(
+                children: <pdf.Widget>[
                   titleWidget,
-                  pw.Expanded(
-                    child: pw.Row(
-                      children: <pw.Widget>[
-                        pw.Expanded(child: dateTimeWidget),
-                        pw.Expanded(
+                  pdf.Expanded(
+                    child: pdf.Row(
+                      children: <pdf.Widget>[
+                        pdf.Expanded(child: dateTimeWidget),
+                        pdf.Expanded(
                           flex: 3,
                           child: dataWidget,
                         ),
@@ -342,45 +339,11 @@ class _ConnectedViewState extends State<_ConnectedView> {
             ),
           );
 
-          final gap = pw.AspectRatio(
-            aspectRatio: ticketConfiguration.width / ticketConfiguration.gap,
-            child: pw.Container(
-              color: PdfColor.fromInt(Colors.grey.shade300.value),
-            ),
-          );
-
-          final widgets = List<pw.Widget>.empty(growable: true);
-          for (int i = 0; i <= ticketCount; i++) {
-            final top =
-                (i * (ticketConfiguration.gap + ticketConfiguration.height))
-                    .toDouble();
-
-            final ticketPositioned = pw.Positioned(
-              left: 0.0,
-              right: 0.0,
-              top: top * PdfPageFormat.mm,
-              child: ticket,
-            );
-
-            widgets.add(ticketPositioned);
-
-            if (i < (ticketCount - 1)) {
-              final gapPositioned = pw.Positioned(
-                left: 0.0,
-                right: 0.0,
-                top: (ticketConfiguration.height + top) * PdfPageFormat.mm,
-                child: gap,
-              );
-
-              widgets.add(gapPositioned);
-            }
-          }
-
-          return pw.DecoratedBox(
-            decoration: pw.BoxDecoration(
+          return pdf.DecoratedBox(
+            decoration: pdf.BoxDecoration(
               color: PdfColor.fromInt(Colors.white.value),
             ),
-            child: pw.Stack(children: widgets),
+            child: ticket,
           );
         },
       ),
@@ -389,70 +352,33 @@ class _ConnectedViewState extends State<_ConnectedView> {
     return document;
   }
 
-  Future<pw.Document> _generateDocument({
-    required int ticketCount,
+  Future<pdf.Document> _generateDocument({
     required TicketConfigurationEntity ticketConfiguration,
     required String imageAssetPath,
   }) async {
-    final document = pw.Document();
+    final document = pdf.Document();
     final imageToDoc = await imageFromAssetBundle(imageAssetPath);
 
     document.addPage(
-      pw.Page(
+      pdf.Page(
         pageFormat: PdfPageFormat(
           ticketConfiguration.width * PdfPageFormat.mm,
-          (ticketCount * ticketConfiguration.height +
-                  (ticketCount - 1) * ticketConfiguration.gap) *
-              PdfPageFormat.mm,
+          ticketConfiguration.height * PdfPageFormat.mm,
         ),
         build: (_) {
-          final ticket = pw.AspectRatio(
+          final ticket = pdf.AspectRatio(
             aspectRatio: ticketConfiguration.width / ticketConfiguration.height,
-            child: pw.Image(
+            child: pdf.Image(
               imageToDoc,
-              fit: pw.BoxFit.fill,
+              fit: pdf.BoxFit.fill,
             ),
           );
 
-          final gap = pw.AspectRatio(
-            aspectRatio: ticketConfiguration.width / ticketConfiguration.gap,
-            child: pw.Container(
-              color: PdfColor.fromInt(Colors.red.value),
-            ),
-          );
-
-          final widgets = List<pw.Widget>.empty(growable: true);
-          for (int i = 0; i <= ticketCount; i++) {
-            final top =
-                (i * (ticketConfiguration.gap + ticketConfiguration.height))
-                    .toDouble();
-
-            final ticketPositioned = pw.Positioned(
-              left: 0.0,
-              right: 0.0,
-              top: top * PdfPageFormat.mm,
-              child: ticket,
-            );
-
-            widgets.add(ticketPositioned);
-
-            if (i < (ticketCount - 1)) {
-              final gapPositioned = pw.Positioned(
-                left: 0.0,
-                right: 0.0,
-                top: (ticketConfiguration.height + top) * PdfPageFormat.mm,
-                child: gap,
-              );
-
-              widgets.add(gapPositioned);
-            }
-          }
-
-          return pw.DecoratedBox(
-            decoration: pw.BoxDecoration(
+          return pdf.DecoratedBox(
+            decoration: pdf.BoxDecoration(
               color: PdfColor.fromInt(Colors.white.value),
             ),
-            child: pw.Stack(children: widgets),
+            child: ticket,
           );
         },
       ),
@@ -462,11 +388,9 @@ class _ConnectedViewState extends State<_ConnectedView> {
   }
 
   Future<Uint8List> _getBytes({
-    required int ticketCount,
     required TicketConfigurationEntity ticketConfiguration,
   }) async {
     final document = await _generateDocument(
-      ticketCount: ticketCount,
       ticketConfiguration: ticketConfiguration,
       imageAssetPath: 'assets/etiquette_test.png',
     );
@@ -522,15 +446,12 @@ class _ConnectedViewState extends State<_ConnectedView> {
                     onPressed: () async {
                       final bloc = context.read<BluetoothImagePrinterBloc>();
                       final bytes = await _getBytes(
-                        ticketCount: _count,
                         ticketConfiguration: _ticketConfiguration,
                       );
                       final event = BluetoothImagePrinterEvent(
-                        ticketConfiguration: _ticketConfiguration.copyWith(
-                          height: _count * _ticketConfiguration.height +
-                              (_count - 1) * _ticketConfiguration.gap,
-                        ),
+                        ticketConfiguration: _ticketConfiguration,
                         bytes: bytes,
+                        count: _count,
                       );
 
                       bloc.add(event);
@@ -543,7 +464,6 @@ class _ConnectedViewState extends State<_ConnectedView> {
                   child: ElevatedButton(
                     onPressed: () async {
                       await _generateCustomDocument(
-                        ticketCount: _count,
                         ticketConfiguration: _ticketConfiguration,
                         title: PrintedLineBase(
                           key: 'Salade'.toUpperCase(),

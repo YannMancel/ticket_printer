@@ -4,7 +4,10 @@ import 'dart:typed_data';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:ticket_printer/src/_src.dart';
 
-// Third Party -------------------------------------------------------------------
+// COUNT -----------------------------------------------------------------------
+const kCount = 1;
+
+// Third Party -----------------------------------------------------------------
 final bluetoothDeviceFromThirdParty = BluetoothDevice()
   ..name = 'FAKE_NAME'
   ..address = '123'
@@ -33,6 +36,7 @@ final ticketConfigurationModelJson = <String, dynamic>{
   'width': ticketConfigurationModel.width,
   'height': ticketConfigurationModel.height,
   'gap': ticketConfigurationModel.gap,
+  'count': kCount,
 };
 
 // ENTITY ----------------------------------------------------------------------
@@ -74,7 +78,7 @@ Stream<Result<List<BluetoothDeviceEntity>>> exceptionStream() async* {
 // BYTES -----------------------------------------------------------------------
 final bytes = Uint8List(5);
 
-// DURATION -----------------------------------------------------------------------
+// DURATION --------------------------------------------------------------------
 const kDuration = Duration(seconds: 1);
 
 // EVENTS ----------------------------------------------------------------------
@@ -93,6 +97,7 @@ const kDevicesChangedStateEvent = BluetoothDevicesChangedStateEvent(
 final imagePrinterEvent = BluetoothImagePrinterEvent(
   ticketConfiguration: kTicketConfigurationEntity,
   bytes: bytes,
+  count: kCount,
 );
 
 // STATES ----------------------------------------------------------------------

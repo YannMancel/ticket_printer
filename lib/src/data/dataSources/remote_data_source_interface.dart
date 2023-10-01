@@ -17,6 +17,7 @@ abstract interface class RemoteDataSourceInterface {
   Future<void> printImage({
     required TicketConfigurationModel ticketConfiguration,
     required Uint8List bytes,
+    required int count,
     List<LineText>? fakePrintedData,
   });
 }

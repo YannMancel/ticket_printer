@@ -6,5 +6,6 @@ abstract interface class BluetoothPrinterRepositoryInterface {
   Future<Result<void>> printImage({
     required TicketConfigurationEntity ticketConfiguration,
     required Uint8List bytes,
+    required int count,
   });
 }

@@ -6,15 +6,18 @@ class BluetoothImagePrinterEvent {
   const BluetoothImagePrinterEvent({
     required this.ticketConfiguration,
     required this.bytes,
+    required this.count,
   });
 
   final TicketConfigurationEntity ticketConfiguration;
   final Uint8List bytes;
+  final int count;
 
-  (TicketConfigurationEntity, Uint8List) _equality() {
+  (TicketConfigurationEntity, Uint8List, int) _equality() {
     return (
       ticketConfiguration,
       bytes,
+      count,
     );
   }
 

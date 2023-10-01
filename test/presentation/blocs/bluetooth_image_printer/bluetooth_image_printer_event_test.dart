@@ -12,6 +12,7 @@ void main() {
         final event = BluetoothImagePrinterEvent(
           ticketConfiguration: const TicketConfigurationEntity(width: 42),
           bytes: bytes,
+          count: kCount,
         );
 
         expect(imagePrinterEvent == event, isFalse);
@@ -26,6 +27,7 @@ void main() {
           (
             imagePrinterEvent.ticketConfiguration,
             imagePrinterEvent.bytes,
+            imagePrinterEvent.count,
           ).hashCode,
         );
       },

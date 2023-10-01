@@ -39,6 +39,7 @@ class BluetoothImagePrinterBloc
     final result = await _printImageByBluetooth(
       event.ticketConfiguration,
       event.bytes,
+      event.count,
     );
 
     emit(

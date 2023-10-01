@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:ticket_printer/src/_src.dart';
 
-typedef PrintImageByBluetoothInterface = UseCaseWithTwoArguments<
-    Future<Result<void>>, TicketConfigurationEntity, Uint8List>;
+typedef PrintImageByBluetoothInterface = UseCaseWithThreeArguments<
+    Future<Result<void>>, TicketConfigurationEntity, Uint8List, int>;
 
 /// The use case prints an image by Bluetooth.
 ///
@@ -24,10 +24,12 @@ class PrintImageByBluetooth implements PrintImageByBluetoothInterface {
   Future<Result<void>> call(
     TicketConfigurationEntity firstArgument,
     Uint8List secondArgument,
+    int thirdArgument,
   ) async {
     return _repository.printImage(
       ticketConfiguration: firstArgument,
       bytes: secondArgument,
+      count: thirdArgument,
     );
   }
 }

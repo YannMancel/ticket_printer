@@ -47,6 +47,11 @@ analyze: ## Analyze Dart code of the project
 .PHONY: format-analyze
 format-analyze: format analyze ## Format & Analyze Dart code of the project
 
+.PHONY: cache-repair-dependencies
+cache-repair-dependencies: ## Cache repair dependencies tree
+	@$(call print_color_message,"Cache repair dependencies tree")
+	$(DART) pub cache repair
+
 .PHONY: show-dependencies
 show-dependencies: ## Show dependencies tree
 	@$(call print_color_message,"Show dependencies tree")

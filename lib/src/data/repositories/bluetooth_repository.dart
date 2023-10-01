@@ -93,6 +93,7 @@ class BluetoothRepository
   Future<Result<void>> printImage({
     required TicketConfigurationEntity ticketConfiguration,
     required Uint8List bytes,
+    required int count,
   }) async {
     try {
       await _remoteDataSource.printImage(
@@ -100,6 +101,7 @@ class BluetoothRepository
           ticketConfiguration,
         ),
         bytes: bytes,
+        count: count,
       );
       return const DataResult<void>();
     } catch (e) {

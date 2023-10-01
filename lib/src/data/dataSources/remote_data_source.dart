@@ -60,6 +60,7 @@ class RemoteDataSource implements RemoteDataSourceInterface {
   Future<void> printImage({
     required TicketConfigurationModel ticketConfiguration,
     required Uint8List bytes,
+    required int count,
     List<LineText>? fakePrintedData,
   }) async {
     // x & y are in dpi (1mm=8dp)
@@ -83,6 +84,7 @@ class RemoteDataSource implements RemoteDataSourceInterface {
         'width': ticketConfiguration.width,
         'height': ticketConfiguration.height,
         'gap': ticketConfiguration.gap,
+        'count': count,
       },
       fakePrintedData ??
           <LineText>[

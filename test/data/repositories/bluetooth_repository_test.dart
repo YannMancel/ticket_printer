@@ -216,12 +216,14 @@ void main() {
             remoteDataSource.printImage(
               ticketConfiguration: ticketConfigurationModel,
               bytes: bytes,
+              count: kCount,
             ),
           ).thenAnswer((_) async {});
 
           final result = await printerRepository.printImage(
             ticketConfiguration: kTicketConfigurationEntity,
             bytes: bytes,
+            count: kCount,
           );
 
           expect(result, kResultOfVoidData);
@@ -229,6 +231,7 @@ void main() {
             remoteDataSource.printImage(
               ticketConfiguration: ticketConfigurationModel,
               bytes: bytes,
+              count: kCount,
             ),
           ).called(1);
           verifyNoMoreInteractions(remoteDataSource);
@@ -242,12 +245,14 @@ void main() {
             remoteDataSource.printImage(
               ticketConfiguration: ticketConfigurationModel,
               bytes: bytes,
+              count: kCount,
             ),
           ).thenThrow(exception);
 
           final result = await printerRepository.printImage(
             ticketConfiguration: kTicketConfigurationEntity,
             bytes: bytes,
+            count: kCount,
           );
 
           expect(result, resultOfError<void>());
@@ -255,6 +260,7 @@ void main() {
             remoteDataSource.printImage(
               ticketConfiguration: ticketConfigurationModel,
               bytes: bytes,
+              count: kCount,
             ),
           ).called(1);
           verifyNoMoreInteractions(remoteDataSource);
