@@ -32,9 +32,11 @@ void main() {
       test(
         'should be success when Bluetooth devices scan is started.',
         () async {
-          when(remoteDataSource.startBluetoothDevicesScan(
-            timeout: anyNamed('timeout'),
-          )).thenAnswer((_) async => bluetoothDeviceModels);
+          when(
+            remoteDataSource.startBluetoothDevicesScan(
+              timeout: anyNamed('timeout'),
+            ),
+          ).thenAnswer((_) async => bluetoothDeviceModels);
 
           final result = await devicesRepository.startBluetoothDevicesScan();
 
@@ -51,9 +53,11 @@ void main() {
       test(
         'should be fail when Bluetooth devices scan is started.',
         () async {
-          when(remoteDataSource.startBluetoothDevicesScan(
-            timeout: anyNamed('timeout'),
-          )).thenThrow(exception);
+          when(
+            remoteDataSource.startBluetoothDevicesScan(
+              timeout: anyNamed('timeout'),
+            ),
+          ).thenThrow(exception);
 
           final result = await devicesRepository.startBluetoothDevicesScan();
 
@@ -136,18 +140,22 @@ void main() {
       test(
         'should be success when Bluetooth device connexion is started.',
         () async {
-          when(remoteDataSource.connectAtBluetoothDevice(
-            bluetoothDevice: bluetoothDeviceModel,
-          )).thenAnswer((_) async {});
+          when(
+            remoteDataSource.connectAtBluetoothDevice(
+              bluetoothDevice: bluetoothDeviceModel,
+            ),
+          ).thenAnswer((_) async {});
 
           final result = await connectionRepository.connectAtBluetoothDevice(
             bluetoothDevice: bluetoothDeviceEntity,
           );
 
           expect(result, kResultOfVoidData);
-          verify(remoteDataSource.connectAtBluetoothDevice(
-            bluetoothDevice: bluetoothDeviceModel,
-          )).called(1);
+          verify(
+            remoteDataSource.connectAtBluetoothDevice(
+              bluetoothDevice: bluetoothDeviceModel,
+            ),
+          ).called(1);
           verifyNoMoreInteractions(remoteDataSource);
         },
       );
@@ -155,18 +163,22 @@ void main() {
       test(
         'should be fail when Bluetooth device connexion is started.',
         () async {
-          when(remoteDataSource.connectAtBluetoothDevice(
-            bluetoothDevice: bluetoothDeviceModel,
-          )).thenThrow(exception);
+          when(
+            remoteDataSource.connectAtBluetoothDevice(
+              bluetoothDevice: bluetoothDeviceModel,
+            ),
+          ).thenThrow(exception);
 
           final result = await connectionRepository.connectAtBluetoothDevice(
             bluetoothDevice: bluetoothDeviceEntity,
           );
 
           expect(result, resultOfError<void>());
-          verify(remoteDataSource.connectAtBluetoothDevice(
-            bluetoothDevice: bluetoothDeviceModel,
-          )).called(1);
+          verify(
+            remoteDataSource.connectAtBluetoothDevice(
+              bluetoothDevice: bluetoothDeviceModel,
+            ),
+          ).called(1);
           verifyNoMoreInteractions(remoteDataSource);
         },
       );

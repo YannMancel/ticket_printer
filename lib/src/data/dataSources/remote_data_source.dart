@@ -90,8 +90,6 @@ class RemoteDataSource implements RemoteDataSourceInterface {
           <LineText>[
             LineText(
               type: LineText.TYPE_IMAGE,
-              x: 0,
-              y: 0,
               width: ticketConfiguration.width.toDpi,
               content: base64Image,
             ),

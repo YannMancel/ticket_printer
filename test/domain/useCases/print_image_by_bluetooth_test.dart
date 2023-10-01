@@ -25,11 +25,13 @@ void main() {
       // To avoid error with sealed class
       provideDummy<Result<void>>(kResultOfVoidData);
 
-      when(repository.printImage(
-        ticketConfiguration: kTicketConfigurationEntity,
-        bytes: bytes,
-        count: kCount,
-      )).thenAnswer((_) async => kResultOfVoidData);
+      when(
+        repository.printImage(
+          ticketConfiguration: kTicketConfigurationEntity,
+          bytes: bytes,
+          count: kCount,
+        ),
+      ).thenAnswer((_) async => kResultOfVoidData);
 
       final result = await useCase(
         kTicketConfigurationEntity,
@@ -38,11 +40,13 @@ void main() {
       );
 
       expect(result, kResultOfVoidData);
-      verify(repository.printImage(
-        ticketConfiguration: kTicketConfigurationEntity,
-        bytes: bytes,
-        count: kCount,
-      )).called(1);
+      verify(
+        repository.printImage(
+          ticketConfiguration: kTicketConfigurationEntity,
+          bytes: bytes,
+          count: kCount,
+        ),
+      ).called(1);
       verifyNoMoreInteractions(repository);
     });
 
@@ -52,11 +56,13 @@ void main() {
         // To avoid error with sealed class
         provideDummy<Result<void>>(resultOfError<void>());
 
-        when(repository.printImage(
-          ticketConfiguration: kTicketConfigurationEntity,
-          bytes: bytes,
-          count: kCount,
-        )).thenAnswer((_) async => resultOfError<void>());
+        when(
+          repository.printImage(
+            ticketConfiguration: kTicketConfigurationEntity,
+            bytes: bytes,
+            count: kCount,
+          ),
+        ).thenAnswer((_) async => resultOfError<void>());
 
         final result = await useCase(
           kTicketConfigurationEntity,
@@ -65,11 +71,13 @@ void main() {
         );
 
         expect(result, resultOfError<void>());
-        verify(repository.printImage(
-          ticketConfiguration: kTicketConfigurationEntity,
-          bytes: bytes,
-          count: kCount,
-        )).called(1);
+        verify(
+          repository.printImage(
+            ticketConfiguration: kTicketConfigurationEntity,
+            bytes: bytes,
+            count: kCount,
+          ),
+        ).called(1);
         verifyNoMoreInteractions(repository);
       },
     );

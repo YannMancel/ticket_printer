@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
+
 sealed class BluetoothImagePrinterState {
   const BluetoothImagePrinterState();
 }
 
+@immutable
 class PrinterInitialState extends BluetoothImagePrinterState {
   const PrinterInitialState();
 
@@ -18,6 +21,7 @@ class PrinterInitialState extends BluetoothImagePrinterState {
   }
 }
 
+@immutable
 class PrinterLoadingState extends BluetoothImagePrinterState {
   const PrinterLoadingState();
 
@@ -34,6 +38,7 @@ class PrinterLoadingState extends BluetoothImagePrinterState {
   }
 }
 
+@immutable
 class PrinterSuccessState extends BluetoothImagePrinterState {
   const PrinterSuccessState();
 
@@ -50,6 +55,7 @@ class PrinterSuccessState extends BluetoothImagePrinterState {
   }
 }
 
+@immutable
 class PrinterErrorState extends BluetoothImagePrinterState {
   const PrinterErrorState({required this.exception});
 

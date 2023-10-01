@@ -50,25 +50,31 @@ class BluetoothDevicesBloc
   Future<void> _setupBluetoothDevicesStream() async {
     if (_streamSubscription != null) await _streamSubscription?.cancel();
 
-    _streamSubscription = _getBluetoothDevicesStream().listen((result) {
-      final nextState = result.when<BluetoothDevicesState>(
-        data: (bluetoothDevicesOrNull) => BluetoothDevicesDataState(
-          bluetoothDevices: bluetoothDevicesOrNull ??
-              List<BluetoothDeviceEntity>.empty(growable: false),
-        ),
-        error: (exception) => BluetoothDevicesErrorState(exception: exception),
-      );
+    _streamSubscription = _getBluetoothDevicesStream().listen(
+      (result) {
+        final nextState = result.when<BluetoothDevicesState>(
+          data: (bluetoothDevicesOrNull) => BluetoothDevicesDataState(
+            bluetoothDevices:
+                bluetoothDevicesOrNull ?? List<BluetoothDeviceEntity>.empty(),
+          ),
+          error: (exception) =>
+              BluetoothDevicesErrorState(exception: exception),
+        );
 
-      add(BluetoothDevicesChangedStateEvent(nextState: nextState));
-    }, onError: (Object error, _) {
-      add(
-        BluetoothDevicesChangedStateEvent(
-          nextState: BluetoothDevicesErrorState(exception: error as Exception),
-        ),
-      );
+        add(BluetoothDevicesChangedStateEvent(nextState: nextState));
+      },
+      onError: (Object error, _) {
+        add(
+          BluetoothDevicesChangedStateEvent(
+            nextState: BluetoothDevicesErrorState(
+              exception: error as Exception,
+            ),
+          ),
+        );
 
-      _streamSubscription?.cancel();
-    });
+        _streamSubscription?.cancel();
+      },
+    );
   }
 
   Future<void> _startScan(
@@ -84,8 +90,8 @@ class BluetoothDevicesBloc
     emit(
       result.when<BluetoothDevicesState>(
         data: (bluetoothDevicesOrNull) => BluetoothDevicesDataState(
-          bluetoothDevices: bluetoothDevicesOrNull ??
-              List<BluetoothDeviceEntity>.empty(growable: false),
+          bluetoothDevices:
+              bluetoothDevicesOrNull ?? List<BluetoothDeviceEntity>.empty(),
         ),
         error: (exception) => BluetoothDevicesErrorState(exception: exception),
       ),

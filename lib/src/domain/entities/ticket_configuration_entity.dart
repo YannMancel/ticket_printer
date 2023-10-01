@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
+
 /// The dimensions are in mm.
+@immutable
 class TicketConfigurationEntity {
   const TicketConfigurationEntity({
     this.width = 55,

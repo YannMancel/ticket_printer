@@ -25,9 +25,11 @@ void main() {
       // To avoid error with sealed class
       provideDummy<Result<List<BluetoothDeviceEntity>>>(resultOfData);
 
-      when(repository.startBluetoothDevicesScan(
-        timeout: anyNamed('timeout'),
-      )).thenAnswer((_) async => resultOfData);
+      when(
+        repository.startBluetoothDevicesScan(
+          timeout: anyNamed('timeout'),
+        ),
+      ).thenAnswer((_) async => resultOfData);
 
       final result = await useCase();
 
@@ -46,10 +48,13 @@ void main() {
           resultOfError<List<BluetoothDeviceEntity>>(),
         );
 
-        when(repository.startBluetoothDevicesScan(
-          timeout: anyNamed('timeout'),
-        )).thenAnswer(
-            (_) async => resultOfError<List<BluetoothDeviceEntity>>());
+        when(
+          repository.startBluetoothDevicesScan(
+            timeout: anyNamed('timeout'),
+          ),
+        ).thenAnswer(
+          (_) async => resultOfError<List<BluetoothDeviceEntity>>(),
+        );
 
         final result = await useCase();
 

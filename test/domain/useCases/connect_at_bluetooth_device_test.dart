@@ -25,16 +25,20 @@ void main() {
       // To avoid error with sealed class
       provideDummy<Result<void>>(kResultOfVoidData);
 
-      when(repository.connectAtBluetoothDevice(
-        bluetoothDevice: bluetoothDeviceEntity,
-      )).thenAnswer((_) async => kResultOfVoidData);
+      when(
+        repository.connectAtBluetoothDevice(
+          bluetoothDevice: bluetoothDeviceEntity,
+        ),
+      ).thenAnswer((_) async => kResultOfVoidData);
 
       final result = await useCase(bluetoothDeviceEntity);
 
       expect(result, kResultOfVoidData);
-      verify(repository.connectAtBluetoothDevice(
-        bluetoothDevice: bluetoothDeviceEntity,
-      )).called(1);
+      verify(
+        repository.connectAtBluetoothDevice(
+          bluetoothDevice: bluetoothDeviceEntity,
+        ),
+      ).called(1);
       verifyNoMoreInteractions(repository);
     });
 
@@ -44,16 +48,20 @@ void main() {
         // To avoid error with sealed class
         provideDummy<Result<void>>(resultOfError<void>());
 
-        when(repository.connectAtBluetoothDevice(
-          bluetoothDevice: bluetoothDeviceEntity,
-        )).thenAnswer((_) async => resultOfError<void>());
+        when(
+          repository.connectAtBluetoothDevice(
+            bluetoothDevice: bluetoothDeviceEntity,
+          ),
+        ).thenAnswer((_) async => resultOfError<void>());
 
         final result = await useCase(bluetoothDeviceEntity);
 
         expect(result, resultOfError<void>());
-        verify(repository.connectAtBluetoothDevice(
-          bluetoothDevice: bluetoothDeviceEntity,
-        )).called(1);
+        verify(
+          repository.connectAtBluetoothDevice(
+            bluetoothDevice: bluetoothDeviceEntity,
+          ),
+        ).called(1);
         verifyNoMoreInteractions(repository);
       },
     );

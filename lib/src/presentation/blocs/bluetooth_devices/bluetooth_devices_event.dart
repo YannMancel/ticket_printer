@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:ticket_printer/src/_src.dart';
 
 sealed class BluetoothDevicesEvent {
   const BluetoothDevicesEvent();
 }
 
+@immutable
 class BluetoothDevicesStartedEvent extends BluetoothDevicesEvent {
   const BluetoothDevicesStartedEvent({this.timeout});
 
@@ -21,6 +23,7 @@ class BluetoothDevicesStartedEvent extends BluetoothDevicesEvent {
   int get hashCode => Object.hash(runtimeType, timeout);
 }
 
+@immutable
 class BluetoothDevicesRefreshedEvent extends BluetoothDevicesEvent {
   const BluetoothDevicesRefreshedEvent({this.timeout});
 
@@ -38,6 +41,7 @@ class BluetoothDevicesRefreshedEvent extends BluetoothDevicesEvent {
   int get hashCode => Object.hash(runtimeType, timeout);
 }
 
+@immutable
 class BluetoothDevicesStoppedEvent extends BluetoothDevicesEvent {
   const BluetoothDevicesStoppedEvent();
 
@@ -54,6 +58,7 @@ class BluetoothDevicesStoppedEvent extends BluetoothDevicesEvent {
   }
 }
 
+@immutable
 class BluetoothDevicesChangedStateEvent extends BluetoothDevicesEvent {
   const BluetoothDevicesChangedStateEvent({required this.nextState});
 

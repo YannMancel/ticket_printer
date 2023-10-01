@@ -2,22 +2,17 @@ library ticket_printer;
 
 export 'src/_src.dart'
     show
-        ServiceLocator,
-        //
-        BluetoothDevicesEvent,
-        BluetoothDevicesStartedEvent,
-        BluetoothDevicesRefreshedEvent,
-        BluetoothDevicesState,
-        //
-        BluetoothConnectionEvent,
         BluetoothConnectedEvent,
-        BluetoothDisconnectedEvent,
+        BluetoothConnectionEvent,
         BluetoothConnectionState,
-        //
+        BluetoothDeviceEntity,
+        BluetoothDevicesEvent,
+        BluetoothDevicesRefreshedEvent,
+        BluetoothDevicesStartedEvent,
+        BluetoothDevicesState,
+        BluetoothDisconnectedEvent,
         BluetoothImagePrinterEvent,
         BluetoothImagePrinterState,
-        //
-        BluetoothDeviceEntity,
-        TicketConfigurationEntity,
-        //
-        DoubleExt;
+        DoubleExt,
+        ServiceLocator,
+        TicketConfigurationEntity;

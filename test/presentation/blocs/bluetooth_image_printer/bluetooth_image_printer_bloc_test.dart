@@ -61,11 +61,13 @@ void main() {
           PrinterSuccessState(),
         ],
         verify: (_) {
-          verify(printImageByBluetooth(
-            kTicketConfigurationEntity,
-            bytes,
-            kCount,
-          )).called(1);
+          verify(
+            printImageByBluetooth(
+              kTicketConfigurationEntity,
+              bytes,
+              kCount,
+            ),
+          ).called(1);
           verifyNoMoreInteractions(printImageByBluetooth);
         },
       );
@@ -76,11 +78,13 @@ void main() {
           // To avoid error with sealed class
           provideDummy<Result<void>>(resultOfError<void>());
 
-          when(printImageByBluetooth(
-            kTicketConfigurationEntity,
-            bytes,
-            kCount,
-          )).thenAnswer(
+          when(
+            printImageByBluetooth(
+              kTicketConfigurationEntity,
+              bytes,
+              kCount,
+            ),
+          ).thenAnswer(
             (_) async => resultOfError<void>(),
           );
         },
@@ -91,11 +95,13 @@ void main() {
           PrinterErrorState(exception: exception),
         ],
         verify: (_) {
-          verify(printImageByBluetooth(
-            kTicketConfigurationEntity,
-            bytes,
-            kCount,
-          )).called(1);
+          verify(
+            printImageByBluetooth(
+              kTicketConfigurationEntity,
+              bytes,
+              kCount,
+            ),
+          ).called(1);
           verifyNoMoreInteractions(printImageByBluetooth);
         },
       );

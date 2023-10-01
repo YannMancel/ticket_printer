@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 
 sealed class Result<T> {
   const Result();
@@ -28,6 +29,7 @@ sealed class Result<T> {
   }
 }
 
+@immutable
 class DataResult<T> extends Result<T> {
   const DataResult({this.value});
 
@@ -50,6 +52,7 @@ class DataResult<T> extends Result<T> {
   }
 }
 
+@immutable
 class ErrorResult<T> extends Result<T> {
   const ErrorResult({required this.exception});
 

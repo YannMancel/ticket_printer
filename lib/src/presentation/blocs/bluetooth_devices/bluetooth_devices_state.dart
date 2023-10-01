@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:ticket_printer/src/_src.dart';
 
 sealed class BluetoothDevicesState {
@@ -21,6 +22,7 @@ sealed class BluetoothDevicesState {
   }
 }
 
+@immutable
 class BluetoothDevicesInitialState extends BluetoothDevicesState {
   const BluetoothDevicesInitialState({
     this.bluetoothDevices = const <BluetoothDeviceEntity>[],
@@ -41,6 +43,7 @@ class BluetoothDevicesInitialState extends BluetoothDevicesState {
   int get hashCode => Object.hash(runtimeType, bluetoothDevices);
 }
 
+@immutable
 class BluetoothDevicesLoadingState extends BluetoothDevicesState {
   const BluetoothDevicesLoadingState();
 
@@ -55,6 +58,7 @@ class BluetoothDevicesLoadingState extends BluetoothDevicesState {
   }
 }
 
+@immutable
 class BluetoothDevicesDataState extends BluetoothDevicesState {
   const BluetoothDevicesDataState({
     this.bluetoothDevices = const <BluetoothDeviceEntity>[],
@@ -75,6 +79,7 @@ class BluetoothDevicesDataState extends BluetoothDevicesState {
   int get hashCode => Object.hash(runtimeType, bluetoothDevices);
 }
 
+@immutable
 class BluetoothDevicesErrorState extends BluetoothDevicesState {
   const BluetoothDevicesErrorState({required this.exception});
 

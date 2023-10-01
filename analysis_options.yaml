@@ -1,4 +1,705 @@
 include: package:flutter_lints/flutter.yaml
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  errors:
+    # treat missing returns as an error (not a hint)
+    # missing_return: error
+  exclude:
+    # - "**/*.freezed.dart"
+    # - "**/*.mocks.dart"
+
+# -----------------------------------------------------------------------------
+# linter-rules of 28/09/2023,
+# See: https://dart.dev/tools/linter-rules
+# -----------------------------------------------------------------------------
+linter:
+  rules:
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Avoid relative imports for files in lib/.
+    - always_use_package_imports
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Avoid method calls or property accesses on a “dynamic” target.
+    - avoid_dynamic_calls
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Lints/Core] Avoid empty else statements.
+    # - avoid_empty_else
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [flutter_lints] Avoid print calls in production code.
+    # - avoid_print
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Lints/core] Avoid relative imports for files in lib/.
+    # - avoid_relative_lib_imports
+    # -------------------------------------------------------------------------
+    # [X] [Error rule] [Deprecated] Avoid returning null for Future.
+    # - avoid_returning_null_for_future
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Avoid slow async dart:io methods.
+    - avoid_slow_async_io
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Avoid .toString() in production code since results may be minified.
+    - avoid_type_to_string
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Lints/Core] Avoid types as parameter names
+    # - avoid_types_as_parameter_names
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [flutter_lints] Avoid using web-only libraries outside Flutter web plugin packages.
+    # - avoid_web_libraries_in_flutter
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Cancel instances of dart.async.StreamSubscription.
+    - cancel_subscriptions
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Close instances of dart.core.Sink.
+    - close_sinks
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Invocation of various collection methods with arguments of unrelated types.
+    - collection_methods_unrelated_type
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Only reference in scope identifiers in doc comments.
+    - comment_references
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Lints/Recommended] Avoid control flow in finally blocks.
+    # - control_flow_in_finally
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Avoid using deprecated elements from within the package in which they are declared.
+    - deprecated_member_use_from_same_package
+    # -------------------------------------------------------------------------
+    # [X] [Error rule] DO reference all public properties in debug methods.
+    # - diagnostic_describe_all_properties
+    # -------------------------------------------------------------------------
+    # [X] [Error rule] Don’t invoke asynchronous functions in non-async blocks.
+    # - discarded_futures
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Lints/Recommended] Avoid empty statements.
+    # empty_statements
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Lints/Core] Always override hashCode if overriding ==.
+    # - hash_and_equals
+    # -------------------------------------------------------------------------
+    # [X] [Error rule] [Experimental] Don’t implicitly reopen classes.
+    # - implicit_reopen
+    # -------------------------------------------------------------------------
+    # [X] [Error rule] [Experimental] Use case expressions that are valid in Dart 3.0.
+    # - invalid_case_patterns
+    # -------------------------------------------------------------------------
+    # [X] [Error rule] [Removed] Conditions should not unconditionally evaluate to true or to false.
+    # - invariant_booleans
+    # -------------------------------------------------------------------------
+    # [X] [Error rule] [Deprecated] Invocation of Iterable.contains with references of unrelated types.
+    # - iterable_contains_unrelated_type (Deprecated)
+    # -------------------------------------------------------------------------
+    # [X] [Error rule] [Deprecated] Invocation of remove with references of unrelated types.
+    # - list_remove_unrelated_type
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Boolean expression composed only with literals.
+    - literal_only_boolean_expressions
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Don’t use adjacent strings in list.
+    - no_adjacent_strings_in_list
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Lints/Core] Don’t use more than one case with same value.
+    # - no_duplicate_case_values
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [flutter_lints] Don’t put any logic in createState.
+    # - no_logic_in_create_state
+    # -------------------------------------------------------------------------
+    # [X -> V] [Error rule] [Dart 3.1.0] Don’t assign a variable to itself.
+    # - no_self_assignments
+    # -------------------------------------------------------------------------
+    # [X -> V] [Error rule] [Dart 3.1.0] Don’t use wildcard parameters or variables.
+    # - no_wildcard_variable_uses
+    # -------------------------------------------------------------------------
+    # [X] [Error rule] Prefer relative imports for files in lib/.
+    # - prefer_relative_imports
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Lints/Recommended] Don’t use the Null type, unless you are positive that you don’t want void.
+    # - prefer_void_to_null
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Test type arguments in operator ==(Object other).
+    - test_types_in_equals
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Avoid throw in finally block.
+    - throw_in_finally
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] Avoid using unnecessary statements.
+    - unnecessary_statements
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Lints/Core] Equality operator == invocation with references of unrelated types.
+    # - unrelated_type_equality_checks
+    # -------------------------------------------------------------------------
+    # [X] [Error rule] Avoid unsafe HTML APIs.
+    # - unsafe_html
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Experimental] [flutter_lints] Do not use BuildContexts across async gaps.
+    # - use_build_context_synchronously
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [flutter_lints] Use key in widget constructors.
+    # - use_key_in_widget_constructors
+    # -------------------------------------------------------------------------
+    # [V] [Error rule] [Lints/Core] Use valid regular expression syntax.
+    # - valid_regexps
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Declare method return types.
+    - always_declare_return_types
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Separate the control structure expression from its statement.
+    # - always_put_control_body_on_new_line
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Put required named parameters first.
+    # - always_put_required_named_parameters_first
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Deprecated] Specify @required on named parameters without defaults.
+    # - always_require_non_null_named_parameters
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Specify type annotations.
+    # - always_specify_types
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Annotate overridden members.
+    # - annotate_overrides
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Experimental] Annotate redeclared members.
+    # - annotate_redeclares
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Avoid annotating with dynamic when not required.
+    # - avoid_annotating_with_dynamic
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Removed] Avoid using as.
+    # - avoid_as
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Avoid bool literals in conditional expressions.
+    # - avoid_bool_literals_in_conditional_expressions
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Avoid catches without on clauses.
+    # - avoid_catches_without_on_clauses
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Don’t explicitly catch Error or types that implement it.
+    # - avoid_catching_errors
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Avoid defining a class that contains only static members.
+    # - avoid_classes_with_only_static_members
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid double and int checks.
+    - avoid_double_and_int_checks
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid overloading operator == and hashCode on classes not marked @immutable.
+    - avoid_equals_and_hash_code_on_mutable_classes
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid escaping inner quotes by converting surrounding quotes.
+    - avoid_escaping_inner_quotes
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid field initializers in const classes.
+    - avoid_field_initializers_in_const_classes
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid final for parameter declarations.
+    - avoid_final_parameters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid using forEach with a function literal.
+    # - avoid_function_literals_in_foreach_calls
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Don’t implement classes that override ==.
+    - avoid_implementing_value_types
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Don’t explicitly initialize variables to null.
+    # - avoid_init_to_null
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid JavaScript rounded ints.
+    - avoid_js_rounded_ints
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Don’t declare multiple variables on a single line.
+    - avoid_multiple_declarations_per_line
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Don’t check for null in custom == operators.
+    - avoid_null_checks_in_equality_operators
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid positional boolean parameters.
+    - avoid_positional_boolean_parameters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid private typedef functions.
+    - avoid_private_typedef_functions
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid redundant argument values.
+    - avoid_redundant_argument_values
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Don’t rename parameters of overridden methods.
+    # - avoid_renaming_method_parameters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid return types on setters.
+    - avoid_return_types_on_setters
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Deprecated] Avoid returning null from members whose return type is bool, double, int, or num.
+    # - avoid_returning_null
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid returning null for void.
+    # - avoid_returning_null_for_void
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid returning this from methods just to enable a fluent interface.
+    - avoid_returning_this
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Avoid setters without getters.
+    # - avoid_setters_without_getters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Avoid shadowing type parameters.
+    # - avoid_shadowing_type_parameters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid single cascade in expression statements.
+    # - avoid_single_cascade_in_expression_statements
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Avoid annotating types for function expression parameters.
+    # - avoid_types_on_closure_parameters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [flutter_lints] Avoid unnecessary containers.
+    # - avoid_unnecessary_containers
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid defining unused parameters in constructors.
+    - avoid_unused_constructor_parameters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid async functions that return void.
+    - avoid_void_async
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Await only futures.
+    # - await_only_futures
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Name extensions using UpperCamelCase.
+    # - camel_case_extensions
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Name types using UpperCamelCase.
+    # - camel_case_types
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Cascade consecutive method invocations on the same reference.
+    - cascade_invocations
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Don’t cast a nullable value to a non nullable type.
+    # - cast_nullable_to_non_nullable
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Sort combinator names alphabetically.
+    - combinators_ordering
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Missing conditional import.
+    - conditional_uri_does_not_exist
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Lints/Recommended] Prefer using lowerCamelCase for constant names.
+    - constant_identifier_names: false
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] DO use curly braces for all flow control structures.
+    # - curly_braces_in_flow_control_structures
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Attach library doc comments to library directives.
+    - dangling_library_doc_comments
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Missing deprecated annotation.
+    - deprecated_consistency
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Adhere to Effective Dart Guide directives sorting conventions.
+    - directives_ordering
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Do not use environment declared variables.
+    # - do_not_use_environment
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Avoid empty catch blocks.
+    # - empty_catches
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use ; instead of {} for empty constructor bodies.
+    # - empty_constructor_bodies
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Removed] Do use sound null safety.
+    # - enable_null_safety
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Put a single newline at end of file.
+    - eol_at_end_of_file
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Define case clauses for all constants in enum-like classes.
+    # - exhaustive_cases
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Name source files using lowercase_with_underscores.
+    # - file_names
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Use Flutter TODO format: // TODO(username): message, https://URL-to-issue.
+    - flutter_style_todos
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Don’t import implementation files from another package.
+    # - implementation_imports
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Explicitly tear-off call methods when using an object as a Function.
+    # - implicit_call_tearoffs
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Join return statement with assignment when possible.
+    - join_return_with_assignment
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Start multiline strings with a newline.
+    - leading_newlines_in_multiline_strings
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Attach library annotations to library directives.
+    # - library_annotations
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Name libraries using lowercase_with_underscores.
+    # - library_names
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use lowercase_with_underscores when specifying a library prefix.
+    # - library_prefixes
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid using private types in public APIs.
+    # - library_private_types_in_public_api
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Avoid lines longer than 80 characters.
+    - lines_longer_than_80_chars
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Use matching super parameter names.
+    - matching_super_parameters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Missing whitespace between adjacent strings.
+    - missing_whitespace_between_adjacent_strings
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Experimental] No default cases.
+    # - no_default_cases
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid leading underscores for library prefixes.
+    - no_leading_underscores_for_library_prefixes
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid leading underscores for local identifiers.
+    - no_leading_underscores_for_local_identifiers
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Don’t compare booleans to boolean literals.
+    - no_literal_bool_comparisons
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Avoid calling toString() on runtimeType.
+    # - no_runtimeType_toString
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Name non-constant identifiers using lowerCamelCase.
+    - non_constant_identifier_names
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Noop primitive operations.
+    - noop_primitive_operations
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Don’t use null check on a potentially nullable type parameter.
+    # - null_check_on_nullable_type_parameter
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Do not pass null as an argument where a closure is expected.
+    - null_closures
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Omit type annotations for local variables.
+    - omit_local_variable_types
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Avoid defining a one-member abstract class when a simple function will do.
+    # - one_member_abstracts
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Only throw instances of classes extending either Exception or Error.
+    - only_throw_errors
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Don’t override fields.
+    # - overridden_fields
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Provide doc comments for all public APIs.
+    # - package_api_docs
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Prefix library names with the package name and a dot-separated path.
+    - package_prefixed_library_names
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Don’t reassign references to parameters of functions or methods.
+    - parameter_assignments
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use adjacent strings to concatenate string literals.
+    # - prefer_adjacent_string_concatenation
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Prefer putting asserts in initializer lists.
+    - prefer_asserts_in_initializer_lists
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Prefer asserts with message.
+    - prefer_asserts_with_message
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Removed] Prefer using a boolean as the assert condition.
+    # - prefer_bool_in_asserts
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use collection literals when possible.
+    # - prefer_collection_literals
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Prefer using ??= over testing for null.
+    # - prefer_conditional_assignment
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [flutter_lints] Prefer const with constant constructors.
+    # - prefer_const_constructors
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [flutter_lints] Prefer declaring const constructors on @immutable classes.
+    # - prefer_const_constructors_in_immutables
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [flutter_lints] Prefer const over final for declarations.
+    # - prefer_const_declarations
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [flutter_lints] Prefer const literals as parameters of constructors on @immutable classes.
+    # - prefer_const_literals_to_create_immutables
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Prefer defining constructors instead of static methods to create instances.
+    - prefer_constructors_over_static_methods
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use contains for List and String instances.
+    # - prefer_contains
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Prefer double quotes where they won’t require escape sequences.
+    # - prefer_double_quotes
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Removed] [Lints/Recommended] Use = to separate a named parameter from its default value.
+    # - prefer_equal_for_default_values
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Use => for short members whose body is a single return statement.
+    # - prefer_expression_function_bodies
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Private field could be final.
+    # - prefer_final_fields
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Prefer final in for-each loop variable if reference is not reassigned.
+    - prefer_final_in_for_each
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Prefer final for variable declarations if they are not reassigned.
+    - prefer_final_locals
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Prefer final for parameter declarations if they are not reassigned.
+    # - prefer_final_parameters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Prefer ‘for’ elements when building maps from iterables.
+    # - prefer_for_elements_to_map_fromIterable
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Use forEach to only apply a function to all the elements.
+    # - prefer_foreach
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use a function declaration to bind a function to a name.
+    # - prefer_function_declarations_over_variables
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Prefer generic function type aliases.
+    # - prefer_generic_function_type_aliases
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Prefer if elements to conditional expressions where possible.
+    - prefer_if_elements_to_conditional_expressions
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Prefer using if null operators.
+    # - prefer_if_null_operators
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use initializing formals when possible.
+    # - prefer_initializing_formals
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Inline list item declarations where possible.
+    # - prefer_inlined_adds
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Prefer int literals over double literals.
+    # - prefer_int_literals
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use interpolation to compose strings and values.
+    # - prefer_interpolation_to_compose_strings
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Use isEmpty for Iterables and Maps.
+    # - prefer_is_empty
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Use isNotEmpty for Iterables and Maps.
+    # - prefer_is_not_empty
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Prefer is! operator.
+    # - prefer_is_not_operator
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Prefer to use whereType on iterable.
+    # - prefer_iterable_whereType
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Prefer using mixins.
+    - prefer_mixin
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Prefer null aware method calls.
+    - prefer_null_aware_method_calls
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Prefer using null aware operators.
+    # - prefer_null_aware_operators
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Only use double quotes for strings containing single quotes.
+    - prefer_single_quotes
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use spread collections when possible.
+    # - prefer_spread_collections
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Prefer typing uninitialized variables and fields.
+    # - prefer_typing_uninitialized_variables
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Provide a deprecation message, via @Deprecated(“message”).
+    # - provide_deprecation_message
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Document all public members.
+    # - public_member_api_docs
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Property getter recursively returns itself.
+    # - recursive_getters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Use trailing commas for all function calls and declarations.
+    - require_trailing_commas
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [flutter_lints] SizedBox for whitespace.
+    # - sized_box_for_whitespace
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Use SizedBox shrink and expand named constructors.
+    - sized_box_shrink_expand
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Prefer using /// for doc comments.
+    # - slash_for_doc_comments
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [flutter_lints] Sort child properties last in widget instance creations.
+    # - sort_child_properties_last
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Sort constructor declarations before other members.
+    - sort_constructors_first
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Sort unnamed constructor declarations first.
+    - sort_unnamed_constructors_first
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Removed] Place the super call last in a constructor initialization list.
+    # - super_goes_last
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Tighten type of initializing formal.
+    # - tighten_type_of_initializing_formals
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Type annotate public APIs.
+    - type_annotate_public_apis
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Don’t type annotate initializing formals.
+    # - type_init_formals
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Don’t use constant patterns with type literals.
+    # - type_literal_in_constant_pattern
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Future results in async function bodies must be awaited or marked unawaited using dart:async.
+    - unawaited_futures
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Unnecessary await keyword in return.
+    - unnecessary_await_in_return
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid using braces in interpolation when not needed.
+    # - unnecessary_brace_in_string_interps
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Don’t use explicit breaks when a break is implied.
+    - unnecessary_breaks
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid const keyword.
+    # - unnecessary_const
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Unnecessary .new constructor name.
+    # - unnecessary_constructor_name
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Don’t use final for local variables.
+    # - unnecessary_final
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid wrapping fields in getters and setters just to be “safe”.
+    # - unnecessary_getters_setters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Don’t create a lambda when a tear-off will do.
+    - unnecessary_lambdas
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Don’t specify the late modifier when it is not needed.
+    # - unnecessary_late
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Avoid library directives unless they have documentation comments or annotations.
+    # - unnecessary_library_directive
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Unnecessary new keyword.
+    # - unnecessary_new
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid null in null-aware assignment.
+    # - unnecessary_null_aware_assignments
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Unnecessary null aware operator on extension on a nullable type.
+    # - unnecessary_null_aware_operator_on_extension_on_nullable
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Experimental] Unnecessary null checks.
+    # - unnecessary_null_checks
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Avoid using null in if null operators.
+    # - unnecessary_null_in_if_null_operators
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use a non-nullable type for a final variable initialized with a non-nullable value.
+    # - unnecessary_nullable_for_final_variable_declarations
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Don’t override a method to do a super method invocation with the same parameters.
+    # - unnecessary_overrides
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Unnecessary parentheses can be removed.
+    # - unnecessary_parenthesis
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Unnecessary raw string.
+    # - unnecessary_raw_strings
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Remove unnecessary backslashes in strings.
+    # - unnecessary_string_escapes
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Unnecessary string interpolation.
+    # - unnecessary_string_interpolations
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Don’t access members with this unless avoiding shadowing.
+    # - unnecessary_this
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Unnecessary toList() in spreads.
+    - unnecessary_to_list_in_spreads
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Unreachable top-level members in executable libraries.
+    # - unreachable_from_main
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Use ColoredBox.
+    - use_colored_box
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Use DecoratedBox.
+    - use_decorated_box
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Use enums rather than classes that behave like enums.
+    # - use_enums
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [flutter_lints] Prefer an 8-digit hexadecimal integer(0xFFFFFFFF) to instantiate Color.
+    # - use_full_hex_values_for_flutter_colors
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use generic function type syntax for parameters.
+    # - use_function_type_syntax_for_parameters
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Use if-null operators to convert nulls to bools.
+    - use_if_null_to_convert_nulls_to_bools
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Prefer intValue.isOdd/isEven instead of checking the result of % 2.
+    - use_is_even_rather_than_modulo
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Experimental] Use late for private members with a non-nullable type.
+    # - use_late_for_private_fields_and_variables
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Use predefined named constants.
+    - use_named_constants
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Use raw string to avoid escapes.
+    # - use_raw_strings
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Recommended] Use rethrow to rethrow a caught exception.
+    # - use_rethrow_when_possible
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Use a setter for operations that conceptually change a property.
+    - use_setters_to_change_properties
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] Use string buffers to compose strings.
+    - use_string_buffers
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] Use string in part of directives.
+    # - use_string_in_part_of_directives
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] [Experimental] Use super-initializer parameters where possible.
+    # - use_super_parameters
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Use throwsA matcher instead of fail().
+    # - use_test_throws_matchers
+    # -------------------------------------------------------------------------
+    # [X] [Style rule] Start the name of the method with to/_to or as/_as if applicable.
+    # - use_to_and_as_if_applicable
+    # -------------------------------------------------------------------------
+    # [V] [Style rule] [Lints/Core] core rule set recommended rule set flutter rule set
+    # - void_checks
+    # -------------------------------------------------------------------------
+    # [V] [Pub rule] [Lints/Core] Depend on referenced packages.
+    # - depend_on_referenced_packages
+    # -------------------------------------------------------------------------
+    # [V] [Pub rule] [Lints/Recommended] Use lowercase_with_underscores for package names.
+    # - package_names
+    # -------------------------------------------------------------------------
+    # [V] [Pub rule] Use secure urls in pubspec.yaml.
+    - secure_pubspec_urls
+    # -------------------------------------------------------------------------
+    # [V] [Pub rule] Sort pub dependencies alphabetically.
+    - sort_pub_dependencies
+    # -------------------------------------------------------------------------

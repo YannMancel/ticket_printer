@@ -208,6 +208,8 @@ class _ConnectedView extends StatefulWidget {
 class _ConnectedViewState extends State<_ConnectedView> {
   late int _count;
 
+  bool get _isValidCount => _count > 0;
+
   TicketConfigurationEntity get _ticketConfiguration {
     return const TicketConfigurationEntity(
       width: 55,
@@ -443,19 +445,24 @@ class _ConnectedViewState extends State<_ConnectedView> {
               children: <Widget>[
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () async {
-                      final bloc = context.read<BluetoothImagePrinterBloc>();
-                      final bytes = await _getBytes(
-                        ticketConfiguration: _ticketConfiguration,
-                      );
-                      final event = BluetoothImagePrinterEvent(
-                        ticketConfiguration: _ticketConfiguration,
-                        bytes: bytes,
-                        count: _count,
-                      );
+                    onPressed: _isValidCount
+                        ? () async {
+                            final bytes = await _getBytes(
+                              ticketConfiguration: _ticketConfiguration,
+                            );
+                            final event = BluetoothImagePrinterEvent(
+                              ticketConfiguration: _ticketConfiguration,
+                              bytes: bytes,
+                              count: _count,
+                            );
 
-                      bloc.add(event);
-                    },
+                            if (context.mounted) {
+                              context
+                                  .read<BluetoothImagePrinterBloc>()
+                                  .add(event);
+                            }
+                          }
+                        : null,
                     child: const Text('Print'),
                   ),
                 ),
@@ -463,7 +470,7 @@ class _ConnectedViewState extends State<_ConnectedView> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      await _generateCustomDocument(
+                      final document = await _generateCustomDocument(
                         ticketConfiguration: _ticketConfiguration,
                         title: PrintedLineBase(
                           key: 'Salade'.toUpperCase(),
@@ -493,14 +500,16 @@ class _ConnectedViewState extends State<_ConnectedView> {
                             separator: '',
                           ),
                         ],
-                      ).then(
-                        (document) => Navigator.push<void>(
+                      );
+
+                      if (context.mounted) {
+                        Navigator.push<void>(
                           context,
                           MaterialPageRoute<void>(
                             builder: (_) => PreviewPage(document),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     },
                     child: const Text('Preview'),
                   ),
@@ -519,9 +528,10 @@ class _ConnectedViewState extends State<_ConnectedView> {
             child: Row(
               children: <Widget>[
                 FloatingActionButton(
+                  backgroundColor: !_isValidCount ? Colors.grey : null,
                   heroTag: 'Decrement',
                   mini: true,
-                  onPressed: _count > 0
+                  onPressed: _isValidCount
                       ? () {
                           if (mounted) setState(() => _count--);
                         }

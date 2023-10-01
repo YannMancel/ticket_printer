@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:ticket_printer/src/_src.dart';
 
 sealed class BluetoothConnectionEvent {
   const BluetoothConnectionEvent();
 }
 
+@immutable
 class BluetoothConnectedEvent extends BluetoothConnectionEvent {
   const BluetoothConnectedEvent({required this.bluetoothDevice});
 
@@ -22,6 +24,7 @@ class BluetoothConnectedEvent extends BluetoothConnectionEvent {
   int get hashCode => Object.hash(runtimeType, bluetoothDevice);
 }
 
+@immutable
 class BluetoothDisconnectedEvent extends BluetoothConnectionEvent {
   const BluetoothDisconnectedEvent();
 

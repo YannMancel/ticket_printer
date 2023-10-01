@@ -187,10 +187,12 @@ void main() {
       'should be success when printImage is called.',
       () async {
         final fakePrintedData = List<LineText>.empty();
-        when(bluetoothPrint.printLabel(
-          ticketConfigurationModelJson,
-          fakePrintedData,
-        )).thenAnswer((_) async {});
+        when(
+          bluetoothPrint.printLabel(
+            ticketConfigurationModelJson,
+            fakePrintedData,
+          ),
+        ).thenAnswer((_) async {});
 
         await remoteDataSource.printImage(
           ticketConfiguration: ticketConfigurationModel,
@@ -199,10 +201,12 @@ void main() {
           fakePrintedData: fakePrintedData,
         );
 
-        verify(bluetoothPrint.printLabel(
-          ticketConfigurationModelJson,
-          fakePrintedData,
-        )).called(1);
+        verify(
+          bluetoothPrint.printLabel(
+            ticketConfigurationModelJson,
+            fakePrintedData,
+          ),
+        ).called(1);
         verifyNoMoreInteractions(bluetoothPrint);
       },
     );
@@ -211,10 +215,12 @@ void main() {
       'should be fail when printImage is called.',
       () async {
         final fakePrintedData = List<LineText>.empty();
-        when(bluetoothPrint.printLabel(
-          ticketConfigurationModelJson,
-          fakePrintedData,
-        )).thenThrow(exception);
+        when(
+          bluetoothPrint.printLabel(
+            ticketConfigurationModelJson,
+            fakePrintedData,
+          ),
+        ).thenThrow(exception);
 
         final call = remoteDataSource.printImage(
           ticketConfiguration: ticketConfigurationModel,
@@ -228,10 +234,12 @@ void main() {
           throwsA(const TypeMatcher<Exception>()),
         );
 
-        verify(bluetoothPrint.printLabel(
-          ticketConfigurationModelJson,
-          fakePrintedData,
-        )).called(1);
+        verify(
+          bluetoothPrint.printLabel(
+            ticketConfigurationModelJson,
+            fakePrintedData,
+          ),
+        ).called(1);
         verifyNoMoreInteractions(bluetoothPrint);
       },
     );

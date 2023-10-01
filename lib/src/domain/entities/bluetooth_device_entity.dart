@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:ticket_printer/src/_src.dart';
 
+@immutable
 class BluetoothDeviceEntity {
   const BluetoothDeviceEntity({
     this.name,

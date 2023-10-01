@@ -1,7 +1,7 @@
-import 'dart:typed_data';
-
+import 'package:flutter/foundation.dart';
 import 'package:ticket_printer/src/_src.dart';
 
+@immutable
 class BluetoothImagePrinterEvent {
   const BluetoothImagePrinterEvent({
     required this.ticketConfiguration,
