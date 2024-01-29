@@ -4,8 +4,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticket_printer/src/_src.dart';
 
 abstract class ServiceLocator {
+  static BluetoothPrint? _bluetoothPrint;
+
+  static Bloc<BluetoothDevicesEvent, BluetoothDevicesState>?
+      _bluetoothDevicesBloc;
+
+  static Bloc<BluetoothConnectionEvent, BluetoothConnectionState>?
+      _bluetoothConnectionBloc;
+
+  static Bloc<BluetoothImagePrinterEvent, BluetoothImagePrinterState>?
+      _bluetoothImagePrinterBloc;
+
   @visibleForTesting
-  static BluetoothPrint get bluetoothPrint => BluetoothPrint.instance;
+  static BluetoothPrint get bluetoothPrint {
+    return _bluetoothPrint ??= BluetoothPrint.instance;
+  }
 
   @visibleForTesting
   static RemoteDataSourceInterface get remoteDataSource {
@@ -64,7 +77,7 @@ abstract class ServiceLocator {
 
   static Bloc<BluetoothDevicesEvent, BluetoothDevicesState>
       get bluetoothDevicesBlocSingleton {
-    return BluetoothDevicesBloc(
+    return _bluetoothDevicesBloc ??= BluetoothDevicesBloc(
       startBluetoothDevicesScan: startBluetoothDevicesScan,
       getBluetoothDevicesStream: getBluetoothDevicesStream,
       stopBluetoothDevicesScan: stopBluetoothDevicesScan,
@@ -73,7 +86,7 @@ abstract class ServiceLocator {
 
   static Bloc<BluetoothConnectionEvent, BluetoothConnectionState>
       get bluetoothConnectionBlocSingleton {
-    return BluetoothConnectionBloc(
+    return _bluetoothConnectionBloc ??= BluetoothConnectionBloc(
       connectAtBluetoothDevice: connectAtBluetoothDevice,
       disconnectAtBluetoothDevice: disconnectAtBluetoothDevice,
     );
@@ -81,8 +94,9 @@ abstract class ServiceLocator {
 
   static Bloc<BluetoothImagePrinterEvent, BluetoothImagePrinterState>
       get bluetoothImagePrinterBlocSingleton {
-    return BluetoothImagePrinterBloc(
-      printImageByBluetooth: printImageByBluetooth,
-    );
+    return _bluetoothImagePrinterBloc ??
+        BluetoothImagePrinterBloc(
+          printImageByBluetooth: printImageByBluetooth,
+        );
   }
 }
