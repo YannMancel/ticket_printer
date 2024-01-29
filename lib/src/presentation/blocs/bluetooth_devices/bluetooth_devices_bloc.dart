@@ -47,23 +47,31 @@ class BluetoothDevicesBloc
 
   StreamSubscription<Result<List<BluetoothDeviceEntity>>>? _streamSubscription;
 
-  Future<void> _setupBluetoothDevicesStream() async {
-    if (_streamSubscription != null) await _streamSubscription?.cancel();
+  Future<void> _resetStream() async {
+    if (_streamSubscription != null) {
+      await _streamSubscription?.cancel();
+      _streamSubscription = null;
+    }
+  }
 
+  Future<void> _setupBluetoothDevicesStream() async {
     _streamSubscription = _getBluetoothDevicesStream().listen(
       (result) {
         final nextState = result.when<BluetoothDevicesState>(
           data: (bluetoothDevicesOrNull) => BluetoothDevicesDataState(
             bluetoothDevices:
-                bluetoothDevicesOrNull ?? List<BluetoothDeviceEntity>.empty(),
+                bluetoothDevicesOrNull ?? const <BluetoothDeviceEntity>[],
           ),
-          error: (exception) =>
-              BluetoothDevicesErrorState(exception: exception),
+          error: (exception) => BluetoothDevicesErrorState(
+            exception: exception,
+          ),
         );
 
-        add(BluetoothDevicesChangedStateEvent(nextState: nextState));
+        if (state != nextState) {
+          add(BluetoothDevicesChangedStateEvent(nextState: nextState));
+        }
       },
-      onError: (Object error, _) {
+      onError: (Object error, _) async {
         add(
           BluetoothDevicesChangedStateEvent(
             nextState: BluetoothDevicesErrorState(
@@ -72,7 +80,7 @@ class BluetoothDevicesBloc
           ),
         );
 
-        _streamSubscription?.cancel();
+        await _resetStream();
       },
     );
   }
@@ -81,37 +89,30 @@ class BluetoothDevicesBloc
     Emitter<BluetoothDevicesState> emit, {
     Duration? timeout,
   }) async {
+    await _resetStream();
+    // All scans use timeout=null else implement isScanning
+    await _stopBluetoothDevicesScan();
+
     emit(
       const BluetoothDevicesLoadingState(),
     );
 
-    final result = await _startBluetoothDevicesScan(argument: timeout);
-
-    emit(
-      result.when<BluetoothDevicesState>(
-        data: (bluetoothDevicesOrNull) => BluetoothDevicesDataState(
-          bluetoothDevices:
-              bluetoothDevicesOrNull ?? List<BluetoothDeviceEntity>.empty(),
-        ),
-        error: (exception) => BluetoothDevicesErrorState(exception: exception),
-      ),
+    // Don't wait for Future if the event.timeout is null.
+    unawaited(
+      _startBluetoothDevicesScan(argument: timeout),
     );
 
     await _setupBluetoothDevicesStream();
   }
 
   Future<void> _stopScan(Emitter<BluetoothDevicesState> emit) async {
+    await _resetStream();
+
     emit(
       const BluetoothDevicesLoadingState(),
     );
 
-    final result = await _stopBluetoothDevicesScan();
-
-    if (result.isError) {
-      emit(
-        BluetoothDevicesErrorState(exception: result.errorExceptionOrNull!),
-      );
-    }
+    await _stopBluetoothDevicesScan();
   }
 
   FutureOr<void> _onStarted(
@@ -143,8 +144,8 @@ class BluetoothDevicesBloc
   }
 
   @override
-  Future<void> close() {
-    if (_streamSubscription != null) _streamSubscription?.cancel();
+  Future<void> close() async {
+    await _resetStream();
     return super.close();
   }
 }

@@ -52,8 +52,14 @@ void main() {
       });
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 2 states, a loading state then data state.',
+        'should emit a loading state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
+          when(stopBluetoothDevicesScan())
+              .thenAnswer((_) async => kResultOfVoidData);
+
           // To avoid error with sealed class
           provideDummy<Result<List<BluetoothDeviceEntity>>>(resultOfData);
 
@@ -66,23 +72,29 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesDataState(bluetoothDevices: bluetoothDeviceEntities),
         ],
         verify: (_) {
+          verify(stopBluetoothDevicesScan()).called(1);
           verify(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).called(1);
           verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
-          verifyZeroInteractions(stopBluetoothDevicesScan);
+          verifyNoMoreInteractions(stopBluetoothDevicesScan);
         },
       );
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 3 states, a loading state then data state then error '
+        'should emit 2 states, a loading state then error '
         'state (from error stream).',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
+          when(stopBluetoothDevicesScan())
+              .thenAnswer((_) async => kResultOfVoidData);
+
           // To avoid error with sealed class
           provideDummy<Result<List<BluetoothDeviceEntity>>>(resultOfData);
 
@@ -96,24 +108,30 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesDataState(bluetoothDevices: bluetoothDeviceEntities),
           BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
+          verify(stopBluetoothDevicesScan()).called(1);
           verify(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).called(1);
           verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
-          verifyZeroInteractions(stopBluetoothDevicesScan);
+          verifyNoMoreInteractions(stopBluetoothDevicesScan);
         },
       );
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 3 states, a loading state then data state then error '
+        'should emit 2 states, a loading state then error '
         'state (from stream).',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
+          when(stopBluetoothDevicesScan())
+              .thenAnswer((_) async => kResultOfVoidData);
+
           // To avoid error with sealed class
           provideDummy<Result<List<BluetoothDeviceEntity>>>(resultOfData);
 
@@ -127,24 +145,30 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesDataState(bluetoothDevices: bluetoothDeviceEntities),
           BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
+          verify(stopBluetoothDevicesScan()).called(1);
           verify(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).called(1);
           verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
-          verifyZeroInteractions(stopBluetoothDevicesScan);
+          verifyNoMoreInteractions(stopBluetoothDevicesScan);
         },
       );
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 3 states, a loading state then error state then data '
+        'should emit 2 states, a loading state then data '
         'state (from stream).',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
+          when(stopBluetoothDevicesScan())
+              .thenAnswer((_) async => kResultOfVoidData);
+
           // To avoid error with sealed class
           provideDummy<Result<List<BluetoothDeviceEntity>>>(
             resultOfError<List<BluetoothDeviceEntity>>(),
@@ -163,24 +187,30 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesErrorState(exception: exception),
           BluetoothDevicesDataState(bluetoothDevices: bluetoothDeviceEntities),
         ],
         verify: (_) {
+          verify(stopBluetoothDevicesScan()).called(1);
           verify(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).called(1);
           verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
-          verifyZeroInteractions(stopBluetoothDevicesScan);
+          verifyNoMoreInteractions(stopBluetoothDevicesScan);
         },
       );
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 3 states, a loading state then error state then data '
+        'should emit 2 states, a loading state then data '
         'state (empty data from stream).',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
+          when(stopBluetoothDevicesScan())
+              .thenAnswer((_) async => kResultOfVoidData);
+
           // To avoid error with sealed class
           provideDummy<Result<List<BluetoothDeviceEntity>>>(
             resultOfError<List<BluetoothDeviceEntity>>(),
@@ -199,23 +229,29 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesErrorState(exception: exception),
           BluetoothDevicesDataState(bluetoothDevices: kNoBluetoothDeviceEntity),
         ],
         verify: (_) {
+          verify(stopBluetoothDevicesScan()).called(1);
           verify(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).called(1);
           verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
-          verifyZeroInteractions(stopBluetoothDevicesScan);
+          verifyNoMoreInteractions(stopBluetoothDevicesScan);
         },
       );
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 2 states, a loading state then data state (empty).',
+        'should emit a loading state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
+          when(stopBluetoothDevicesScan())
+              .thenAnswer((_) async => kResultOfVoidData);
+
           // To avoid error with sealed class
           provideDummy<Result<List<BluetoothDeviceEntity>>>(kResultOfEmptyData);
 
@@ -228,21 +264,21 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesDataState(bluetoothDevices: kNoBluetoothDeviceEntity),
         ],
         verify: (_) {
+          verify(stopBluetoothDevicesScan()).called(1);
           verify(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).called(1);
           verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
-          verifyZeroInteractions(stopBluetoothDevicesScan);
+          verifyNoMoreInteractions(stopBluetoothDevicesScan);
         },
       );
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 2 states, a loading state then error state.',
+        'should emit a loading state.',
         setUp: () {
           // To avoid error with sealed class
           provideDummy<Result<List<BluetoothDeviceEntity>>>(
@@ -261,16 +297,16 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
+          verify(stopBluetoothDevicesScan()).called(1);
           verify(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).called(1);
           verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
-          verifyZeroInteractions(stopBluetoothDevicesScan);
+          verifyNoMoreInteractions(stopBluetoothDevicesScan);
         },
       );
     });
@@ -281,8 +317,13 @@ void main() {
       });
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 2 states, a loading state then data state.',
+        'should emit a loading state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
+          when(stopBluetoothDevicesScan())
+              .thenAnswer((_) async => kResultOfVoidData);
           // To avoid error with sealed class
           provideDummy<Result<List<BluetoothDeviceEntity>>>(resultOfData);
 
@@ -295,22 +336,28 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesDataState(bluetoothDevices: bluetoothDeviceEntities),
         ],
         verify: (_) {
+          verify(stopBluetoothDevicesScan()).called(1);
           verify(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).called(1);
           verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
-          verifyZeroInteractions(stopBluetoothDevicesScan);
+          verifyNoMoreInteractions(stopBluetoothDevicesScan);
         },
       );
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 2 states, a loading state then data state (empty).',
+        'should emit a loading state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
+          when(stopBluetoothDevicesScan())
+              .thenAnswer((_) async => kResultOfVoidData);
+
           // To avoid error with sealed class
           provideDummy<Result<List<BluetoothDeviceEntity>>>(kResultOfEmptyData);
 
@@ -323,22 +370,28 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesDataState(bluetoothDevices: kNoBluetoothDeviceEntity),
         ],
         verify: (_) {
+          verify(stopBluetoothDevicesScan()).called(1);
           verify(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).called(1);
           verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
-          verifyZeroInteractions(stopBluetoothDevicesScan);
+          verifyNoMoreInteractions(stopBluetoothDevicesScan);
         },
       );
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 2 states, a loading state then error state.',
+        'should emit a loading state.',
         setUp: () {
+          // To avoid error with sealed class
+          provideDummy<Result<void>>(kResultOfVoidData);
+
+          when(stopBluetoothDevicesScan())
+              .thenAnswer((_) async => kResultOfVoidData);
+
           // To avoid error with sealed class
           provideDummy<Result<List<BluetoothDeviceEntity>>>(
             resultOfError<List<BluetoothDeviceEntity>>(),
@@ -356,16 +409,16 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
+          verify(stopBluetoothDevicesScan()).called(1);
           verify(
             startBluetoothDevicesScan(argument: anyNamed('argument')),
           ).called(1);
           verify(getBluetoothDevicesStream()).called(1);
           verifyNoMoreInteractions(startBluetoothDevicesScan);
           verifyNoMoreInteractions(getBluetoothDevicesStream);
-          verifyZeroInteractions(stopBluetoothDevicesScan);
+          verifyNoMoreInteractions(stopBluetoothDevicesScan);
         },
       );
     });
@@ -398,7 +451,7 @@ void main() {
       );
 
       blocTest<_Bloc, BluetoothDevicesState>(
-        'should emit 2 states, a loading state then error state.',
+        'should emit a loading state.',
         setUp: () {
           // To avoid error with sealed class
           provideDummy<Result<void>>(resultOfError<void>());
@@ -411,7 +464,6 @@ void main() {
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothDevicesState>[
           const BluetoothDevicesLoadingState(),
-          BluetoothDevicesErrorState(exception: exception),
         ],
         verify: (_) {
           verify(stopBluetoothDevicesScan()).called(1);
