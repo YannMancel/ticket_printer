@@ -58,7 +58,7 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothConnectionState>[
-          const ConnectionLoadingState(),
+          ConnectionLoadingState(bluetoothDevice: bluetoothDeviceEntity),
           ConnectingState(bluetoothDevice: bluetoothDeviceEntity),
         ],
         verify: (_) {
@@ -83,8 +83,11 @@ void main() {
         build: () => bloc,
         act: (bloc) => bloc.add(event),
         expect: () => <BluetoothConnectionState>[
-          const ConnectionLoadingState(),
-          ConnectionErrorState(exception: exception),
+          ConnectionLoadingState(bluetoothDevice: bluetoothDeviceEntity),
+          ConnectionErrorState(
+            bluetoothDevice: bluetoothDeviceEntity,
+            exception: exception,
+          ),
         ],
         verify: (_) {
           verify(connectAtBluetoothDevice(bluetoothDeviceEntity)).called(1);
@@ -105,8 +108,9 @@ void main() {
           // To avoid error with sealed class
           provideDummy<Result<void>>(kResultOfVoidData);
 
-          when(disconnectAtBluetoothDevice())
-              .thenAnswer((_) async => kResultOfVoidData);
+          when(disconnectAtBluetoothDevice()).thenAnswer(
+            (_) async => kResultOfVoidData,
+          );
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -127,9 +131,7 @@ void main() {
           // To avoid error with sealed class
           provideDummy<Result<void>>(resultOfError<void>());
 
-          when(
-            disconnectAtBluetoothDevice(),
-          ).thenAnswer(
+          when(disconnectAtBluetoothDevice()).thenAnswer(
             (_) async => resultOfError<void>(),
           );
         },

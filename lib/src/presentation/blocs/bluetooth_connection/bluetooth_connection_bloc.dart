@@ -41,7 +41,7 @@ class BluetoothConnectionBloc
     Emitter<BluetoothConnectionState> emit,
   ) async {
     emit(
-      const ConnectionLoadingState(),
+      ConnectionLoadingState(bluetoothDevice: event.bluetoothDevice),
     );
 
     final result = await _connectAtBluetoothDevice(event.bluetoothDevice);
@@ -49,7 +49,10 @@ class BluetoothConnectionBloc
     emit(
       result.when<BluetoothConnectionState>(
         data: (_) => ConnectingState(bluetoothDevice: event.bluetoothDevice),
-        error: (exception) => ConnectionErrorState(exception: exception),
+        error: (exception) => ConnectionErrorState(
+          bluetoothDevice: event.bluetoothDevice,
+          exception: exception,
+        ),
       ),
     );
   }
@@ -58,16 +61,24 @@ class BluetoothConnectionBloc
     BluetoothDisconnectedEvent event,
     Emitter<BluetoothConnectionState> emit,
   ) async {
+    final deviceOrNull = state.maybeWhen<BluetoothDeviceEntity?>(
+      connecting: (device) => device,
+      orElse: () => null,
+    );
+
     emit(
-      const ConnectionLoadingState(),
+      ConnectionLoadingState(bluetoothDevice: deviceOrNull),
     );
 
     final result = await _disconnectAtBluetoothDevice();
 
     emit(
       result.when<BluetoothConnectionState>(
-        data: (_) => const DisconnectingState(),
-        error: (exception) => ConnectionErrorState(exception: exception),
+        data: (_) => DisconnectingState(bluetoothDevice: deviceOrNull),
+        error: (exception) => ConnectionErrorState(
+          bluetoothDevice: deviceOrNull,
+          exception: exception,
+        ),
       ),
     );
   }

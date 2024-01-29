@@ -9,9 +9,12 @@ void main() {
       'should be success when hashcode is compared with loading event.',
       () {
         expect(
-          kConnectionLoadingState.hashCode,
+          connectionLoadingState.hashCode,
           Object.hashAll(
-            <Object?>[kConnectionLoadingState.runtimeType],
+            <Object?>[
+              connectionLoadingState.runtimeType,
+              bluetoothDeviceEntity,
+            ],
           ),
         );
       },
@@ -46,9 +49,9 @@ void main() {
       'should be success when hashcode is compared with disconnecting event.',
       () {
         expect(
-          kDisconnectingState.hashCode,
+          disconnectingState.hashCode,
           Object.hashAll(
-            <Object?>[kDisconnectingState.runtimeType],
+            <Object?>[disconnectingState.runtimeType, bluetoothDeviceEntity],
           ),
         );
       },
@@ -73,6 +76,7 @@ void main() {
           connectionErrorState.hashCode,
           Object.hash(
             connectionErrorState.runtimeType,
+            bluetoothDeviceEntity,
             connectionErrorState.exception,
           ),
         );
@@ -83,11 +87,11 @@ void main() {
       test(
         'for loading event.',
         () {
-          final value = kConnectionLoadingState.when<bool>(
-            loading: () => true,
+          final value = connectionLoadingState.when<bool>(
+            loading: (_) => true,
             connecting: (_) => false,
-            disconnecting: () => false,
-            error: (_) => false,
+            disconnecting: (_) => false,
+            error: (_, __) => false,
           );
 
           expect(value, isTrue);
@@ -98,10 +102,10 @@ void main() {
         'for connecting event.',
         () {
           final value = connectingState.when<bool>(
-            loading: () => false,
+            loading: (_) => false,
             connecting: (_) => true,
-            disconnecting: () => false,
-            error: (_) => false,
+            disconnecting: (_) => false,
+            error: (_, __) => false,
           );
 
           expect(value, isTrue);
@@ -111,11 +115,11 @@ void main() {
       test(
         'for disconnecting event.',
         () {
-          final value = kDisconnectingState.when<bool>(
-            loading: () => false,
+          final value = disconnectingState.when<bool>(
+            loading: (_) => false,
             connecting: (_) => false,
-            disconnecting: () => true,
-            error: (_) => false,
+            disconnecting: (_) => true,
+            error: (_, __) => false,
           );
 
           expect(value, isTrue);
@@ -126,10 +130,10 @@ void main() {
         'for error event.',
         () {
           final value = connectionErrorState.when<bool>(
-            loading: () => false,
+            loading: (_) => false,
             connecting: (_) => false,
-            disconnecting: () => false,
-            error: (_) => true,
+            disconnecting: (_) => false,
+            error: (_, __) => true,
           );
 
           expect(value, isTrue);
@@ -141,13 +145,13 @@ void main() {
       test(
         'for loading part.',
         () {
-          final shouldBeTrue = kConnectionLoadingState.maybeWhen<bool>(
-            loading: () => true,
+          final shouldBeTrue = connectionLoadingState.maybeWhen<bool>(
+            loading: (_) => true,
             orElse: () => false,
           );
 
           final shouldBeFalse = connectingState.maybeWhen<bool>(
-            loading: () => true,
+            loading: (_) => true,
             orElse: () => false,
           );
 
@@ -164,7 +168,7 @@ void main() {
             orElse: () => false,
           );
 
-          final shouldBeFalse = kConnectionLoadingState.maybeWhen<bool>(
+          final shouldBeFalse = connectionLoadingState.maybeWhen<bool>(
             connecting: (_) => true,
             orElse: () => false,
           );
@@ -177,13 +181,13 @@ void main() {
       test(
         'for disconnecting part.',
         () {
-          final shouldBeTrue = kDisconnectingState.maybeWhen<bool>(
-            disconnecting: () => true,
+          final shouldBeTrue = disconnectingState.maybeWhen<bool>(
+            disconnecting: (_) => true,
             orElse: () => false,
           );
 
-          final shouldBeFalse = kConnectionLoadingState.maybeWhen<bool>(
-            disconnecting: () => true,
+          final shouldBeFalse = connectionLoadingState.maybeWhen<bool>(
+            disconnecting: (_) => true,
             orElse: () => false,
           );
 
@@ -196,12 +200,12 @@ void main() {
         'for error part.',
         () {
           final shouldBeTrue = connectionErrorState.maybeWhen<bool>(
-            error: (_) => true,
+            error: (_, __) => true,
             orElse: () => false,
           );
 
-          final shouldBeFalse = kConnectionLoadingState.maybeWhen<bool>(
-            error: (_) => true,
+          final shouldBeFalse = connectionLoadingState.maybeWhen<bool>(
+            error: (_, __) => true,
             orElse: () => false,
           );
 

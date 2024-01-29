@@ -101,12 +101,19 @@ final imagePrinterEvent = BluetoothImagePrinterEvent(
 );
 
 // STATES ----------------------------------------------------------------------
-const kConnectionLoadingState = ConnectionLoadingState();
+final connectionLoadingState = ConnectionLoadingState(
+  bluetoothDevice: bluetoothDeviceEntity,
+);
 final connectingState = ConnectingState(
   bluetoothDevice: bluetoothDeviceEntity,
 );
-const kDisconnectingState = DisconnectingState();
-final connectionErrorState = ConnectionErrorState(exception: exception);
+final disconnectingState = DisconnectingState(
+  bluetoothDevice: bluetoothDeviceEntity,
+);
+final connectionErrorState = ConnectionErrorState(
+  bluetoothDevice: bluetoothDeviceEntity,
+  exception: exception,
+);
 final devicesInitialState = BluetoothDevicesInitialState(
   bluetoothDevices: bluetoothDeviceEntities,
 );

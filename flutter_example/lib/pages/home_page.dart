@@ -25,8 +25,9 @@ class HomePage extends StatelessWidget {
           IconButton(
             onPressed: () {
               const kEvent = BluetoothDevicesRefreshedEvent(
-                timeout: Duration(seconds: 4),
-              );
+                  // After timeout, stream will close.
+                  //timeout: Duration(seconds: 4),
+                  );
               context.read<BluetoothDevicesBloc>().add(kEvent);
             },
             icon: const Icon(Icons.refresh),
@@ -115,6 +116,15 @@ class _BluetoothDeviceCard extends StatelessWidget {
 
   final BluetoothDeviceEntity _bluetoothDevice;
 
+  bool _getIsEqualByAddress(
+    BluetoothDeviceEntity? first,
+    BluetoothDeviceEntity second,
+  ) {
+    // We need do that because before and after connection, the name can change.
+    // ex: Printer_C03C_BLE -> Printer_C03C
+    return first?.address == second.address;
+  }
+
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
@@ -129,7 +139,6 @@ class _BluetoothDeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BluetoothConnectionBloc, BluetoothConnectionState>(
-      buildWhen: (previous, current) => previous != current,
       builder: (context, state) => ListTile(
         leading: state.maybeWhen<Widget>(
           connecting: (device) {
@@ -146,25 +155,31 @@ class _BluetoothDeviceCard extends StatelessWidget {
         title: Text(_bluetoothDevice.name ?? '[No Name]'),
         subtitle: Text(_bluetoothDevice.address ?? '[No Address]'),
         onTap: () {
-          final bloc = context.read<BluetoothConnectionBloc>();
-          state.maybeWhen<void>(
-            loading: () {/* Do nothing here */},
-            connecting: (device) {
-              bloc.add(
-                const BluetoothDisconnectedEvent(),
-              );
-
-              if (device != _bluetoothDevice) {
-                bloc.add(
-                  BluetoothConnectedEvent(bluetoothDevice: _bluetoothDevice),
-                );
-              }
-            },
-            // disconnecting and error states
-            orElse: () => bloc.add(
+          final eventRecord = state.maybeWhen<
+              (
+                BluetoothConnectionEvent?,
+                BluetoothConnectionEvent?,
+              )>(
+            loading: (_) => (null, null),
+            connecting: (connectedDevice) => (
+              const BluetoothDisconnectedEvent(),
+              !_getIsEqualByAddress(connectedDevice, _bluetoothDevice)
+                  ? BluetoothConnectedEvent(bluetoothDevice: _bluetoothDevice)
+                  : null,
+            ),
+            orElse: () => (
               BluetoothConnectedEvent(bluetoothDevice: _bluetoothDevice),
+              null,
             ),
           );
+
+          if (eventRecord.$1 != null) {
+            context.read<BluetoothConnectionBloc>().add(eventRecord.$1!);
+          }
+
+          if (eventRecord.$2 != null) {
+            context.read<BluetoothConnectionBloc>().add(eventRecord.$2!);
+          }
         },
       ),
     );
@@ -179,14 +194,14 @@ class _BluetoothConnection extends StatelessWidget {
     return BlocBuilder<BluetoothConnectionBloc, BluetoothConnectionState>(
       buildWhen: (previous, current) => previous != current,
       builder: (context, state) => state.when<Widget>(
-        loading: () => const Center(
+        loading: (_) => const Center(
           child: CircularProgressIndicator.adaptive(),
         ),
         connecting: (device) => _ConnectedView(device),
-        disconnecting: () => const Center(
+        disconnecting: (_) => const Center(
           child: Text('No connection'),
         ),
-        error: (_) => const Center(
+        error: (_, __) => const Center(
           child: Text('Error During connection'),
         ),
       ),
